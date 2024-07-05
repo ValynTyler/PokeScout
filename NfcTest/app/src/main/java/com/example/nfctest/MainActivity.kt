@@ -111,6 +111,7 @@ class MainActivity : ComponentActivity() {
                             ndefRecord.type.contentEquals(NdefRecord.RTD_TEXT)) {
                             val payload = String(ndefRecord.payload)
                             Log.d("NFC", "Read content: $payload")
+                            Toast.makeText(this, payload, Toast.LENGTH_LONG).show()
                             return payload;
                         }
                     }
