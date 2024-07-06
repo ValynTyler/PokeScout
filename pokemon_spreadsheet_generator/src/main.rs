@@ -1,46 +1,49 @@
 use core::panic;
 use std::sync::Arc;
 
-use rustemon::{client::RustemonClient, model::pokemon::PokemonSpecies, pokemon::pokemon_species};
+use rustemon::{client::RustemonClient, model::pokemon::PokemonSpecies, pokemon::pokemon_species, Follow};
 use tokio::{sync::Mutex, task};
 
 use rust_xlsxwriter::*;
+
+type Candidate = (i64, String, i32);
 
 #[tokio::main]
 async fn main() {
     let rustemon_client: Arc<Mutex<RustemonClient>> =
         Arc::new(Mutex::new(RustemonClient::default()));
 
-    let mut pokemon = vec![];
+    let mut pokemon: Vec<Candidate> = vec![];
 
-    for item in get_all_species(&rustemon_client).await {
+    let species = get_all_species(&rustemon_client).await;
+    let mut i = 1;
+    for item in species {
+        let client_clone = Arc::clone(&rustemon_client);
+        let handler_lock = client_clone.lock().await;
+        let handle = &*handler_lock;
+
         if !item.is_legendary && !item.is_mythical && item.evolves_from_species == None {
-            pokemon.push((item.id, item.name));
+            let evolution_chain_resource = item.evolution_chain.unwrap();
+            let evolution_chain = evolution_chain_resource.follow(&handle).await.unwrap();
+            
+            let mut chain_link = &evolution_chain.chain;
+            let mut stages = 1;
+
+            while chain_link.evolves_to.len() != 0 {
+                chain_link = &chain_link.evolves_to[0];
+                stages += 1;
+            }
+            println!("Determining viability: {}/1025", i);    
+            i += 1;
+            pokemon.push((item.id, item.name, stages));
         }
     }
 
-    println!("Selected Pokemon: {:?}", pokemon);
-    write_xlsl(&pokemon).unwrap();
-}
-
-fn write_xlsl(pokemon: &Vec<(i64, String)>) -> Result<(), XlsxError> {
-    let mut workbook = Workbook::new();
-    let worksheet = workbook.add_worksheet();
-
-    worksheet.write(0, 0, "Index")?;
-    worksheet.write(0, 1, "ID")?;
-    worksheet.write(0, 2, "Pokemon")?;
-
-    let mut i = 1;
-    for item in pokemon {
-        worksheet.write(i, 0, i)?;
-        worksheet.write(i, 1, item.0)?;
-        worksheet.write(i, 2, item.1.clone())?;
-        i += 1;
+    for item in &pokemon {
+        println!("{:?}", item);
     }
 
-    workbook.save("demo.xlsx")?;
-    Ok(())
+    write_xlsl(&pokemon).unwrap();
 }
 
 async fn get_all_species(client: &Arc<Mutex<RustemonClient>>) -> Vec<PokemonSpecies> {
@@ -57,9 +60,11 @@ async fn get_all_species(client: &Arc<Mutex<RustemonClient>>) -> Vec<PokemonSpec
             pokemon_species::get_by_id(i, &handle).await
         });
 
+        println!("Loading tasks: {i}/1025");
         tasks.push(task);
     }
 
+    let mut i = 0;
     for task in tasks.drain(..) {
         match task.await.unwrap() {
             Ok(pokemon) => {
@@ -67,7 +72,31 @@ async fn get_all_species(client: &Arc<Mutex<RustemonClient>>) -> Vec<PokemonSpec
             }
             Err(e) => panic!("{}", e),
         }
+        i += 1;
+        println!("Fetching data: {i}/1025");
     }
 
     species
+}
+
+fn write_xlsl(pokemon: &Vec<Candidate>) -> Result<(), XlsxError> {
+    let mut workbook = Workbook::new();
+    let worksheet = workbook.add_worksheet();
+
+    worksheet.write(0, 0, "Index")?;
+    worksheet.write(0, 1, "ID")?;
+    worksheet.write(0, 2, "Pokemon")?;
+    worksheet.write(0, 3, "No. of stages")?;
+
+    let mut i = 1;
+    for item in pokemon {
+        worksheet.write(i, 0, i)?;
+        worksheet.write(i, 1, item.0)?;
+        worksheet.write(i, 2, item.1.clone())?;
+        worksheet.write(i, 3, item.2)?;
+        i += 1;
+    }
+
+    workbook.save("demo.xlsx")?;
+    Ok(())
 }
