@@ -18,29 +18,39 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.Transformation
 import com.example.pokescouttrainer.ui.theme.PokeScoutTrainerTheme
-import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
-import java.security.MessageDigest
 
 class MainActivity : ComponentActivity() {
 
@@ -86,7 +96,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    AppViewComposable(
+                        Modifier
+                            .fillMaxSize()
+                            .then(
+                                Modifier.background(
+                                    color = Color.Cyan,
+                                )
+                            ),
+                    )
                 }
             }
         }
@@ -94,7 +112,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        nfcAdapter?.enableForegroundDispatch(
+            this,
+            pendingIntent,
+            intentFiltersArray,
+            techListsArray
+        )
     }
 
     override fun onPause() {
@@ -106,7 +129,8 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action ||
             NfcAdapter.ACTION_TECH_DISCOVERED == intent.action ||
-            NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
+            NfcAdapter.ACTION_TAG_DISCOVERED == intent.action
+        ) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
                 val text = readFromTag(it)
@@ -123,7 +147,8 @@ class MainActivity : ComponentActivity() {
                 ndefMessage?.let { msg ->
                     for (ndefRecord in msg.records) {
                         if (ndefRecord.tnf == NdefRecord.TNF_WELL_KNOWN &&
-                            ndefRecord.type.contentEquals(NdefRecord.RTD_TEXT)) {
+                            ndefRecord.type.contentEquals(NdefRecord.RTD_TEXT)
+                        ) {
                             val payload = String(ndefRecord.payload)
                             Log.d("NFC", "Read content: $payload")
                             Toast.makeText(this, payload, Toast.LENGTH_LONG).show()
@@ -133,7 +158,7 @@ class MainActivity : ComponentActivity() {
                 }
                 it.close()
             } catch (e: Exception) {
-                // Log.e("NFC", "Error reading NFC tag", e)
+                Log.e("NFC", "Error reading NFC tag", e)
             }
         }
         return "No NFC info"
@@ -159,29 +184,136 @@ class PointFilterTransformation : Transformation {
 }
 
 @Composable
-fun ImageFromUrl(imageUrl: String) {
+fun ImageFromUrl(imageUrl: String, modifier: Modifier = Modifier) {
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
             .transformations(PointFilterTransformation())
-            .size(Size.ORIGINAL) // Set the target size to load the image at.
+            .size(Size.ORIGINAL)
             .build()
     )
 
     Image(
         painter = painter,
         contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
+        modifier = modifier,
+        contentScale = ContentScale.Crop,
     )
 }
 
+val pokeSansFamily = FontFamily(
+    Font(R.font.pokemon_hollow, FontWeight.Light),
+    Font(R.font.pokemon_hollow, FontWeight.Normal),
+    Font(R.font.pokemon_solid, FontWeight.Medium),
+    Font(R.font.pokemon_solid, FontWeight.Bold)
+)
+
 @Composable
-fun AsyncLoadSprite() {
-    ImageFromUrl(imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/69.png")
+fun HeaderText(
+    text: String,
+    modifier: Modifier = Modifier,
+    fontSize: Int = 55,
+    fontSizeDelta: Int = 3,
+    offsetX: Int = 0,
+    offsetY: Int = 6,
+) {
+    Box(
+        modifier = modifier
+    ) {
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            color = Color.Black,
+            fontSize = (fontSize + fontSizeDelta).sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = pokeSansFamily,
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset(offsetX.dp, offsetY.dp)
+        )
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            color = Color.White,
+            fontSize = fontSize.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = pokeSansFamily,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    AsyncLoadSprite()
+fun TitleBar() {
+    Column(
+        modifier = Modifier.background(color = Color.Red)
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        HeaderText(text = "PokeCamp", fontSize = 60)
+        HeaderText(text = "Trainer", fontSize = 44, modifier = Modifier.offset(0.dp, (-15).dp))
+    }
+}
+
+@Composable
+@Preview
+fun TitleBarPreview() {
+    TitleBar()
+}
+
+@Composable
+fun AppViewComposable(modifier: Modifier = Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.DarkGray)
+    ) {
+        Column {
+            TitleBar()
+            Image(
+                painter = painterResource(id = R.drawable.onix),
+                contentDescription = null,
+                modifier = modifier
+                    .padding(50.dp)
+                    .background(color = Color.Yellow),
+                contentScale = ContentScale.FillWidth,
+            )
+//            ImageFromUrl(
+//                imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/69.png",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(50.dp)
+//                    .background(color = Color.Black),
+//            )
+            Text(
+                text = "Hello Jeff",
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Cyan),
+            )
+            Text(
+                text = "Hello Jeff",
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Cyan),
+            )
+            Text(
+                text = "Hello Jeff",
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Cyan),
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+fun AppViewComposablePreview() {
+    AppViewComposable(
+        modifier = Modifier
+            .fillMaxWidth()
+    )
 }
