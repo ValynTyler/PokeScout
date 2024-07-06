@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
@@ -220,6 +222,7 @@ fun HeaderText(
     modifier: Modifier = Modifier,
     fontSize: TextUnit,
     fontWeight: FontWeight = FontWeight.Bold,
+    fontFamily: FontFamily = pokeSansFamily,
     color: Color = Color.Black
 ) {
     Text(
@@ -228,7 +231,7 @@ fun HeaderText(
         color = color,
         fontSize = fontSize,
         fontWeight = fontWeight,
-        fontFamily = pokeSansFamily,
+        fontFamily = fontFamily,
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier)
@@ -241,14 +244,17 @@ fun TitleText(
     modifier: Modifier = Modifier,
     fontSize: Int = 55,
     fontSizeDelta: Int = 3,
+    fontFamily: FontFamily = pokeSansFamily,
     offsetX: Dp = 0.dp,
     offsetY: Dp = 6.dp,
 ) {
     Box(
         modifier = modifier
     ) {
-        HeaderText(text = text,
+        HeaderText(
+            text = text,
             fontSize = (fontSize + fontSizeDelta).sp,
+            fontFamily = fontFamily,
             modifier = Modifier
                 .offset(offsetX, offsetY)
         )
@@ -256,6 +262,7 @@ fun TitleText(
             text = text,
             fontSize = fontSize.sp,
             fontWeight = FontWeight.Bold,
+            fontFamily = fontFamily,
             color = Color.White,
         )
     }
@@ -264,11 +271,17 @@ fun TitleText(
 @Composable
 fun TitleBar() {
     Column(
-        modifier = Modifier.background(color = Color.Red)
+        modifier = Modifier.background(color = Color.Gray)
     ) {
         Spacer(modifier = Modifier.height(10.dp))
         TitleText(text = "PokeCamp", fontSize = 60)
-        TitleText(text = "Trainer", fontSize = 44, modifier = Modifier.offset(0.dp, (-15).dp))
+        TitleText(
+            text = "Trainer",
+            fontSize = 35,
+            fontSizeDelta = 2,
+            offsetY = 4.dp,
+            modifier = Modifier.offset(0.dp, (-15).dp)
+        )
     }
 }
 
@@ -279,20 +292,33 @@ fun TitleBarPreview() {
 }
 
 @Composable
-fun StatField(text: String) {
+fun StatFieldText(text: String, modifier: Modifier = Modifier, color: Color = Color.Gray) {
     Text(
         text = text,
-        fontSize = 30.sp,
+        color = color,
+        fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
+        fontFamily = futuraExtraBoldFamily,
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.White)
-            .padding(start = 15.dp),
+            .then(modifier)
     )
 }
 
 @Composable
-fun StatsDrawer() {
+fun StatField(text: String) {
+    Box(
+        modifier = Modifier
+            .background(color = Color.Gray)
+            .padding(start = 15.dp),
+    ) {
+        StatFieldText(text = text, color = Color.Black, modifier = Modifier.offset(3.dp, 0.dp))
+        StatFieldText(text = text, color = Color.White)
+    }
+}
+
+@Composable
+fun StatsBar() {
     Column {
         StatField("Stat 1")
         StatField("Stat 2")
@@ -302,8 +328,26 @@ fun StatsDrawer() {
 
 @Preview
 @Composable
-fun StatsDrawerPreview() {
-    StatsDrawer()
+fun StatsBarPreview() {
+    StatsBar()
+}
+
+@Composable
+fun PokemonDisplay(imageUrl: String) {
+    AsyncImage(
+        model = imageUrl,
+        contentDescription = null,
+        contentScale = ContentScale.FillWidth,
+        placeholder = painterResource(id = R.drawable.onix),
+        error = painterResource(id = R.drawable.ic_launcher_background),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Preview
+@Composable
+fun PokemonDisplayPreview() {
+    PokemonDisplay(imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/168.png")
 }
 
 @Composable
@@ -315,22 +359,8 @@ fun AppViewComposable(modifier: Modifier = Modifier) {
     ) {
         Column {
             TitleBar()
-            Image(
-                painter = painterResource(id = R.drawable.onix),
-                contentDescription = null,
-                modifier = modifier
-                    .padding(50.dp)
-                    .background(color = Color.Yellow),
-                contentScale = ContentScale.FillWidth,
-            )
-//            ImageFromUrl(
-//                imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/69.png",
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(50.dp)
-//                    .background(color = Color.Black),
-//            )
-            StatsDrawer()
+            PokemonDisplay(imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/168.png")
+            StatsBar()
         }
     }
 }
