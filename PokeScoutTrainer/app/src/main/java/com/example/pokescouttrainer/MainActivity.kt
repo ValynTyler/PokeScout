@@ -3,6 +3,11 @@ package com.example.pokescouttrainer
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Shader
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -12,15 +17,30 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
+import coil.transform.Transformation
 import com.example.pokescouttrainer.ui.theme.PokeScoutTrainerTheme
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
+import java.security.MessageDigest
 
 class MainActivity : ComponentActivity() {
 
@@ -120,18 +140,48 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+class PointFilterTransformation : Transformation {
+    override val cacheKey: String = "PointFilterTransformation"
+
+    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+        val paint = Paint().apply {
+            isAntiAlias = false
+            isFilterBitmap = true
+            shader = BitmapShader(input, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        }
+
+        val output = Bitmap.createBitmap(input.width, input.height, input.config)
+        val canvas = Canvas(output)
+        canvas.drawBitmap(input, 0f, 0f, paint)
+
+        return output
+    }
+}
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun ImageFromUrl(imageUrl: String) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .transformations(PointFilterTransformation())
+            .size(Size.ORIGINAL) // Set the target size to load the image at.
+            .build()
+    )
+
+    Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
     )
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    PokeScoutTrainerTheme {
-        Greeting("Android")
-    }
+fun AsyncLoadSprite() {
+    ImageFromUrl(imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/69.png")
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    AsyncLoadSprite()
 }
