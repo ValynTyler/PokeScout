@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +52,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.Transformation
 import com.example.pokescouttrainer.ui.theme.PokeScoutTrainerTheme
+import org.w3c.dom.Text
 
 class MainActivity : ComponentActivity() {
 
@@ -208,37 +210,53 @@ val pokeSansFamily = FontFamily(
     Font(R.font.pokemon_solid, FontWeight.Bold)
 )
 
+val futuraExtraBoldFamily = FontFamily(
+    Font(R.font.futura_extra_bold, FontWeight.Normal),
+)
+
 @Composable
 fun HeaderText(
     text: String,
     modifier: Modifier = Modifier,
+    fontSize: TextUnit,
+    fontWeight: FontWeight = FontWeight.Bold,
+    color: Color = Color.Black
+) {
+    Text(
+        text = text,
+        textAlign = TextAlign.Center,
+        color = color,
+        fontSize = fontSize,
+        fontWeight = fontWeight,
+        fontFamily = pokeSansFamily,
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier)
+    )
+}
+
+@Composable
+fun TitleText(
+    text: String,
+    modifier: Modifier = Modifier,
     fontSize: Int = 55,
     fontSizeDelta: Int = 3,
-    offsetX: Int = 0,
-    offsetY: Int = 6,
+    offsetX: Dp = 0.dp,
+    offsetY: Dp = 6.dp,
 ) {
     Box(
         modifier = modifier
     ) {
-        Text(
-            text = text,
-            textAlign = TextAlign.Center,
-            color = Color.Black,
+        HeaderText(text = text,
             fontSize = (fontSize + fontSizeDelta).sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = pokeSansFamily,
             modifier = Modifier
-                .fillMaxWidth()
-                .offset(offsetX.dp, offsetY.dp)
+                .offset(offsetX, offsetY)
         )
-        Text(
+        HeaderText(
             text = text,
-            textAlign = TextAlign.Center,
-            color = Color.White,
             fontSize = fontSize.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = pokeSansFamily,
-            modifier = Modifier.fillMaxWidth()
+            color = Color.White,
         )
     }
 }
@@ -249,8 +267,8 @@ fun TitleBar() {
         modifier = Modifier.background(color = Color.Red)
     ) {
         Spacer(modifier = Modifier.height(10.dp))
-        HeaderText(text = "PokeCamp", fontSize = 60)
-        HeaderText(text = "Trainer", fontSize = 44, modifier = Modifier.offset(0.dp, (-15).dp))
+        TitleText(text = "PokeCamp", fontSize = 60)
+        TitleText(text = "Trainer", fontSize = 44, modifier = Modifier.offset(0.dp, (-15).dp))
     }
 }
 
@@ -258,6 +276,34 @@ fun TitleBar() {
 @Preview
 fun TitleBarPreview() {
     TitleBar()
+}
+
+@Composable
+fun StatField(text: String) {
+    Text(
+        text = text,
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.White)
+            .padding(start = 15.dp),
+    )
+}
+
+@Composable
+fun StatsDrawer() {
+    Column {
+        StatField("Stat 1")
+        StatField("Stat 2")
+        StatField("Stat 3")
+    }
+}
+
+@Preview
+@Composable
+fun StatsDrawerPreview() {
+    StatsDrawer()
 }
 
 @Composable
@@ -284,27 +330,7 @@ fun AppViewComposable(modifier: Modifier = Modifier) {
 //                    .padding(50.dp)
 //                    .background(color = Color.Black),
 //            )
-            Text(
-                text = "Hello Jeff",
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Color.Cyan),
-            )
-            Text(
-                text = "Hello Jeff",
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Color.Cyan),
-            )
-            Text(
-                text = "Hello Jeff",
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Color.Cyan),
-            )
+            StatsDrawer()
         }
     }
 }
