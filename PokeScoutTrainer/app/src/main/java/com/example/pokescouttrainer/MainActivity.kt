@@ -31,6 +31,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
@@ -58,10 +64,14 @@ import org.w3c.dom.Text
 
 class MainActivity : ComponentActivity() {
 
+    // Nfc
     private var nfcAdapter: NfcAdapter? = null
     private lateinit var pendingIntent: PendingIntent
     private lateinit var intentFiltersArray: Array<IntentFilter>
     private lateinit var techListsArray: Array<Array<String>>
+
+    // State
+    private var current = mutableIntStateOf(192)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,21 +105,7 @@ class MainActivity : ComponentActivity() {
         // Visuals
         setContent {
             PokeScoutTrainerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    AppViewComposable(
-                        Modifier
-                            .fillMaxSize()
-                            .then(
-                                Modifier.background(
-                                    color = Color.Cyan,
-                                )
-                            ),
-                    )
-                }
+                AppViewComposable(current.value)
             }
         }
     }
@@ -138,6 +134,8 @@ class MainActivity : ComponentActivity() {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
                 val text = readFromTag(it)
+                current.intValue = text.drop(3).toInt()
+                Log.d("INT", "$current")
             }
         }
     }
@@ -155,7 +153,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             val payload = String(ndefRecord.payload)
                             Log.d("NFC", "Read content: $payload")
-                            Toast.makeText(this, payload, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, payload.drop(3), Toast.LENGTH_LONG).show()
                             return payload
                         }
                     }
@@ -333,9 +331,9 @@ fun StatsBarPreview() {
 }
 
 @Composable
-fun PokemonDisplay(imageUrl: String) {
+fun PokemonDisplay(entryNumber: Int) {
     AsyncImage(
-        model = imageUrl,
+        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$entryNumber.png",
         contentDescription = null,
         contentScale = ContentScale.FillWidth,
         placeholder = painterResource(id = R.drawable.onix),
@@ -347,11 +345,11 @@ fun PokemonDisplay(imageUrl: String) {
 @Preview
 @Composable
 fun PokemonDisplayPreview() {
-    PokemonDisplay(imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/168.png")
+    PokemonDisplay(entryNumber = 170)
 }
 
 @Composable
-fun AppViewComposable(modifier: Modifier = Modifier) {
+fun AppViewComposable(current: Int, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -359,7 +357,7 @@ fun AppViewComposable(modifier: Modifier = Modifier) {
     ) {
         Column {
             TitleBar()
-            PokemonDisplay(imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/168.png")
+            PokemonDisplay(entryNumber = current)
             StatsBar()
         }
     }
@@ -368,8 +366,5 @@ fun AppViewComposable(modifier: Modifier = Modifier) {
 @Composable
 @Preview
 fun AppViewComposablePreview() {
-    AppViewComposable(
-        modifier = Modifier
-            .fillMaxWidth()
-    )
+    AppViewComposable(190)
 }
