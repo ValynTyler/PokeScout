@@ -39,11 +39,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -332,12 +335,19 @@ fun StatsBarPreview() {
 
 @Composable
 fun PokemonDisplay(entryNumber: Int) {
-    AsyncImage(
-        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$entryNumber.png",
+//    AsyncImage(
+//        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$entryNumber.png",
+//        contentDescription = null,
+//        contentScale = ContentScale.FillWidth,
+//        placeholder = painterResource(id = R.drawable.onix),
+//        error = painterResource(id = R.drawable.ic_launcher_background),
+//        modifier = Modifier.fillMaxWidth()
+//    )
+    Image(
+        bitmap = ImageBitmap.imageResource(id = R.drawable.onix),
         contentDescription = null,
+        filterQuality = FilterQuality.None,
         contentScale = ContentScale.FillWidth,
-        placeholder = painterResource(id = R.drawable.onix),
-        error = painterResource(id = R.drawable.ic_launcher_background),
         modifier = Modifier.fillMaxWidth()
     )
 }
