@@ -3,11 +3,6 @@ package com.example.pokescouttrainer
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
-import android.graphics.BitmapShader
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Shader
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -27,26 +22,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -61,9 +44,9 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
-import coil.transform.Transformation
 import com.example.pokescouttrainer.ui.theme.PokeScoutTrainerTheme
-import org.w3c.dom.Text
+import com.example.pokescouttrainer.ui.theme.futuraExtraBoldFamily
+import com.example.pokescouttrainer.ui.theme.pokeSansFamily
 
 class MainActivity : ComponentActivity() {
 
@@ -74,7 +57,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var techListsArray: Array<Array<String>>
 
     // State
-    private var current = mutableIntStateOf(192)
+    private var current = mutableIntStateOf(172)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,53 +152,6 @@ class MainActivity : ComponentActivity() {
         return "No NFC info"
     }
 }
-
-class PointFilterTransformation : Transformation {
-    override val cacheKey: String = "PointFilterTransformation"
-
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
-        val paint = Paint().apply {
-            isAntiAlias = false
-            isFilterBitmap = true
-            shader = BitmapShader(input, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-        }
-
-        val output = Bitmap.createBitmap(input.width, input.height, input.config)
-        val canvas = Canvas(output)
-        canvas.drawBitmap(input, 0f, 0f, paint)
-
-        return output
-    }
-}
-
-@Composable
-fun ImageFromUrl(imageUrl: String, modifier: Modifier = Modifier) {
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl)
-            .transformations(PointFilterTransformation())
-            .size(Size.ORIGINAL)
-            .build()
-    )
-
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = modifier,
-        contentScale = ContentScale.Crop,
-    )
-}
-
-val pokeSansFamily = FontFamily(
-    Font(R.font.pokemon_hollow, FontWeight.Light),
-    Font(R.font.pokemon_hollow, FontWeight.Normal),
-    Font(R.font.pokemon_solid, FontWeight.Medium),
-    Font(R.font.pokemon_solid, FontWeight.Bold)
-)
-
-val futuraExtraBoldFamily = FontFamily(
-    Font(R.font.futura_extra_bold, FontWeight.Normal),
-)
 
 @Composable
 fun HeaderText(
@@ -335,19 +271,13 @@ fun StatsBarPreview() {
 
 @Composable
 fun PokemonDisplay(entryNumber: Int) {
-//    AsyncImage(
-//        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$entryNumber.png",
-//        contentDescription = null,
-//        contentScale = ContentScale.FillWidth,
-//        placeholder = painterResource(id = R.drawable.onix),
-//        error = painterResource(id = R.drawable.ic_launcher_background),
-//        modifier = Modifier.fillMaxWidth()
-//    )
-    Image(
-        bitmap = ImageBitmap.imageResource(id = R.drawable.onix),
+    AsyncImage(
+        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$entryNumber.png",
+        placeholder = painterResource(id = R.drawable.onix),
+        error = painterResource(id = R.drawable.ic_launcher_background),
         contentDescription = null,
-        filterQuality = FilterQuality.None,
         contentScale = ContentScale.FillWidth,
+        filterQuality = FilterQuality.None,
         modifier = Modifier.fillMaxWidth()
     )
 }

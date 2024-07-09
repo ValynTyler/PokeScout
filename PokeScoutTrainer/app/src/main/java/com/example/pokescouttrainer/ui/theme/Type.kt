@@ -2,9 +2,11 @@ package com.example.pokescouttrainer.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.pokescouttrainer.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -31,4 +33,16 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+// Custom fonts
+val pokeSansFamily = FontFamily(
+    Font(R.font.pokemon_hollow, FontWeight.Light),
+    Font(R.font.pokemon_hollow, FontWeight.Normal),
+    Font(R.font.pokemon_solid, FontWeight.Medium),
+    Font(R.font.pokemon_solid, FontWeight.Bold)
+)
+
+val futuraExtraBoldFamily = FontFamily(
+    Font(R.font.futura_extra_bold, FontWeight.Normal),
 )
