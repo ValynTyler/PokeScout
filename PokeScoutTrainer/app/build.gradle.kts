@@ -64,6 +64,12 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
+    // Viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
+
+    // Hilt
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.2.0")
 

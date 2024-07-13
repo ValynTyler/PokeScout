@@ -1,4 +1,4 @@
-package com.example.pokescouttrainer.ui.theme
+package com.example.pokescouttrainer.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

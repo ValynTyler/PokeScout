@@ -1,4 +1,4 @@
-package com.example.pokescouttrainer
+package com.example.pokescouttrainer.presentation
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -12,7 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,9 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,14 +38,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.size.Size
-import com.example.pokescouttrainer.ui.theme.PokeScoutTrainerTheme
-import com.example.pokescouttrainer.ui.theme.futuraExtraBoldFamily
-import com.example.pokescouttrainer.ui.theme.pokeSansFamily
+import com.example.pokescouttrainer.R
+import com.example.pokescouttrainer.presentation.components.PokemonCard
+import com.example.pokescouttrainer.presentation.theme.PokeScoutTrainerTheme
+import com.example.pokescouttrainer.presentation.theme.futuraExtraBoldFamily
+import com.example.pokescouttrainer.presentation.theme.pokeSansFamily
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     // Nfc
@@ -56,8 +56,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var intentFiltersArray: Array<IntentFilter>
     private lateinit var techListsArray: Array<Array<String>>
 
-    // State
-    private var current = mutableIntStateOf(172)
+    // State TEMP
+    private var current = mutableIntStateOf(172) // VERY TEMP
+
+    // View model
+    private val viewModel: TrainerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,10 +91,13 @@ class MainActivity : ComponentActivity() {
         intentFiltersArray = arrayOf(ndef)
         techListsArray = arrayOf(arrayOf(Ndef::class.java.name))
 
+        // Load data
+        viewModel.loadSpeciesData(183)
+
         // Visuals
         setContent {
             PokeScoutTrainerTheme {
-                AppViewComposable(current.value)
+                PokemonCard(state = viewModel.state)
             }
         }
     }

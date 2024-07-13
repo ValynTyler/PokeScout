@@ -1,4 +1,4 @@
-package com.example.pokescouttrainer.ui.theme
+package com.example.pokescouttrainer.presentation.theme
 
 import android.app.Activity
 import android.os.Build
