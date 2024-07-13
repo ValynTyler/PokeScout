@@ -9,6 +9,7 @@ kanban-plugin: board
 - [ ] #data Decide tag data structure
 - [ ] #meta Organize repo structure
 - [ ] #tech Write custom PokeAPI wrapper
+- [ ] #tech Implement dependency injection
 
 
 ## Doing...
