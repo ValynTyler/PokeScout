@@ -6,10 +6,10 @@ kanban-plugin: board
 
 ## TODO
 
-- [ ] #data Decide tag data structure
 - [ ] #meta Organize repo structure
 - [ ] #tech Write custom PokeAPI wrapper
 - [ ] #tech Implement dependency injection
+- [ ] #tech Figure out how to write binary data to NFC tag
 
 
 ## Doing...
