@@ -86,7 +86,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        nfcAdapter?.enableForegroundDispatch(
+            this,
+            pendingIntent,
+            intentFiltersArray,
+            techListsArray
+        )
     }
 
     override fun onPause() {
@@ -98,36 +103,44 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action ||
             NfcAdapter.ACTION_TECH_DISCOVERED == intent.action ||
-            NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
+            NfcAdapter.ACTION_TAG_DISCOVERED == intent.action
+        ) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                writeToTag(it, "Fuck you")
+                writeToTag(it)
             }
         }
     }
 
-    private fun writeToTag(tag: Tag, data: String) {
+    private fun writeToTag(tag: Tag) {
         val ndef = Ndef.get(tag)
         ndef?.let {
             try {
-                it.connect()
+                val state = viewModel.state
+                if (
+                    state.inputId != null && state.inputId > 0 && state.inputId <= 1025 &&
+                    state.inputXp != null && state.inputXp >= 0 && state.inputName != ""
+                ) {
+                    it.connect()
 
-                val textRecord = NfcService.createTextRecord(Locale.ENGLISH, data, "name")
-                val intRecord = NfcService.createIntRecord(69, "id")
+                    val nameRecord = NfcService.createTextRecord(Locale.ENGLISH, state.inputName, "name")
+                    val idRecord = NfcService.createIntRecord(state.inputId, "id")
+                    val xpRecord = NfcService.createIntRecord(state.inputXp, "xp")
 
-                val message = NdefMessage(arrayOf(textRecord, intRecord))
-                it.writeNdefMessage(message)
+                    val message = NdefMessage(arrayOf(nameRecord, idRecord, xpRecord))
+                    it.writeNdefMessage(message)
 
-                it.close()
+                    it.close()
 
-
-//                Toast.makeText(this, "Written content: $data", Toast.LENGTH_LONG).show()
-//                Log.d("NFC", "Written content: $data")
+                    Toast.makeText(this, "Successful write", Toast.LENGTH_SHORT).show()
+                    Log.d("NFC WRITER", "Successful write")
+                } else {
+                    Toast.makeText(this, "Error: invalid input data", Toast.LENGTH_SHORT).show()
+                    Log.d("NFC WRITER", "Error: invalid input data")
+                }
             } catch (e: Exception) {
-
-
-//                Toast.makeText(this, "Error writing NFC tag", Toast.LENGTH_LONG).show()
-//                Log.e("NFC", "Error writing NFC tag", e)
+                Toast.makeText(this, "Error writing NFC tag", Toast.LENGTH_LONG).show()
+                Log.e("NFC WRITER", "Error writing NFC tag", e)
             }
         }
     }

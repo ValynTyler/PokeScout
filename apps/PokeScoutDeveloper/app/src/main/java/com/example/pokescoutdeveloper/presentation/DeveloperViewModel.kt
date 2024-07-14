@@ -14,17 +14,17 @@ class DeveloperViewModel : ViewModel() {
     fun processTextEvent(event: TextEvent) {
         state = when (event) {
             is TextEvent.ChangedName -> {
-                state.copy(inputName = event.value)
+                state.copy(inputName = event.value.replace("\n", ""))
             }
 
             is TextEvent.ChangedId -> {
-                val value = event.value.toIntOrNull()
+                val value = event.value.replace(" ", "").replace("\n", "").toIntOrNull()
                 if (value != null && (value > 1025 || value < 0)) state else state.copy(inputId = value)
             }
 
             is TextEvent.ChangedXp -> {
-                val value = event.value.toIntOrNull()
-                if (value != null && (value > 100000 || value < 0)) state else state.copy(inputXp = value)
+                val value = event.value.replace(" ", "").replace("\n", "").toIntOrNull()
+                if (value != null && (value > 100000 || value <= 0)) state else state.copy(inputXp = value)
             }
         }
     }
