@@ -8,7 +8,6 @@ kanban-plugin: board
 
 - [ ] #tech Implement local cacheing
 - [ ] #tech Work on pokemon evolution
-- [ ] #tech Figure out data serialization inside NFC tag
 
 
 ## Visuals
@@ -41,6 +40,7 @@ kanban-plugin: board
 - [x] #visual Figure out text input
 - [x] #meta Organize repo structure
 - [x] #tech Figure out how to write int data to NFC tag
+- [x] #tech Figure out data serialization inside NFC tag
 
 %% kanban:settings
 ```

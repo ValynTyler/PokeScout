@@ -112,8 +112,8 @@ class MainActivity : ComponentActivity() {
             try {
                 it.connect()
 
-                val textRecord = NfcService.createTextRecord(data, Locale.ENGLISH)
-                val intRecord = NfcService.createIntRecord(69)
+                val textRecord = NfcService.createTextRecord(Locale.ENGLISH, data, "name")
+                val intRecord = NfcService.createIntRecord(69, "id")
 
                 val message = NdefMessage(arrayOf(textRecord, intRecord))
                 it.writeNdefMessage(message)
