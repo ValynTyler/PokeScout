@@ -7,14 +7,15 @@ kanban-plugin: board
 ## TODO
 
 - [ ] #meta Organize repo structure
-- [ ] #tech Figure out how to write binary data to NFC tag
 - [ ] #tech Implement local cacheing
 - [ ] #visual Make logo vector art
 - [ ] #visual Differentiate apps by icon
+- [ ] #tech Work on pokemon evolution
 
 
 ## Doing...
 
+- [ ] #tech Figure out how to write binary data to NFC tag
 
 
 ## Done!
@@ -33,6 +34,7 @@ kanban-plugin: board
 - [x] #visual Pokemon display
 - [x] #tech Implement dependency injection
 - [x] #tech Write custom PokeAPI wrapper
+- [x] #visual Add pixel font
 
 %% kanban:settings
 ```
