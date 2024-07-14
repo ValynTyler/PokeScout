@@ -1,4 +1,4 @@
-package com.example.pokescoutdeveloper
+package com.example.pokescoutdeveloper.presentation
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -13,21 +13,27 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.pokescoutdeveloper.ui.theme.PokeScoutDeveloperTheme
+import com.example.pokescoutdeveloper.presentation.components.MainView
+import com.example.pokescoutdeveloper.presentation.theme.PokeScoutDeveloperTheme
 import java.io.ByteArrayOutputStream
 import java.nio.charset.Charset
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
+    // Nfc
     private var nfcAdapter: NfcAdapter? = null
     private lateinit var pendingIntent: PendingIntent
     private lateinit var intentFiltersArray: Array<IntentFilter>
     private lateinit var techListsArray: Array<Array<String>>
+
+    // Viewmodel
+    private val viewModel: DeveloperViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,10 +69,15 @@ class MainActivity : ComponentActivity() {
             PokeScoutDeveloperTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
-                    PrimaryView()
+                    MainView(
+                        state = viewModel.state,
+                    ) { event ->
+                        viewModel.processTextEvent(event)
+                    }
                 }
             }
         }
