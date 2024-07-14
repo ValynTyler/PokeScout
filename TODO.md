@@ -7,13 +7,14 @@ kanban-plugin: board
 ## TODO
 
 - [ ] #meta Organize repo structure
-- [ ] #tech Write custom PokeAPI wrapper
-- [ ] #tech Implement dependency injection
 - [ ] #tech Figure out how to write binary data to NFC tag
+- [ ] #tech Implement local cacheing
 
 
 ## Doing...
 
+- [ ] #tech Write custom PokeAPI wrapper
+- [ ] #tech Implement dependency injection
 
 
 ## Done!

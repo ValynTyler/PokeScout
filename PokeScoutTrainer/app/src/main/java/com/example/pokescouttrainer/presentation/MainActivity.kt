@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.pokescouttrainer.R
+import com.example.pokescouttrainer.domain.nfc.PokemonNfcData
 import com.example.pokescouttrainer.presentation.components.PokemonCard
 import com.example.pokescouttrainer.presentation.theme.PokeScoutTrainerTheme
 import com.example.pokescouttrainer.presentation.theme.futuraExtraBoldFamily
@@ -92,7 +92,12 @@ class MainActivity : ComponentActivity() {
         techListsArray = arrayOf(arrayOf(Ndef::class.java.name))
 
         // Load data
-        viewModel.loadSpeciesData(183)
+        viewModel.updateNfcData(
+            PokemonNfcData(
+                speciesId = 122,
+                trainerName = "Albert Turning"
+            )
+        )
 
         // Visuals
         setContent {
