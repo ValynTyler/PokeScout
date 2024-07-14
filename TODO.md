@@ -21,7 +21,6 @@ kanban-plugin: board
 ## Done!
 
 **Complete**
-- [x] #visual Figure out text input
 
 
 ***
@@ -36,6 +35,7 @@ kanban-plugin: board
 - [x] #tech Implement dependency injection
 - [x] #tech Write custom PokeAPI wrapper
 - [x] #visual Add pixel font
+- [x] #visual Figure out text input
 
 %% kanban:settings
 ```

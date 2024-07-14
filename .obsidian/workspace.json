@@ -168,6 +168,8 @@
   },
   "active": "515b2d17d4154dc1",
   "lastOpenFiles": [
+    "PokeScoutTrainer/app/src/main/res/font/pokefont_pixel_unown.ttf",
+    "PokeScoutTrainer/app/src/main/res/font/pokefont_pixel_regular.ttf",
     "PokeScoutDeveloper/app/build/tmp/kotlin-classes/debug/META-INF/app_debug.kotlin_module",
     "PokeScoutDeveloper/app/build/tmp/kotlin-classes/debug/com/example/pokescoutdeveloper/presentation/theme/TypeKt.class",
     "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.keystream.len",
@@ -177,8 +179,6 @@
     "PokeScoutDeveloper/app/build/snapshot/kotlin/compileDebugKotlin",
     "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i",
     "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i.len",
-    "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab",
-    "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.len",
     "MANIFEST.md",
     "TODO.md",
     "README.md"
