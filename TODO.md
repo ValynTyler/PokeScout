@@ -4,13 +4,16 @@ kanban-plugin: board
 
 ---
 
-## TODO
+## Tech
 
-- [ ] #meta Organize repo structure
 - [ ] #tech Implement local cacheing
-- [ ] #visual Make logo vector art
-- [ ] #visual Differentiate apps by icon
 - [ ] #tech Work on pokemon evolution
+
+
+## Visuals
+
+- [ ] #visual Make logo art
+- [ ] #visual Differentiate apps by icon
 
 
 ## Doing...
@@ -36,9 +39,10 @@ kanban-plugin: board
 - [x] #tech Write custom PokeAPI wrapper
 - [x] #visual Add pixel font
 - [x] #visual Figure out text input
+- [x] #meta Organize repo structure
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false]}
 ```
 %%

@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "515b2d17d4154dc1",
+            "id": "88457e27f5dfbb09",
             "type": "leaf",
             "state": {
               "type": "kanban",
@@ -19,21 +19,10 @@
                   "list-collapse": [
                     false,
                     false,
+                    false,
                     false
                   ]
                 }
-              }
-            }
-          },
-          {
-            "id": "88457e27f5dfbb09",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "MANIFEST.md",
-                "mode": "source",
-                "source": false
               }
             }
           }
@@ -83,8 +72,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -166,21 +154,30 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "515b2d17d4154dc1",
+  "active": "88457e27f5dfbb09",
   "lastOpenFiles": [
-    "PokeScoutTrainer/app/src/main/res/font/pokefont_pixel_unown.ttf",
-    "PokeScoutTrainer/app/src/main/res/font/pokefont_pixel_regular.ttf",
-    "PokeScoutDeveloper/app/build/tmp/kotlin-classes/debug/META-INF/app_debug.kotlin_module",
-    "PokeScoutDeveloper/app/build/tmp/kotlin-classes/debug/com/example/pokescoutdeveloper/presentation/theme/TypeKt.class",
-    "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.keystream.len",
-    "PokeScoutDeveloper/app/build/snapshot/kotlin/compileDebugKotlin/2.zip",
-    "PokeScoutDeveloper/app/build/snapshot/kotlin/compileDebugKotlin/1.zip",
-    "PokeScoutDeveloper/app/build/snapshot/kotlin/compileDebugKotlin/0.zip",
-    "PokeScoutDeveloper/app/build/snapshot/kotlin/compileDebugKotlin",
-    "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i",
-    "PokeScoutDeveloper/app/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i.len",
+    "README.md",
     "MANIFEST.md",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/theme/TypeKt.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/theme/ThemeKt.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/theme/ThemeKt$PokeScoutTrainerTheme$2.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/dagger/hilt/internal/processedrootsentinel/codegen/_com_example_pokescouttrainer_TrainerApp.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/dagger/hilt/internal/aggregatedroot/codegen/_com_example_pokescouttrainer_TrainerApp.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/components/StatFieldKt.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/components/StatFieldKt$StatFieldPreview$1.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/theme/ThemeKt$PokeScoutTrainerTheme$1.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/components/StatFieldKt$StatField$2.class",
+    "apps/PokeScoutTrainer/app/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs/com/example/pokescouttrainer/presentation/theme/ColorKt.class",
     "TODO.md",
-    "README.md"
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher_round.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher_round.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher_round.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher_round.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher_round.webp",
+    "apps/PokeScoutTrainer/app/build/intermediates/packaged_res/debug/drawable/onix.png"
   ]
 }
