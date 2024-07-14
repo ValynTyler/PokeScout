@@ -41,6 +41,7 @@ kanban-plugin: board
 - [x] #meta Organize repo structure
 - [x] #tech Figure out how to write int data to NFC tag
 - [x] #tech Figure out data serialization inside NFC tag
+- [x] #tech Read and write NFC data through dedicated apps
 
 %% kanban:settings
 ```
