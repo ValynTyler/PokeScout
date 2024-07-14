@@ -21,6 +21,7 @@ kanban-plugin: board
 ## Done!
 
 **Complete**
+- [x] #visual Figure out text input
 
 
 ***
