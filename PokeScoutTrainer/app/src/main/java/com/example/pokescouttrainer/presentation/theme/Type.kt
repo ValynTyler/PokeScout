@@ -8,14 +8,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.pokescouttrainer.R
 
+val pokefontPixel = FontFamily(
+    Font(R.font.pokefont_pixel_regular, FontWeight.Normal),
+    Font(R.font.pokefont_pixel_unown, FontWeight.Bold),
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = pokefontPixel,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp,
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
