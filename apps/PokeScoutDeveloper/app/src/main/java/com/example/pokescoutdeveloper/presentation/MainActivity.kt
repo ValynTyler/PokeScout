@@ -20,6 +20,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.pokescoutdeveloper.presentation.components.MainView
 import com.example.pokescoutdeveloper.presentation.theme.PokeScoutDeveloperTheme
+import com.example.pokescoutdeveloper.service.NfcService
 import java.io.ByteArrayOutputStream
 import java.nio.charset.Charset
 import java.util.Locale
@@ -100,7 +101,7 @@ class MainActivity : ComponentActivity() {
             NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                writeToTag(it, "Hello, PokeScout!")
+                writeToTag(it, "Fuck you")
             }
         }
     }
@@ -110,29 +111,24 @@ class MainActivity : ComponentActivity() {
         ndef?.let {
             try {
                 it.connect()
-                val record = createTextRecord(data, Locale.ENGLISH, true)
-                val message = NdefMessage(arrayOf(record))
+
+                val textRecord = NfcService.createTextRecord(data, Locale.ENGLISH)
+                val intRecord = NfcService.createIntRecord(69)
+
+                val message = NdefMessage(arrayOf(textRecord, intRecord))
                 it.writeNdefMessage(message)
+
                 it.close()
-                Toast.makeText(this, "Written content: $data", Toast.LENGTH_LONG).show()
-                Log.d("NFC", "Written content: $data")
+
+
+//                Toast.makeText(this, "Written content: $data", Toast.LENGTH_LONG).show()
+//                Log.d("NFC", "Written content: $data")
             } catch (e: Exception) {
-                Toast.makeText(this, "Error writing NFC tag", Toast.LENGTH_LONG).show()
-                Log.e("NFC", "Error writing NFC tag", e)
+
+
+//                Toast.makeText(this, "Error writing NFC tag", Toast.LENGTH_LONG).show()
+//                Log.e("NFC", "Error writing NFC tag", e)
             }
         }
-    }
-
-    private fun createTextRecord(payload: String, locale: Locale, encodeInUtf8: Boolean): NdefRecord {
-        val langBytes = locale.language.toByteArray(Charset.forName("US-ASCII"))
-        val utfEncoding = if (encodeInUtf8) Charset.forName("UTF-8") else Charset.forName("UTF-16")
-        val textBytes = payload.toByteArray(utfEncoding)
-        val utfBit = if (encodeInUtf8) 0 else 1 shl 7
-        val status = (utfBit + langBytes.size).toChar()
-        val baos = ByteArrayOutputStream(1 + langBytes.size + textBytes.size)
-        baos.write(status.toInt())
-        baos.write(langBytes, 0, langBytes.size)
-        baos.write(textBytes, 0, textBytes.size)
-        return NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, ByteArray(0), baos.toByteArray())
     }
 }

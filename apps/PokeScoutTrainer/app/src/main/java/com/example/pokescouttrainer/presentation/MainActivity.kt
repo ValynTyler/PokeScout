@@ -3,6 +3,7 @@ package com.example.pokescouttrainer.presentation
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
+import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -21,6 +22,8 @@ import com.example.pokescouttrainer.domain.nfc.PokemonNfcData
 import com.example.pokescouttrainer.presentation.components.PokemonCard
 import com.example.pokescouttrainer.presentation.theme.PokeScoutTrainerTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -109,37 +112,43 @@ class MainActivity : ComponentActivity() {
         ) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                val text = readFromTag(it)
-                text?.let {
-                    Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-                }
+                readNfcMessage(it)
             }
         }
     }
 
-    private fun readFromTag(tag: Tag): String? {
+    private fun readNfcMessage(tag: Tag) {
         val ndef = Ndef.get(tag)
         ndef?.let {
-            try {
-                it.connect()
-                val ndefMessage = it.ndefMessage
-                ndefMessage?.let { msg ->
-                    for (ndefRecord in msg.records) {
-                        if (ndefRecord.tnf == NdefRecord.TNF_WELL_KNOWN &&
-                            ndefRecord.type.contentEquals(NdefRecord.RTD_TEXT)
-                        ) {
-                            val payload = String(ndefRecord.payload)
-                            Log.d("NFC", payload)
+            it.connect()
+            val ndefMessage = it.ndefMessage
+            parseNdefMessage(ndefMessage)
+            it.close()
+        }
+    }
 
-                            return payload
-                        }
-                    }
+    private fun parseNdefMessage(ndefMessage: NdefMessage?) {
+        ndefMessage?.records?.forEach { record ->
+            when {
+                record.tnf == NdefRecord.TNF_WELL_KNOWN && record.type.contentEquals(NdefRecord.RTD_TEXT) -> {
+                    val payload = record.payload
+                    val languageCodeLength = payload[0].toInt() and 0x3F
+                    val text = String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, Charset.forName("UTF-8"))
+
+                    // print
+                    Log.d("NFC", text)
+                    Toast.makeText(this, text, Toast.LENGTH_LONG).show()
                 }
-                it.close()
-            } catch (e: Exception) {
-                Log.e("NFC", "Error reading NFC tag", e)
+                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("application/vnd.com.example.int") -> {
+                    val payload = record.payload
+                    val buffer = ByteBuffer.wrap(payload)
+                    val value = buffer.int.toString()
+
+                    // print
+                    Log.d("NFC", value)
+                    Toast.makeText(this, value, Toast.LENGTH_LONG).show()
+                }
             }
         }
-        return null
     }
 }
