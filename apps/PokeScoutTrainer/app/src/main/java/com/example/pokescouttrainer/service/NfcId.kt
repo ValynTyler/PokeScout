@@ -1,4 +1,4 @@
-package com.example.pokescoutdeveloper.service
+package com.example.pokescouttrainer.service
 
 object NfcId {
     const val TRAINER = "trainer"

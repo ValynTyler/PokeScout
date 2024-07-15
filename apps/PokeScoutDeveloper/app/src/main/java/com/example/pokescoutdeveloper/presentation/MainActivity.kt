@@ -8,6 +8,7 @@ import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
+import android.nfc.tech.NdefFormatable
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import com.example.pokescoutdeveloper.domain.PokemonNfcData
 import com.example.pokescoutdeveloper.presentation.components.MainView
 import com.example.pokescoutdeveloper.presentation.theme.PokeScoutDeveloperTheme
+import com.example.pokescoutdeveloper.service.NfcConstants
 import com.example.pokescoutdeveloper.service.NfcId
 import com.example.pokescoutdeveloper.service.NfcRecord
 import com.example.pokescoutdeveloper.service.NfcService
@@ -104,17 +106,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action ||
-            NfcAdapter.ACTION_TECH_DISCOVERED == intent.action ||
-            NfcAdapter.ACTION_TAG_DISCOVERED == intent.action
-        ) {
+
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                if (viewModel.state.isWritingNfc) {
-                    writeToTag(it)
-                } else {
-                    readNfcMessage(it)
-                }
+                if (viewModel.state.isWritingNfc) writeToTag(it) else readNfcMessage(it)
             }
         }
     }
@@ -139,13 +135,14 @@ class MainActivity : ComponentActivity() {
         when (record) {
             is NfcRecord.TextRecord -> {
                 when (record.id) {
-                    NfcId.TRAINER.id -> data = data.copy(trainerName = record.value)
+                    NfcId.TRAINER -> data = data.copy(trainerName = record.value)
                 }
             }
+
             is NfcRecord.IntRecord -> {
                 when (record.id) {
-                    NfcId.SPECIES.id -> data = data.copy(speciesId = record.value)
-                    NfcId.XP.id -> data = data.copy(pokemonXp = record.value)
+                    NfcId.SPECIES -> data = data.copy(speciesId = record.value)
+                    NfcId.XP -> data = data.copy(pokemonXp = record.value)
                 }
             }
         }
@@ -171,7 +168,9 @@ class MainActivity : ComponentActivity() {
                     parseNfcRecord(NfcRecord.TextRecord(text, id))
                 }
 
-                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("valyntyler.com/pokecamp-master") -> {
+                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals(
+                    NfcConstants.NFC_TYPE
+                ) -> {
                     val payload = record.payload
                     val buffer = ByteBuffer.wrap(payload)
                     val value = buffer.int
@@ -195,9 +194,9 @@ class MainActivity : ComponentActivity() {
                     it.connect()
 
                     val nameRecord =
-                        NfcService.createTextRecord(Locale.ENGLISH, state.inputName, "trainer")
-                    val idRecord = NfcService.createIntRecord(state.inputId, "species")
-                    val xpRecord = NfcService.createIntRecord(state.inputXp, "xp")
+                        NfcService.createTextRecord(Locale.ENGLISH, state.inputName, NfcId.TRAINER)
+                    val idRecord = NfcService.createIntRecord(state.inputId, NfcId.SPECIES)
+                    val xpRecord = NfcService.createIntRecord(state.inputXp, NfcId.XP)
 
                     val message = NdefMessage(arrayOf(nameRecord, idRecord, xpRecord))
                     it.writeNdefMessage(message)

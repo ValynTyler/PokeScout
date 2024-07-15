@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import com.example.pokescouttrainer.domain.nfc.PokemonNfcData
 import com.example.pokescouttrainer.presentation.components.PokemonCard
 import com.example.pokescouttrainer.presentation.theme.PokeScoutTrainerTheme
+import com.example.pokescouttrainer.service.NfcConstants
+import com.example.pokescouttrainer.service.NfcId
 import com.example.pokescouttrainer.service.NfcRecord
 import dagger.hilt.android.AndroidEntryPoint
 import java.nio.ByteBuffer
@@ -134,13 +136,13 @@ class MainActivity : ComponentActivity() {
         when (record) {
             is NfcRecord.TextRecord -> {
                 when (record.id) {
-                    "trainer" -> data = data.copy(trainerName = record.value)
+                    NfcId.TRAINER -> data = data.copy(trainerName = record.value)
                 }
             }
             is NfcRecord.IntRecord -> {
                 when (record.id) {
-                    "species" -> data = data.copy(speciesId = record.value)
-                    "xp" -> data = data.copy(pokemonXp = record.value)
+                    NfcId.SPECIES -> data = data.copy(speciesId = record.value)
+                    NfcId.XP -> data = data.copy(pokemonXp = record.value)
                 }
             }
         }
@@ -164,7 +166,7 @@ class MainActivity : ComponentActivity() {
                     parseNfcRecord(NfcRecord.TextRecord(text, id))
                 }
 
-                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("valyntyler.com/pokecamp-master") -> {
+                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals(NfcConstants.NFC_TYPE) -> {
                     val payload = record.payload
                     val buffer = ByteBuffer.wrap(payload)
                     val value = buffer.int
