@@ -18,6 +18,7 @@ kanban-plugin: board
 
 ## Doing...
 
+- [ ] #tech Make dev app read current NFC data
 
 
 ## Done!
