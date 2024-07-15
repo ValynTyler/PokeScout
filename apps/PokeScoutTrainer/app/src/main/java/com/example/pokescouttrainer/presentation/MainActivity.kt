@@ -134,12 +134,12 @@ class MainActivity : ComponentActivity() {
         when (record) {
             is NfcRecord.TextRecord -> {
                 when (record.id) {
-                    "name" -> data = data.copy(trainerName = record.value)
+                    "trainer" -> data = data.copy(trainerName = record.value)
                 }
             }
             is NfcRecord.IntRecord -> {
                 when (record.id) {
-                    "id" -> data = data.copy(speciesId = record.value)
+                    "species" -> data = data.copy(speciesId = record.value)
                     "xp" -> data = data.copy(pokemonXp = record.value)
                 }
             }
@@ -164,7 +164,7 @@ class MainActivity : ComponentActivity() {
                     parseNfcRecord(NfcRecord.TextRecord(text, id))
                 }
 
-                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("application/vnd.com.example.int") -> {
+                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("valyntyler.com/pokecamp-master") -> {
                     val payload = record.payload
                     val buffer = ByteBuffer.wrap(payload)
                     val value = buffer.int

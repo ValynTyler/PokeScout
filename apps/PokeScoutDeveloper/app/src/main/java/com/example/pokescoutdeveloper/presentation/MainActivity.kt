@@ -107,7 +107,11 @@ class MainActivity : ComponentActivity() {
         ) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                writeToTag(it)
+                if (!viewModel.state.isReading) {
+                    writeToTag(it)
+                } else {
+                    // Add read logic HERE TODO
+                }
             }
         }
     }
@@ -123,8 +127,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     it.connect()
 
-                    val nameRecord = NfcService.createTextRecord(Locale.ENGLISH, state.inputName, "name")
-                    val idRecord = NfcService.createIntRecord(state.inputId, "id")
+                    val nameRecord =
+                        NfcService.createTextRecord(Locale.ENGLISH, state.inputName, "trainer")
+                    val idRecord = NfcService.createIntRecord(state.inputId, "species")
                     val xpRecord = NfcService.createIntRecord(state.inputXp, "xp")
 
                     val message = NdefMessage(arrayOf(nameRecord, idRecord, xpRecord))

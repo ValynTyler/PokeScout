@@ -19,12 +19,14 @@ import androidx.compose.ui.unit.dp
 fun TextInput(
     labelText: String,
     value: String = "",
+    enabled: Boolean = true,
     onChange: (String) -> Unit = {},
 ) {
     TextField(
         value = value,
         onValueChange = onChange,
         label = { Text(labelText) },
+        enabled = enabled,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)

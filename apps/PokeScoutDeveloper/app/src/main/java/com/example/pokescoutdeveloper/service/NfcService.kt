@@ -33,7 +33,7 @@ object NfcService {
         val intBytes = ByteBuffer.allocate(4).putInt(number).array()
         return NdefRecord(
             NdefRecord.TNF_MIME_MEDIA,
-            "application/vnd.com.example.int".toByteArray(),
+            "valyntyler.com/pokecamp-master".toByteArray(),
             id.toByteArray(),
             intBytes
         )
