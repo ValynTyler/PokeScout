@@ -4,6 +4,11 @@ kanban-plugin: board
 
 ---
 
+## Meta
+
+- [ ] #meta Figure out what's wrong with the tags
+
+
 ## Tech
 
 - [ ] #tech Implement local cacheing
@@ -46,6 +51,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false]}
 ```
 %%
