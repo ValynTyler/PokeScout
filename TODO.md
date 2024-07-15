@@ -13,6 +13,7 @@ kanban-plugin: board
 - [ ] #tech Implement local cacheing
 - [ ] #tech Work on pokemon evolution
 - [ ] #tech Figure out why NFC tags aren't formatted
+- [ ] #tech Fix intent filter not picking up unformatted NDEF tag
 
 
 ## Visuals
