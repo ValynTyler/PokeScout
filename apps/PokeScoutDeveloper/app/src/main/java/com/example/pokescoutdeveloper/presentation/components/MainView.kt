@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.pokescoutdeveloper.presentation.DeveloperState
-import com.example.pokescoutdeveloper.presentation.events.TextEvent
+import com.example.pokescoutdeveloper.presentation.events.InputEvent
 
 @Composable
 fun MainView(
     state: DeveloperState,
-    onTextChange: (TextEvent) -> Unit = {},
+    onInputEvent: (InputEvent) -> Unit = {},
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -65,18 +65,19 @@ fun MainView(
     ) {
         TextInput(
             labelText = "Trainer Name",
-            value = state.inputName
-        ) { onTextChange(TextEvent.ChangedName(it)) }
+            value = state.inputName,
+            enabled = !state.isReading,
+        ) { onInputEvent(InputEvent.TextEvent.ChangedName(it)) }
         NumberInput(
             labelText = "ID",
             value = state.inputId?.toString().orEmpty(),
             enabled = !state.isReading,
-        ) { onTextChange(TextEvent.ChangedId(it)) }
+        ) { onInputEvent(InputEvent.TextEvent.ChangedId(it)) }
         NumberInput(
             labelText = "XP",
             value = state.inputXp?.toString().orEmpty(),
             enabled = !state.isReading,
-        ) { onTextChange(TextEvent.ChangedXp(it)) }
+        ) { onInputEvent(InputEvent.TextEvent.ChangedXp(it)) }
     }
 
     Box(
@@ -85,7 +86,8 @@ fun MainView(
             .fillMaxSize()
     ) {
         LockButton(
-            modifier = Modifier.padding(72.dp)
+            modifier = Modifier.padding(72.dp),
+            onClick = { onInputEvent(InputEvent.LockEvent) },
         )
     }
 }

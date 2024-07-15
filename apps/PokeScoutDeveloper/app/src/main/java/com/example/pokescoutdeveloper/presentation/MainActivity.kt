@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
 import android.nfc.NdefMessage
-import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
@@ -21,8 +20,6 @@ import androidx.compose.ui.Modifier
 import com.example.pokescoutdeveloper.presentation.components.MainView
 import com.example.pokescoutdeveloper.presentation.theme.PokeScoutDeveloperTheme
 import com.example.pokescoutdeveloper.service.NfcService
-import java.io.ByteArrayOutputStream
-import java.nio.charset.Charset
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
@@ -77,7 +74,7 @@ class MainActivity : ComponentActivity() {
                     MainView(
                         state = viewModel.state,
                     ) { event ->
-                        viewModel.processTextEvent(event)
+                        viewModel.processInputEvent(event)
                     }
                 }
             }
