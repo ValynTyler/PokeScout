@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import com.example.pokescouttrainer.domain.nfc.PokemonNfcData
 import com.example.pokescouttrainer.presentation.components.PokemonCard
 import com.example.pokescouttrainer.presentation.theme.PokeScoutTrainerTheme
+import com.example.pokescouttrainer.service.NfcRecord
 import dagger.hilt.android.AndroidEntryPoint
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
@@ -69,9 +70,9 @@ class MainActivity : ComponentActivity() {
         // Load data
         viewModel.updateNfcData(
             PokemonNfcData(
-                speciesId = 1025,
-                trainerName = "John Duffuger",
-                pokemonXp = 42,
+                speciesId = 0,
+                trainerName = "-",
+                pokemonXp = 0,
             )
         )
 
@@ -127,56 +128,49 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun <T> parseNfcRecord(record: NfcRecord<T>) {
+        val state = viewModel.state
+        var data = state.nfcData ?: PokemonNfcData()
+        when (record) {
+            is NfcRecord.TextRecord -> {
+                when (record.id) {
+                    "name" -> data = data.copy(trainerName = record.value)
+                }
+            }
+            is NfcRecord.IntRecord -> {
+                when (record.id) {
+                    "id" -> data = data.copy(speciesId = record.value)
+                    "xp" -> data = data.copy(pokemonXp = record.value)
+                }
+            }
+        }
+        viewModel.updateNfcData(data)
+    }
+
     private fun parseNdefMessage(ndefMessage: NdefMessage?) {
         ndefMessage?.records?.forEach { record ->
             when {
                 record.tnf == NdefRecord.TNF_WELL_KNOWN && record.type.contentEquals(NdefRecord.RTD_TEXT) -> {
-                    val id = String(record.id, 0, record.id.size, Charset.forName("UTF-8"))
                     val payload = record.payload
                     val languageCodeLength = payload[0].toInt() and 0x3F
-                    val text = String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, Charset.forName("UTF-8"))
-
-
-                    if (id == "name") {
-                        viewModel.state.nfcData?.let { data ->
-                            viewModel.updateNfcData(
-                                data = data.copy(
-                                    trainerName = text
-                                )
-                            )
-                        }
-                    }
-                }
-                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("application/vnd.com.example.int") -> {
+                    val text = String(
+                        payload,
+                        languageCodeLength + 1,
+                        payload.size - languageCodeLength - 1,
+                        Charset.forName("UTF-8")
+                    )
                     val id = String(record.id, 0, record.id.size, Charset.forName("UTF-8"))
+
+                    parseNfcRecord(NfcRecord.TextRecord(text, id))
+                }
+
+                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("application/vnd.com.example.int") -> {
                     val payload = record.payload
                     val buffer = ByteBuffer.wrap(payload)
-                    val value = buffer.int.toString()
+                    val value = buffer.int
+                    val id = String(record.id, 0, record.id.size, Charset.forName("UTF-8"))
 
-
-                    if (id == "id") {
-                        viewModel.state.nfcData?.let { data ->
-                            value.toIntOrNull()?.let {
-                                viewModel.updateNfcData(
-                                    data = data.copy(
-                                        speciesId = it
-                                    )
-                                )
-                            }
-                        }
-                    }
-
-                    if (id == "xp") {
-                        viewModel.state.nfcData?.let { data ->
-                            value.toIntOrNull()?.let {
-                                viewModel.updateNfcData(
-                                    data = data.copy(
-                                        pokemonXp = it
-                                    )
-                                )
-                            }
-                        }
-                    }
+                    parseNfcRecord(NfcRecord.IntRecord(value, id))
                 }
             }
         }
