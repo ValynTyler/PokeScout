@@ -6,13 +6,13 @@ kanban-plugin: board
 
 ## Meta
 
-- [ ] #meta Figure out what's wrong with the tags
 
 
 ## Tech
 
 - [ ] #tech Implement local cacheing
 - [ ] #tech Work on pokemon evolution
+- [ ] #tech Figure out why NFC tags aren't formatted
 
 
 ## Visuals
@@ -23,6 +23,7 @@ kanban-plugin: board
 
 ## Doing...
 
+- [ ] #meta Figure out what's wrong with the tags
 
 
 ## Done!
