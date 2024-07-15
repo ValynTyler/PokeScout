@@ -18,7 +18,6 @@ kanban-plugin: board
 
 ## Doing...
 
-- [ ] #tech Make dev app read current NFC data
 
 
 ## Done!
@@ -43,6 +42,7 @@ kanban-plugin: board
 - [x] #tech Figure out how to write int data to NFC tag
 - [x] #tech Figure out data serialization inside NFC tag
 - [x] #tech Read and write NFC data through dedicated apps
+- [x] #tech Make dev app read current NFC data
 
 %% kanban:settings
 ```

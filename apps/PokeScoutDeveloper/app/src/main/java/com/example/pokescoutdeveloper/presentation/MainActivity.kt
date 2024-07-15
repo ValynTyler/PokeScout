@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
 import android.nfc.NdefMessage
+import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
@@ -17,9 +18,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.pokescoutdeveloper.domain.PokemonNfcData
 import com.example.pokescoutdeveloper.presentation.components.MainView
 import com.example.pokescoutdeveloper.presentation.theme.PokeScoutDeveloperTheme
+import com.example.pokescoutdeveloper.service.NfcId
+import com.example.pokescoutdeveloper.service.NfcRecord
 import com.example.pokescoutdeveloper.service.NfcService
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
@@ -104,10 +110,74 @@ class MainActivity : ComponentActivity() {
         ) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                if (!viewModel.state.isReading) {
+                if (viewModel.state.isWritingNfc) {
                     writeToTag(it)
                 } else {
-                    // Add read logic HERE TODO
+                    readNfcMessage(it)
+                }
+            }
+        }
+    }
+
+    private fun readNfcMessage(tag: Tag) {
+        val ndef = Ndef.get(tag)
+        ndef?.let {
+            it.connect()
+            val ndefMessage = it.ndefMessage
+            parseNdefMessage(ndefMessage)
+            it.close()
+        }
+    }
+
+    private fun <T> parseNfcRecord(record: NfcRecord<T>) {
+        val state = viewModel.state
+        var data = PokemonNfcData(
+            speciesId = state.inputId ?: 0,
+            pokemonXp = state.inputXp ?: 0,
+            trainerName = state.inputName,
+        )
+        when (record) {
+            is NfcRecord.TextRecord -> {
+                when (record.id) {
+                    NfcId.TRAINER.id -> data = data.copy(trainerName = record.value)
+                }
+            }
+            is NfcRecord.IntRecord -> {
+                when (record.id) {
+                    NfcId.SPECIES.id -> data = data.copy(speciesId = record.value)
+                    NfcId.XP.id -> data = data.copy(pokemonXp = record.value)
+                }
+            }
+        }
+        viewModel.readNfcData(data)
+        Toast.makeText(this, "Successful read", Toast.LENGTH_SHORT).show()
+        Log.d("NFC WRITER", "Successful read")
+    }
+
+    private fun parseNdefMessage(ndefMessage: NdefMessage?) {
+        ndefMessage?.records?.forEach { record ->
+            when {
+                record.tnf == NdefRecord.TNF_WELL_KNOWN && record.type.contentEquals(NdefRecord.RTD_TEXT) -> {
+                    val payload = record.payload
+                    val languageCodeLength = payload[0].toInt() and 0x3F
+                    val text = String(
+                        payload,
+                        languageCodeLength + 1,
+                        payload.size - languageCodeLength - 1,
+                        Charset.forName("UTF-8")
+                    )
+                    val id = String(record.id, 0, record.id.size, Charset.forName("UTF-8"))
+
+                    parseNfcRecord(NfcRecord.TextRecord(text, id))
+                }
+
+                record.tnf == NdefRecord.TNF_MIME_MEDIA && String(record.type).contentEquals("valyntyler.com/pokecamp-master") -> {
+                    val payload = record.payload
+                    val buffer = ByteBuffer.wrap(payload)
+                    val value = buffer.int
+                    val id = String(record.id, 0, record.id.size, Charset.forName("UTF-8"))
+
+                    parseNfcRecord(NfcRecord.IntRecord(value, id))
                 }
             }
         }

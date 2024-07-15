@@ -4,5 +4,5 @@ data class DeveloperState(
     val inputName: String = "",
     val inputId: Int? = null,
     val inputXp: Int? = null,
-    val isReading: Boolean = false,
+    val isWritingNfc: Boolean = false,
 )

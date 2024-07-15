@@ -66,17 +66,17 @@ fun MainView(
         TextInput(
             labelText = "Trainer Name",
             value = state.inputName,
-            enabled = !state.isReading,
+            enabled = !state.isWritingNfc,
         ) { onInputEvent(InputEvent.TextEvent.ChangedName(it)) }
         NumberInput(
             labelText = "ID",
             value = state.inputId?.toString().orEmpty(),
-            enabled = !state.isReading,
+            enabled = !state.isWritingNfc,
         ) { onInputEvent(InputEvent.TextEvent.ChangedId(it)) }
         NumberInput(
             labelText = "XP",
             value = state.inputXp?.toString().orEmpty(),
-            enabled = !state.isReading,
+            enabled = !state.isWritingNfc,
         ) { onInputEvent(InputEvent.TextEvent.ChangedXp(it)) }
     }
 
