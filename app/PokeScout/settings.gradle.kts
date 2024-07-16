@@ -14,7 +14,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "PokeScout"
-include(":app")
 include(":pokescout:developer")
 include(":pokescout:leader")
 include(":pokescout:trainer")
