@@ -1,11 +1,11 @@
-package com.example.nfclibrary.service
+package com.example.nfc.service
 
 import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import com.example.nfclibrary.error.NfcWriteError
-import com.example.nfclibrary.util.NfcWriteResult
+import com.example.nfc.error.NfcWriteError
+import com.example.nfc.util.NfcWriteResult
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 

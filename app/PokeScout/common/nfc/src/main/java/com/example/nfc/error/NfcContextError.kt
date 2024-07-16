@@ -1,4 +1,4 @@
-package com.example.nfclibrary.error
+package com.example.nfc.error
 
 import android.content.IntentFilter
 

@@ -1,9 +1,9 @@
-package com.example.nfclibrary.service
+package com.example.nfc.service
 
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import com.example.nfclibrary.error.NfcReadError
-import com.example.nfclibrary.util.NfcReadResult
+import com.example.nfc.error.NfcReadError
+import com.example.nfc.util.NfcReadResult
 
 object NfcReader {
     fun readFromTag(tag: Tag): NfcReadResult {

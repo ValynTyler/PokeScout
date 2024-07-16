@@ -1,4 +1,4 @@
-package com.example.nfclibrary
+package com.example.nfc
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

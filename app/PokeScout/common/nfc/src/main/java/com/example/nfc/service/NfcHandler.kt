@@ -1,4 +1,4 @@
-package com.example.nfclibrary.service
+package com.example.nfc.service
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -8,8 +8,8 @@ import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.nfclibrary.error.NfcContextError
-import com.example.nfclibrary.util.NfcContextResult
+import com.example.nfc.error.NfcContextError
+import com.example.nfc.util.NfcContextResult
 
 object NfcHandler {
 

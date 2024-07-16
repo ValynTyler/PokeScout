@@ -1,4 +1,4 @@
-package com.example.util
+package com.example.result
 
 sealed class Result<T, E> {
     data class Ok<T, E>(val value: T): Result<T, E>()

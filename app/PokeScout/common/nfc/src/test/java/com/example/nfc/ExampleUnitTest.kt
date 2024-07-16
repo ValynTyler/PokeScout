@@ -1,4 +1,4 @@
-package com.example.nfclibrary
+package com.example.nfc
 
 import org.junit.Test
 

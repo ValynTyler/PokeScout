@@ -1,4 +1,4 @@
-package com.example.nfclibrary.constant
+package com.example.nfc.constant
 
 object NfcId {
     const val TRAINER = "trainer"

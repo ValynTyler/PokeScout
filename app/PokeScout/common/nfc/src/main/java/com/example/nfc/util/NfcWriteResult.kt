@@ -1,6 +1,6 @@
-package com.example.nfclibrary.util
+package com.example.nfc.util
 
-import com.example.nfclibrary.error.NfcWriteError
+import com.example.nfc.error.NfcWriteError
 
 sealed class NfcWriteResult {
     data object Success: NfcWriteResult()

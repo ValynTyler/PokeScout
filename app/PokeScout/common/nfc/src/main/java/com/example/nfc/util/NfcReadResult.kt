@@ -1,7 +1,7 @@
-package com.example.nfclibrary.util
+package com.example.nfc.util
 
 import android.nfc.NdefMessage
-import com.example.nfclibrary.error.NfcReadError
+import com.example.nfc.error.NfcReadError
 
 sealed class NfcReadResult {
     data class Success(val message: NdefMessage): NfcReadResult()

@@ -1,8 +1,8 @@
 package com.example.pokemonlibrary.domain
 
 import android.nfc.NdefMessage
-import com.example.nfclibrary.constant.NfcId
-import com.example.nfclibrary.service.NfcWriter
+import com.example.nfc.constant.NfcId
+import com.example.nfc.service.NfcWriter
 
 data class PokemonNfcData(
     val trainerName: String = "",

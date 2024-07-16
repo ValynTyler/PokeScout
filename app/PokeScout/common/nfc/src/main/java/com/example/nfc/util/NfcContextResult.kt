@@ -1,6 +1,6 @@
-package com.example.nfclibrary.util
+package com.example.nfc.util
 
-import com.example.nfclibrary.error.NfcContextError
+import com.example.nfc.error.NfcContextError
 
 sealed class NfcContextResult {
     data object Success: NfcContextResult()
