@@ -1,4 +1,4 @@
-package com.example.pokescout.presentation
+package com.example.pokescout.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme

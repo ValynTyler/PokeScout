@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "PokeScout"
 include(":app")
- 
+include(":nfclibrary")
