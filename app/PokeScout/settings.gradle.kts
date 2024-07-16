@@ -15,4 +15,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "PokeScout"
 include(":app")
-include(":nfclibrary")
+include(":pokescout:developer")
+include(":pokescout:leader")
+include(":pokescout:trainer")
+include(":common:themelibrary")
+include(":common:nfclibrary")

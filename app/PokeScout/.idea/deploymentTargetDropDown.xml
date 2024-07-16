@@ -5,6 +5,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="pokescout.developer">
+        <State />
+      </entry>
+      <entry key="pokescout.leader">
+        <State />
+      </entry>
+      <entry key="pokescout.trainer">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

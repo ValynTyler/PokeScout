@@ -9,6 +9,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/common/nfclibrary" />
+            <option value="$PROJECT_DIR$/common/themelibrary" />
+            <option value="$PROJECT_DIR$/pokescout" />
+            <option value="$PROJECT_DIR$/pokescout/developer" />
+            <option value="$PROJECT_DIR$/pokescout/leader" />
+            <option value="$PROJECT_DIR$/pokescout/trainer" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
