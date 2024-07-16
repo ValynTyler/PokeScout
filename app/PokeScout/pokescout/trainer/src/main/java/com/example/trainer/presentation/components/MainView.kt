@@ -8,15 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.themelibrary.PokeScoutTheme
+import com.example.trainer.presentation.viewmodel.TrainerState
 
 @Composable
-fun MainView() {
+fun MainView(
+    state: TrainerState
+) {
     PokeScoutTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Text(text = "Hello, PokeScout Trainer!")
+            PokemonCard(state)
         }
     }
 }
@@ -24,5 +27,5 @@ fun MainView() {
 @Preview
 @Composable
 fun MainViewPreview() {
-    MainView()
+    MainView(TrainerState())
 }

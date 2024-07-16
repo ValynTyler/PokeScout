@@ -7,15 +7,16 @@ kanban-plugin: board
 ## Meta
 
 - [ ] #meta Figure out what's wrong with the tags
+- [ ] #meta Make reddit post about weird tag behaviour
 
 
 ## Tech
 
 - [ ] #tech Implement local cacheing
-- [ ] #tech Work on pokemon evolution
 - [ ] #tech Figure out why NFC tags aren't formatted
 - [ ] #tech Fix intent filter not picking up unformatted NDEF tag
-- [ ] #tech Port trainer app functionality
+- [ ] #tech Fix NFC writing
+- [ ] #tech Work on pokemon evolution
 
 
 ## Visuals
@@ -23,15 +24,10 @@ kanban-plugin: board
 - [ ] #visual Make logo art
 - [ ] #visual Differentiate apps by icon
 - [ ] #visual Pokemon initial animation
-- [ ] #visual  Port trainer app UI
 
 
 ## Doing...
 
-- [ ] #visual Port all UI to master project
-- [ ] #tech Port all app functionality
-- [ ] #tech Port developer app functionality
-- [ ] #tech Fix NFC writing
 
 
 ## Done!
@@ -60,6 +56,11 @@ kanban-plugin: board
 - [x] #meta Merge projects
 - [x] #tech Fix NFC reading
 - [x] #visual Port developer app UI
+- [x] #tech Port developer app functionality
+- [x] #tech Port all app functionality
+- [x] #visual Port all UI to master project
+- [x] #tech Port trainer app functionality
+- [x] #visual  Port trainer app UI
 
 %% kanban:settings
 ```
