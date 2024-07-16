@@ -20,6 +20,7 @@ kanban-plugin: board
 
 - [ ] #visual Make logo art
 - [ ] #visual Differentiate apps by icon
+- [ ] #visual Pokemon initial animation
 
 
 ## Doing...
