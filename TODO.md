@@ -16,7 +16,7 @@ kanban-plugin: board
 - [ ] #tech Figure out why NFC tags aren't formatted
 - [ ] #tech Fix intent filter not picking up unformatted NDEF tag
 - [ ] #tech Fix NFC writing
-- [ ] #tech Work on pokemon evolution
+- [ ] #tech Restructure Trainer composable division
 
 
 ## Visuals
@@ -25,12 +25,12 @@ kanban-plugin: board
 - [ ] #visual Differentiate apps by icon
 - [ ] #visual Pokemon initial animation
 - [ ] #visual Reinstate read/write status toasts
+- [ ] #visual Implement Scaffold for Trainer UI
 
 
 ## Doing...
 
-- [ ] #visual Implement Scaffold for Trainer UI
-- [ ] #tech Restructure Trainer composable division
+- [ ] #tech Work on pokemon evolution
 
 
 ## Done!
