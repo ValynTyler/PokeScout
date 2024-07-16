@@ -24,10 +24,13 @@ kanban-plugin: board
 - [ ] #visual Make logo art
 - [ ] #visual Differentiate apps by icon
 - [ ] #visual Pokemon initial animation
+- [ ] #visual Reinstate read/write status toasts
 
 
 ## Doing...
 
+- [ ] #visual Implement Scaffold for Trainer UI
+- [ ] #tech Restructure Trainer composable division
 
 
 ## Done!
