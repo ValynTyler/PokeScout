@@ -11,16 +11,14 @@ import androidx.activity.ComponentActivity
 import com.example.nfclibrary.error.NfcContextError
 import com.example.nfclibrary.util.NfcContextResult
 
-class NfcHandler(
-    private val activity: ComponentActivity
-) {
+object NfcHandler {
 
     private var nfcAdapter: NfcAdapter? = null
     private lateinit var pendingIntent: PendingIntent
     private lateinit var intentFiltersArray: Array<IntentFilter>
     private lateinit var techListsArray: Array<Array<String>>
 
-    fun build(): NfcContextResult {
+    fun build(activity: ComponentActivity): NfcContextResult {
         nfcAdapter = NfcAdapter.getDefaultAdapter(activity)
         if (nfcAdapter == null) {
             return NfcContextResult.Failure(NfcContextError.NfcNotAvailableError)
@@ -47,7 +45,7 @@ class NfcHandler(
         return NfcContextResult.Success
     }
 
-    fun handleContextResult(result: NfcContextResult) {
+    fun handleContextResult(result: NfcContextResult, activity: ComponentActivity) {
         if (result is NfcContextResult.Failure) {
             when (result.error) {
                 is NfcContextError.MalformedMimeTypeError -> {
@@ -66,11 +64,11 @@ class NfcHandler(
         }
     }
 
-    fun handlePause() {
+    fun handlePause(activity: ComponentActivity) {
         nfcAdapter?.disableForegroundDispatch(activity)
     }
 
-    fun handleResume() {
+    fun handleResume(activity: ComponentActivity) {
         nfcAdapter?.enableForegroundDispatch(
             activity,
             pendingIntent,

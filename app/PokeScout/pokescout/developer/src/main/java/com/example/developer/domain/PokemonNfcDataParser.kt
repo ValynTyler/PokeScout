@@ -1,10 +1,12 @@
 package com.example.developer.domain
 
+import android.content.Context
 import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.util.Log
 import android.widget.Toast
-import com.example.developer.presentation.MainActivity
+import com.example.developer.presentation.input.isValidData
+import com.example.developer.presentation.input.toPokemonNfcData
 import com.example.developer.presentation.viewmodel.DeveloperState
 import com.example.nfclibrary.constant.NfcId
 import com.example.nfclibrary.error.NfcReadError
@@ -14,51 +16,33 @@ import com.example.nfclibrary.service.NfcWriter
 import com.example.nfclibrary.util.NfcReadResult
 import com.example.nfclibrary.util.NfcWriteResult
 import com.example.pokemonlibrary.domain.PokemonNfcData
+import com.example.pokemonlibrary.domain.toNdefMessage
 import java.nio.charset.Charset
 
-class PokemonNfcDataParser(
-    private val activity: MainActivity
-) {
-    fun parseTagData(tag: Tag, state: DeveloperState, onReadPokemonNfcData: (PokemonNfcData) -> Unit) {
+object PokemonNfcDataParser {
+    fun parseTagData(
+        tag: Tag,
+        state: DeveloperState,
+        context: Context,
+        onReadPokemonNfcData: (PokemonNfcData) -> Unit
+    ) {
         val inputData = state.inputData
         if (state.isWritingNfc) {
-            if (
-                inputData.species != null && inputData.species > 0 && inputData.species <= 1025 &&
-                inputData.xp != null && inputData.xp >= 0 && inputData.trainer != ""
-            ) {
-                val nameRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-                    inputData.trainer,
-                    NfcId.TRAINER
-                )
-                val idRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-                    inputData.species.toString(),
-                    NfcId.SPECIES
-                )
-                val xpRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-                    inputData.xp.toString(),
-                    NfcId.XP
-                )
-
-                val message = NfcWriter.NdefMessageBuilder()
-                    .addRecord(nameRecord)
-                    .addRecord(idRecord)
-                    .addRecord(xpRecord)
-                    .build()
-
-                handleNfcWriteResult(NfcWriter.writeToTag(tag, message))
-
+            val data = inputData.toPokemonNfcData()
+            if (data != null) {
+                handleNfcWriteResult(NfcWriter.writeToTag(tag, data.toNdefMessage()), context)
             } else {
                 val logSource = "INPUT DATA"
                 val errorText = "ERROR: invalid input data"
-                Toast.makeText(activity, errorText, Toast.LENGTH_SHORT).show()
-                Log.d(logSource, errorText)
+                Toast.makeText(context, errorText, Toast.LENGTH_SHORT).show()
+                Log.e(logSource, errorText)
             }
         } else {
-            handleNfcReadResult(NfcReader.readFromTag(tag), state, onReadPokemonNfcData)
+            handleNfcReadResult(NfcReader.readFromTag(tag), state, context, onReadPokemonNfcData)
         }
     }
 
-    private fun handleNfcWriteResult(result: NfcWriteResult) {
+    private fun handleNfcWriteResult(result: NfcWriteResult, context: Context) {
 
         val logTag = "NFC WRITER"
         val logMsg: String
@@ -78,17 +62,22 @@ class PokemonNfcDataParser(
         when (isError) {
             true -> {
                 Log.e(logTag, logMsg)
-                Toast.makeText(activity, logMsg, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, logMsg, Toast.LENGTH_LONG).show()
             }
 
             false -> {
                 Log.d(logTag, logMsg)
-                Toast.makeText(activity, logMsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, logMsg, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun handleNfcReadResult(result: NfcReadResult, state: DeveloperState, onReadPokemonNfcData: (PokemonNfcData) -> Unit) {
+    private fun handleNfcReadResult(
+        result: NfcReadResult,
+        state: DeveloperState,
+        context: Context,
+        onReadPokemonNfcData: (PokemonNfcData) -> Unit
+    ) {
 
         val logTag = "NFC READER"
         val logMsg: String
@@ -111,7 +100,12 @@ class PokemonNfcDataParser(
                             Charset.forName("UTF-8")
                         )
 
-                        parsePokemonData(state, text, id, onReadPokemonNfcData)
+                        parsePokemonData(
+                            state,
+                            text,
+                            id,
+                            onReadPokemonNfcData
+                        ) // THIS IS WHERE THE PROBLEM IS DIPSHIT TODO
                     }
                 }
                 // TODO
@@ -129,17 +123,22 @@ class PokemonNfcDataParser(
         when (isError) {
             true -> {
                 Log.e(logTag, logMsg)
-                Toast.makeText(activity, logMsg, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, logMsg, Toast.LENGTH_LONG).show()
             }
 
             false -> {
                 Log.d(logTag, logMsg)
-                Toast.makeText(activity, logMsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, logMsg, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun parsePokemonData(state: DeveloperState, text: String, id: String, onReadPokemonNfcData: (PokemonNfcData) -> Unit) {
+    private fun parsePokemonData(
+        state: DeveloperState,
+        text: String,
+        id: String,
+        onReadPokemonNfcData: (PokemonNfcData) -> Unit
+    ) {
         val inputData = state.inputData
         var data = PokemonNfcData(
             trainerName = inputData.trainer,
@@ -153,8 +152,5 @@ class PokemonNfcDataParser(
             NfcId.XP -> data = data.copy(pokemonXp = text.toInt())
         }
         onReadPokemonNfcData(data)
-
-        Toast.makeText(activity, "Successful read", Toast.LENGTH_SHORT).show()
-        Log.d("NFC WRITER", "Successful read")
     }
 }

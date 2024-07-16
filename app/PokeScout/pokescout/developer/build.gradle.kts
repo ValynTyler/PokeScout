@@ -69,5 +69,5 @@ dependencies {
 
     implementation(project(":common:themelibrary"))
     implementation(project(":common:pokemonlibrary"))
-    implementation(project(":common:nfclibrary"))
+    implementation(project(":common:nfc"))
 }
