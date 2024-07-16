@@ -5,19 +5,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.developer.presentation.input.InputEvent
+import com.example.pokemonlibrary.domain.PokemonNfcData
 
 class DeveloperViewModel : ViewModel() {
 
     var state by mutableStateOf(DeveloperState())
         private set
 
-//    fun readNfcData(data: PokemonNfcData) {
-//        state = state.copy(
-//            inputName = data.trainerName,
-//            inputId = data.speciesId,
-//            inputXp = data.pokemonXp,
-//        )
-//    }
+    fun readNfcData(data: PokemonNfcData) {
+        state = state.copy(
+            inputData = state.inputData.copy(
+                trainer = data.trainerName,
+                species = data.speciesId,
+                xp = data.pokemonXp,
+            )
+        )
+    }
 
     fun processInputEvent(event: InputEvent) {
         state = when (event) {
