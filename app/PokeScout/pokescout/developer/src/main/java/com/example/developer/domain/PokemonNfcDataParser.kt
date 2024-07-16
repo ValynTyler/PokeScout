@@ -10,12 +10,11 @@ import com.example.developer.presentation.viewmodel.DeveloperState
 import com.example.nfc.constant.NfcId
 import com.example.nfc.error.NfcReadError
 import com.example.nfc.error.NfcWriteError
-import com.example.nfc.service.NfcReader
 import com.example.nfc.service.NfcWriter
 import com.example.nfc.util.NfcReadResult
 import com.example.nfc.util.NfcWriteResult
-import com.example.pokemonlibrary.domain.PokemonNfcData
-import com.example.pokemonlibrary.domain.toNdefMessage
+import com.example.pokemon.domain.PokemonNfcData
+import com.example.pokemon.domain.toNdefMessage
 import java.nio.charset.Charset
 
 object PokemonNfcDataParser {
@@ -37,7 +36,7 @@ object PokemonNfcDataParser {
                 Log.e(logSource, errorText)
             }
         } else {
-            handleNfcReadResult(NfcReader.readFromTag(tag), state, context, onReadPokemonNfcData)
+//            handleNfcReadResult(NfcReader.readFromTag(tag), state, context, onReadPokemonNfcData)
         }
     }
 

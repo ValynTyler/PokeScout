@@ -1,6 +1,6 @@
 package com.example.developer.presentation.input
 
-import com.example.pokemonlibrary.domain.PokemonNfcData
+import com.example.pokemon.domain.PokemonNfcData
 
 data class InputData(
     val trainer: String = "",

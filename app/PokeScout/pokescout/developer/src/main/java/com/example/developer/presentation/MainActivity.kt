@@ -7,6 +7,7 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,9 @@ import androidx.activity.viewModels
 import com.example.developer.presentation.components.MainView
 import com.example.developer.presentation.viewmodel.DeveloperViewModel
 import com.example.nfc.service.NfcReader
+import com.example.pokemon.domain.toPokemonNfcData
+import com.example.result.Result
+import java.nio.charset.Charset
 
 class MainActivity : ComponentActivity() {
 
@@ -83,20 +87,17 @@ class MainActivity : ComponentActivity() {
 //                viewModel.readNfcData(data)
 //            }
 //        }
-        ///
-//        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
-//            val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
-//            tag?.let {
-//                PokemonNfcDataParser.parseTagData(it, viewModel.state, this) { data ->
-//                    Log.d("FUCK", data.pokemonXp.toString())
-//                    viewModel.readNfcData(data)
-//                }
-//            }
-//        }
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                NfcReader.readFromTag(it)
+                when (val result = NfcReader.readFromTag(it)) {
+                    is Result.Err -> TODO()
+                    is Result.Ok -> {
+                        result.value.toPokemonNfcData()?.let {  data ->
+                            viewModel.readNfcData(data)
+                        }
+                    }
+                }
             }
         }
     }

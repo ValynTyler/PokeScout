@@ -1,21 +1,22 @@
 package com.example.nfc.service
 
+import android.nfc.NdefMessage
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import com.example.nfc.error.NfcReadError
-import com.example.nfc.util.NfcReadResult
+import com.example.result.Result
 
 object NfcReader {
-    fun readFromTag(tag: Tag): NfcReadResult {
+    fun readFromTag(tag: Tag): Result<NdefMessage, NfcReadError> {
         val ndef = Ndef.get(tag)
         return if (ndef != null) {
             ndef.connect()
             val ndefMessage = ndef.ndefMessage
             ndef.close()
 
-            NfcReadResult.Success(ndefMessage)
+            Result.Ok(ndefMessage)
         } else {
-            NfcReadResult.Failure(NfcReadError.NotNdefFormattedError)
+            Result.Err(NfcReadError.NotNdefFormattedError)
         }
     }
 }
