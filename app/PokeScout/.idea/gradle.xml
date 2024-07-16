@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/common/nfclibrary" />
+            <option value="$PROJECT_DIR$/common/pokemonlibrary" />
             <option value="$PROJECT_DIR$/common/themelibrary" />
             <option value="$PROJECT_DIR$/pokescout" />
             <option value="$PROJECT_DIR$/pokescout/developer" />
