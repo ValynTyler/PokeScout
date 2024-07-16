@@ -64,8 +64,8 @@ fun NdefMessage.toPokemonNfcData(): PokemonNfcData? {
     return if (trainer != null && species != null && xp != null) {
         PokemonNfcData(
             trainer!!,
+            species!!,
             xp!!,
-            species!!
         )
     } else {
         null
