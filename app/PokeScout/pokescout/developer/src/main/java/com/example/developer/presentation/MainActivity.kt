@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import com.example.developer.presentation.components.MainView
 import com.example.developer.presentation.viewmodel.DeveloperViewModel
 import com.example.nfc.NfcHandle
-import com.example.nfc.discoverNfcTag
 import com.example.nfc.initNfcHandle
 import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
@@ -20,12 +19,12 @@ import com.example.result.ok
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: DeveloperViewModel by viewModels()
+    val viewModel: DeveloperViewModel by viewModels()
     private val nfcHandle = NfcHandle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initNfcHandle(nfcHandle)
+        this.initNfcHandle(nfcHandle)
         setContent {
             MainView(viewModel.state) {
                 viewModel.processInputEvent(it)
@@ -45,10 +44,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        discoverNfcTag(intent, nfcHandle) {
-            NfcReader.readFromTag(it).ok()?.let { value ->
-                value.toPokemonNfcData()?.let { data ->
-                    viewModel.readNfcData(data)
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
+            val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+            tag?.let {
+                NfcReader.readFromTag(it).ok()?.let { value ->
+                    value.toPokemonNfcData()?.let { data ->
+                        viewModel.readNfcData(data)
+                    }
                 }
             }
         }

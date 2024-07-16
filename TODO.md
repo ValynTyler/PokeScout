@@ -37,8 +37,6 @@ kanban-plugin: board
 ## Done!
 
 **Complete**
-- [x] #tech Fix NFC reading
-- [x] #visual Port developer app UI
 
 
 ***
@@ -60,6 +58,8 @@ kanban-plugin: board
 - [x] #tech Read and write NFC data through dedicated apps
 - [x] #tech Make dev app read current NFC data
 - [x] #meta Merge projects
+- [x] #tech Fix NFC reading
+- [x] #visual Port developer app UI
 
 %% kanban:settings
 ```

@@ -55,10 +55,3 @@ fun ComponentActivity.resumeNfc(handle: NfcHandle) {
         handle.techListsArray
     )
 }
-
-fun ComponentActivity.discoverNfcTag(intent: Intent, handle: NfcHandle, onTagDiscovered: (Tag) -> Unit) {
-    if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
-        val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
-        tag?.let { onTagDiscovered }
-    }
-}
