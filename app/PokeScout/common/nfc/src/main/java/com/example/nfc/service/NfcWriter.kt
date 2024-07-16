@@ -5,7 +5,7 @@ import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import com.example.nfc.error.NfcWriteError
-import com.example.nfc.util.NfcWriteResult
+import com.example.result.Result
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 
@@ -45,7 +45,7 @@ object NfcWriter {
         }
     }
 
-    fun writeToTag(tag: Tag, message: NdefMessage): NfcWriteResult {
+    fun writeToTag(tag: Tag, message: NdefMessage): Result<Unit, NfcWriteError> {
 
         val ndef = Ndef.get(tag)
         return if (ndef != null) {
@@ -54,12 +54,12 @@ object NfcWriter {
                 ndef.writeNdefMessage(message)
                 ndef.close()
 
-                NfcWriteResult.Success
+                Result.Ok(Unit)
             } catch (e: Exception) {
-                NfcWriteResult.Failure(NfcWriteError.FailedToWriteError(e))
+                Result.Err(NfcWriteError.FailedToWriteError(e))
             }
         } else {
-            NfcWriteResult.Failure(NfcWriteError.NotNdefCompatibleError)
+            Result.Err(NfcWriteError.NotNdefCompatibleError)
         }
     }
 }
