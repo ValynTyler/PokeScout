@@ -1,7 +1,7 @@
-package com.example.trainer.data.remote
+package com.example.pokemon.data.remote
 
-import com.example.trainer.data.remote.evolution.EvolutionChainDto
-import com.example.trainer.data.remote.species.SpeciesDto
+import com.example.pokemon.data.remote.evolution.EvolutionChainDto
+import com.example.pokemon.data.remote.species.SpeciesDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -1,4 +1,4 @@
-package com.example.trainer.domain.model.evolution
+package com.example.pokemon.domain.model.evolution
 
 import com.example.result.Result
 

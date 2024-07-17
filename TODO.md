@@ -16,7 +16,7 @@ kanban-plugin: board
 - [ ] #tech Figure out why NFC tags aren't formatted
 - [ ] #tech Fix intent filter not picking up unformatted NDEF tag
 - [ ] #tech Fix NFC writing
-- [ ] #tech Fetch chain data from api
+- [ ] #tech Restructure Trainer composable division
 
 
 ## Visuals
@@ -29,7 +29,7 @@ kanban-plugin: board
 
 ## Doing...
 
-- [ ] #tech Restructure Trainer composable division
+- [ ] #tech Fetch chain data from api
 
 
 ## Done!

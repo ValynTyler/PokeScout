@@ -1,4 +1,4 @@
-package com.example.trainer.domain.model.locale
+package com.example.pokemon.domain.model.locale
 
 enum class Language {
     KOREAN,

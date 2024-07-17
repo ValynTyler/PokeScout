@@ -1,7 +1,7 @@
-package com.example.trainer.di
+package com.example.pokemon.di
 
-import com.example.trainer.data.repository.PokemonRepositoryImpl
-import com.example.trainer.domain.repository.PokemonRepository
+import com.example.pokemon.data.repository.PokemonRepositoryImpl
+import com.example.pokemon.domain.repository.PokemonRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,7 +1,7 @@
-package com.example.trainer.domain.model.evolution
+package com.example.pokemon.domain.model.evolution
 
 import com.example.result.Result
-import com.example.trainer.domain.model.species.PokemonSpecies
+import com.example.pokemon.domain.model.species.PokemonSpecies
 
 data class ChainLink(
     val species: PokemonSpecies,

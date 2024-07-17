@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.result.ok
-import com.example.trainer.domain.repository.PokemonRepository
+import com.example.pokemon.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

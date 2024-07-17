@@ -1,8 +1,8 @@
-package com.example.trainer.domain.repository
+package com.example.pokemon.domain.repository
 
 import com.example.result.Result
-import com.example.trainer.domain.model.evolution.EvolutionChain
-import com.example.trainer.domain.model.species.PokemonSpecies
+import com.example.pokemon.domain.model.evolution.EvolutionChain
+import com.example.pokemon.domain.model.species.PokemonSpecies
 
 interface PokemonRepository {
     suspend fun getSpeciesById(id: Int): Result<PokemonSpecies, Exception>

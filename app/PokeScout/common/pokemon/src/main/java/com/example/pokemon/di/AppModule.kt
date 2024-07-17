@@ -1,6 +1,6 @@
-package com.example.trainer.di
+package com.example.pokemon.di
 
-import com.example.trainer.data.remote.PokemonApi
+import com.example.pokemon.data.remote.PokemonApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

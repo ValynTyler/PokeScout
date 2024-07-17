@@ -1,4 +1,4 @@
-package com.example.trainer.data.remote.species
+package com.example.pokemon.data.remote.species
 
 import com.squareup.moshi.Json
 

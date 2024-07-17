@@ -1,7 +1,7 @@
-package com.example.trainer.data.remote.species
+package com.example.pokemon.data.remote.species
 
-import com.example.trainer.data.remote.locale.LocalizationDto
-import com.example.trainer.data.remote.evolution.EvolutionChainUrlDto
+import com.example.pokemon.data.remote.locale.LocalizationDto
+import com.example.pokemon.data.remote.evolution.EvolutionChainUrlDto
 import com.squareup.moshi.Json
 
 data class SpeciesDto(
