@@ -5,39 +5,43 @@ import android.nfc.NdefRecord
 import com.example.nfc.constant.NfcId
 import com.example.nfc.service.NfcWriter
 import java.nio.charset.Charset
+import com.example.result.Result
 
 data class PokemonNfcData(
     val trainerName: String = "",
     val speciesId: Int = 0,
-    val pokemonXp: Int = 0,
+    val evolutionChainId: Int = 0,
+
+    val gymProgress: Array<Boolean> = emptyArray(),
+    val dailyPoints: Array<Int> = emptyArray(),
 )
 
 fun PokemonNfcData.toNdefMessage(): NdefMessage {
-    val nameRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
+    val trainerRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
         this.trainerName,
         NfcId.TRAINER
     )
-    val idRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-        this.speciesId.toString(),
+    val speciesRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.speciesId .toString(),
         NfcId.SPECIES
     )
-    val xpRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-        this.pokemonXp.toString(),
-        NfcId.XP
+    val evolutionChainRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.evolutionChainId.toString(),
+        NfcId.EVOLUTION_CHAIN
     )
 
     return NfcWriter.NdefMessageBuilder()
-        .addRecord(nameRecord)
-        .addRecord(idRecord)
-        .addRecord(xpRecord)
+        .addRecord(trainerRecord)
+        .addRecord(speciesRecord)
+        .addRecord(evolutionChainRecord)
         .build()
 }
 
-fun NdefMessage.toPokemonNfcData(): PokemonNfcData? {
+fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
 
     var trainer: String? = null
     var species: Int? = null
-    var xp: Int? = null
+    var evolutionChain: Int? = null
 
     this.records.forEach { record ->
         if (record.tnf == NdefRecord.TNF_WELL_KNOWN &&
@@ -56,18 +60,22 @@ fun NdefMessage.toPokemonNfcData(): PokemonNfcData? {
             when (id) {
                 NfcId.TRAINER -> trainer = text
                 NfcId.SPECIES -> species = text.toIntOrNull()
-                NfcId.XP -> xp = text.toIntOrNull()
+                NfcId.EVOLUTION_CHAIN -> evolutionChain = text.toIntOrNull()
             }
         }
     }
 
-    return if (trainer != null && species != null && xp != null) {
-        PokemonNfcData(
-            trainer!!,
-            species!!,
-            xp!!,
+    return if (trainer != null && species != null && evolutionChain != null) {
+        Result.Ok(
+            PokemonNfcData(
+                trainer!!,
+                species!!,
+                evolutionChain!!,
+            )
         )
     } else {
-        null
+        Result.Err(
+            Exception("ERROR: Incomplete NDEF message")
+        )
     }
 }

@@ -1,114 +1,29 @@
 package com.example.developer.presentation
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.developer.presentation.components.background.KeyboardTracker
-import com.example.developer.presentation.components.button.LockButton
+import com.example.developer.presentation.components.PokeScoutScaffold
 import com.example.developer.presentation.input.InputEvent
 import com.example.developer.presentation.ui.IdInput
 import com.example.developer.presentation.ui.NameInput
 import com.example.developer.presentation.viewmodel.DeveloperState
-import com.example.themelibrary.PokeScoutTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView(
     state: DeveloperState,
-    onInputEvent: (InputEvent) -> Unit = {},
+    onInput: (InputEvent) -> Unit = {},
 ) {
-    val focusManager = LocalFocusManager.current
-    val interactionSource = remember { MutableInteractionSource() }
-    KeyboardTracker(focusManager)
-    PokeScoutTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Scaffold(
-                floatingActionButtonPosition = FabPosition.Center,
-                topBar = {
-                    TopAppBar(
-                        colors = topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.primary,
-                        ),
-                        title = {
-                            Text("Top app bar")
-                        }
-                    )
-                },
-                bottomBar = {
-                    BottomAppBar(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.primary,
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            text = "Bottom app bar",
-                        )
-                    }
-                },
-                floatingActionButton = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                        ) {
-                        LockButton(
-                            onClick = { onInputEvent(InputEvent.LockEvent) },
-                        )
-                    }
-                }
-            ) { innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .fillMaxSize()
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null
-                        ) { focusManager.clearFocus() }
-                ) {
-                    NameInput(state) {}
-                    IdInput(
-                        state,
-                        {},
-                        {}
-                    )
-                }
-
-                Box(
-                    contentAlignment = Alignment.BottomCenter,
-                    modifier = Modifier
-                        .padding(end = 0.dp)
-                        .fillMaxSize()
-                ) {
-
-                }
-            }
+    PokeScoutScaffold(
+        onFabPress = {onInput(InputEvent.LockEvent)}
+    ) {
+        Column {
+            NameInput(state) {onInput(InputEvent.TextEvent.ChangeTrainer(it))}
+            IdInput(
+                state,
+                {onInput(InputEvent.TextEvent.ChangeSpecies(it))},
+                {onInput(InputEvent.TextEvent.ChangeEvolutionChain(it))},
+            )
         }
     }
 }

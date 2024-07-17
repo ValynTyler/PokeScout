@@ -31,7 +31,7 @@ fun IdInput(
         )
         NumberInput(
             labelText = "Evolution ID",
-            value = state.inputData.species?.toString().orEmpty(),
+            value = state.inputData.evolutionChain?.toString().orEmpty(),
             enabled = !state.isWritingNfc,
             modifier = Modifier
                 .padding(8.dp)

@@ -68,4 +68,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation(project(":common:themelibrary"))
+    implementation(project(":common:result"))
 }

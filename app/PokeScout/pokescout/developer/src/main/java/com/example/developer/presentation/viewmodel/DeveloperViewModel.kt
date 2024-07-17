@@ -17,7 +17,8 @@ class DeveloperViewModel : ViewModel() {
             inputData = state.inputData.copy(
                 trainer = data.trainerName,
                 species = data.speciesId,
-                xp = data.pokemonXp,
+                evolutionChain = data.evolutionChainId,
+                // TODO
             )
         )
     }
@@ -28,7 +29,7 @@ class DeveloperViewModel : ViewModel() {
                 state.copy(isWritingNfc = !state.isWritingNfc)
             }
 
-            is InputEvent.TextEvent.ChangedName -> {
+            is InputEvent.TextEvent.ChangeTrainer -> {
                 val name = event.value.replace("\n", "")
                 state.copy(
                     inputData = state.inputData.copy(
@@ -37,7 +38,7 @@ class DeveloperViewModel : ViewModel() {
                 )
             }
 
-            is InputEvent.TextEvent.ChangedId -> {
+            is InputEvent.TextEvent.ChangeSpecies -> {
                 val id = event.value.replace("\n", "").toIntOrNull()
                 id?.let {
                     if (it > 1025 || it <= 0) {
@@ -51,16 +52,16 @@ class DeveloperViewModel : ViewModel() {
                 )
             }
 
-            is InputEvent.TextEvent.ChangedXp -> {
-                val xp = event.value.replace("\n", "").toIntOrNull()
-                xp?.let {
-                    if (it > 999999 || it < 0) {
+            is InputEvent.TextEvent.ChangeEvolutionChain -> {
+                val evolutionChain = event.value.replace("\n", "").toIntOrNull()
+                evolutionChain?.let {
+                    if (it > 549 || it < 0) {
                         return
                     }
                 }
                 state.copy(
                     inputData = state.inputData.copy(
-                        xp = xp
+                        evolutionChain = evolutionChain
                     )
                 )
             }

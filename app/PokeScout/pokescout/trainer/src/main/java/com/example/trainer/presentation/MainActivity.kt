@@ -29,22 +29,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNfcHandle(nfcHandle)
-
-        viewModel.readNfcData(
-            PokemonNfcData(
-                speciesId = 0,
-                trainerName = "-",
-                pokemonXp = 0,
-            )
-        )
-
-        val url = "https://pokeapi.co/api/v2/evolution-chain/349/"
-        Log.d(
-            "", url
-                .removePrefix("https://pokeapi.co/api/v2/evolution-chain/")
-                .removeSuffix("/")
-        )
-
         setContent {
             MainView(viewModel.state)
         }

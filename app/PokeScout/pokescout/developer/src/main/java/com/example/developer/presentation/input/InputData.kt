@@ -1,11 +1,12 @@
 package com.example.developer.presentation.input
 
 import com.example.pokemon.domain.PokemonNfcData
+import com.example.result.Result
 
 data class InputData(
     val trainer: String = "",
     val species: Int? = null,
-    val xp: Int? = null,
+    val evolutionChain: Int? = null,
 )
 
 fun InputData.isValidData(): Boolean {
@@ -13,18 +14,21 @@ fun InputData.isValidData(): Boolean {
         && this.species != null
         && this.species > 0
         && this.species <= 1025
-        && this.xp != null
-        && this.xp >= 0
+        && this.evolutionChain != null
+        && this.evolutionChain > 0
+        && this.evolutionChain <= 549
 }
 
-fun InputData.toPokemonNfcData(): PokemonNfcData? {
+fun InputData.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
     return if (this.isValidData()) {
-        PokemonNfcData(
-            trainerName = this.trainer,
-            speciesId = this.species!!,
-            pokemonXp = this.xp!!,
+        Result.Ok(
+            PokemonNfcData(
+                trainerName = this.trainer,
+                speciesId = this.species!!,
+                evolutionChainId = this.evolutionChain!!,
+            )
         )
     } else {
-        null
+        Result.Err(Exception("ERROR: Invalid input data"))
     }
 }

@@ -62,7 +62,7 @@ fun PokemonCard(
 
                     Spacer(modifier = Modifier)
                     StatField("Trainer", data.trainerName)
-                    StatField("XP", data.pokemonXp.toString())
+                    StatField("Evolution Chain", data.evolutionChainId.toString())
                     state.speciesData?.let { species ->
                         StatField("ID", species.id.toString())
                         StatField("Species", species.name())
@@ -94,7 +94,7 @@ fun PokemonCardPreview() {
     PokemonCard(
         state = TrainerState(
             nfcData = PokemonNfcData(
-                pokemonXp = 69420,
+                evolutionChainId = 78,
                 trainerName = "Dan Rodgerson Esq. the Second"
             )
         )
