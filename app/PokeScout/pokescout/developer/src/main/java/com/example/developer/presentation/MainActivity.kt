@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.example.compose.printError
+import com.example.compose.printText
 import com.example.developer.presentation.input.toPokemonNfcData
 import com.example.developer.presentation.viewmodel.DeveloperViewModel
 import com.example.nfc.NfcHandle
@@ -21,7 +23,9 @@ import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
 import com.example.pokemon.domain.nfc.toNdefMessage
 import com.example.pokemon.domain.nfc.toPokemonNfcData
 import com.example.result.Result
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     val viewModel: DeveloperViewModel by viewModels()
@@ -91,15 +95,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    private fun printText(tag: String, text: String) {
-        Log.d(tag, text)
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun printError(tag: String, error: String) {
-        Log.e(tag, error)
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
     }
 }

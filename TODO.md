@@ -29,7 +29,6 @@ kanban-plugin: board
 
 ## Doing...
 
-- [ ] #tech Fetch chain data from api
 
 
 ## Done!
@@ -71,6 +70,7 @@ kanban-plugin: board
 - [x] #visual Implement Scaffold for Trainer UI
 - [x] #tech Serialize bool array
 - [x] #visual Reinstate read/write status toasts
+- [x] #tech Fetch chain data from api
 
 %% kanban:settings
 ```

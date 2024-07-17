@@ -18,12 +18,13 @@ fun IdInput(
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         NumberInput(
             labelText = "Species ID",
             value = state.inputData.species?.toString().orEmpty(),
-            enabled = !state.isWritingNfc,
+            enabled = !state.isWritingNfc && !state.isLoadingSpecies,
             modifier = Modifier
                 .padding(8.dp)
                 .weight(1f),
@@ -32,7 +33,7 @@ fun IdInput(
         NumberInput(
             labelText = "Evolution ID",
             value = state.inputData.evolutionChain?.toString().orEmpty(),
-            enabled = !state.isWritingNfc,
+            enabled = !state.isWritingNfc && !state.isLoadingEvolution,
             modifier = Modifier
                 .padding(8.dp)
                 .weight(1f),
