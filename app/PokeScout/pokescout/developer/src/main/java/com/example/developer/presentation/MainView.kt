@@ -3,7 +3,7 @@ package com.example.developer.presentation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.developer.presentation.components.PokeScoutScaffold
+import com.example.compose.scaffold.PokeScoutScaffold
 import com.example.developer.presentation.input.InputEvent
 import com.example.developer.presentation.ui.IdInput
 import com.example.developer.presentation.ui.NameInput

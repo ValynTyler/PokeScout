@@ -17,7 +17,7 @@ rootProject.name = "PokeScout"
 include(":pokescout:developer")
 include(":pokescout:leader")
 include(":pokescout:trainer")
-include(":common:themelibrary")
+include(":common:compose")
 include(":common:nfc")
 include(":common:pokemon")
 include(":common:result")

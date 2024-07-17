@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.developer.presentation.components.text.TextInput
+import com.example.compose.components.text.TextInput
 import com.example.developer.presentation.viewmodel.DeveloperState
 
 @Composable

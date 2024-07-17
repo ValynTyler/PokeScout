@@ -10,10 +10,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/common/compose" />
             <option value="$PROJECT_DIR$/common/nfc" />
             <option value="$PROJECT_DIR$/common/pokemon" />
             <option value="$PROJECT_DIR$/common/result" />
-            <option value="$PROJECT_DIR$/common/themelibrary" />
             <option value="$PROJECT_DIR$/pokescout" />
             <option value="$PROJECT_DIR$/pokescout/developer" />
             <option value="$PROJECT_DIR$/pokescout/leader" />
