@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.developer.presentation.input.InputEvent
-import com.example.pokemon.domain.PokemonNfcData
+import com.example.pokemon.domain.nfc.PokemonNfcData
 
 class DeveloperViewModel : ViewModel() {
 

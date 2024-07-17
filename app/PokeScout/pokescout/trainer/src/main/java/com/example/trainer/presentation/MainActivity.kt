@@ -4,7 +4,6 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -13,8 +12,7 @@ import com.example.nfc.initNfcHandle
 import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
 import com.example.nfc.service.NfcReader
-import com.example.pokemon.domain.PokemonNfcData
-import com.example.pokemon.domain.toPokemonNfcData
+import com.example.pokemon.domain.nfc.toPokemonNfcData
 import com.example.trainer.presentation.components.MainView
 import com.example.trainer.presentation.viewmodel.TrainerViewModel
 import dagger.hilt.android.AndroidEntryPoint

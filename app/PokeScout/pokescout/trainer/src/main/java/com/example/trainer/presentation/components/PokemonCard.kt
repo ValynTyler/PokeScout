@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.pokemon.domain.PokemonNfcData
+import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.result.ok
 import com.example.trainer.R
 import com.example.trainer.presentation.viewmodel.TrainerState

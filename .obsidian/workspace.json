@@ -26,6 +26,18 @@
                 }
               }
             }
+          },
+          {
+            "id": "41ab71a7dc2c8e79",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ]
       }
@@ -157,17 +169,19 @@
   },
   "active": "88457e27f5dfbb09",
   "lastOpenFiles": [
+    "app/PokeScout/common/pokemon/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i",
+    "app/PokeScout/common/pokemon/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.keystream.len",
+    "app/PokeScout/common/pokemon/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i.len",
+    "app/PokeScout/common/pokemon/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab",
+    "app/PokeScout/common/pokemon/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.len",
+    "app/PokeScout/common/pokemon/build/snapshot/kotlin/compileDebugKotlin/2.zip",
+    "app/PokeScout/common/pokemon/build/snapshot/kotlin/compileDebugKotlin/1.zip",
+    "app/PokeScout/common/pokemon/build/snapshot/kotlin/compileDebugKotlin/0.zip",
+    "app/PokeScout/common/pokemon/build/snapshot/kotlin/compileDebugKotlin",
     "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/META-INF/developer_debug.kotlin_module",
     "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/com/example/developer/presentation/MainActivity$onCreate$1$1.class",
-    "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/com/example/developer/presentation/MainActivity$onCreate$1.class",
-    "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/com/example/developer/presentation/MainActivity$special$$inlined$viewModels$default$3.class",
-    "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/com/example/developer/presentation/MainActivity$special$$inlined$viewModels$default$2.class",
-    "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/com/example/developer/presentation/MainActivity$special$$inlined$viewModels$default$1.class",
-    "app/PokeScout/pokescout/developer/build/tmp/kotlin-classes/debug/com/example/developer/presentation/MainActivity.class",
-    "app/PokeScout/pokescout/developer/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i",
-    "app/PokeScout/pokescout/developer/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.keystream.len",
-    "app/PokeScout/pokescout/developer/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab_i.len",
-    "app/PokeScout/pokescout/developer/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab",
+    "README.md",
+    "TODO.md",
     "app/PokeScout/pokescout/developer/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher_round.webp",
     "app/PokeScout/pokescout/developer/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.webp",
     "app/PokeScout/pokescout/developer/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher_round.webp",
@@ -178,8 +192,6 @@
     "app/PokeScout/pokescout/developer/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.webp",
     "app/PokeScout/pokescout/developer/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher_round.webp",
     "app/PokeScout/pokescout/developer/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.webp",
-    "README.md",
-    "MANIFEST.md",
-    "TODO.md"
+    "MANIFEST.md"
   ]
 }

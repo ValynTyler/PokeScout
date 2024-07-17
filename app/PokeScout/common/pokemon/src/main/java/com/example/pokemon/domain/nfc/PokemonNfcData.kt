@@ -1,9 +1,10 @@
-package com.example.pokemon.domain
+package com.example.pokemon.domain.nfc
 
 import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import com.example.nfc.constant.NfcId
 import com.example.nfc.service.NfcWriter
+import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
 import java.nio.charset.Charset
 import com.example.result.Result
 
@@ -12,8 +13,8 @@ data class PokemonNfcData(
     val speciesId: Int = 0,
     val evolutionChainId: Int = 0,
 
-    val gymProgress: Array<Boolean> = emptyArray(),
-    val dailyPoints: Array<Int> = emptyArray(),
+    val gymProgress: BooleanArray = BooleanArray(12),
+    val dailyPoints: IntArray = IntArray(4),
 )
 
 fun PokemonNfcData.toNdefMessage(): NdefMessage {
@@ -22,7 +23,7 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
         NfcId.TRAINER
     )
     val speciesRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-        this.speciesId .toString(),
+        this.speciesId.toString(),
         NfcId.SPECIES
     )
     val evolutionChainRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
@@ -30,10 +31,40 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
         NfcId.EVOLUTION_CHAIN
     )
 
+    val gymProgressRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.gymProgress.toSerialString(),
+        NfcId.GYM_PROGRESS
+    )
+
+    val day1Points = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.dailyPoints[0].toString(),
+        NfcId.DAY_1_POINTS
+    )
+
+    val day2Points = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.dailyPoints[1].toString(),
+        NfcId.DAY_2_POINTS
+    )
+
+    val day3Points = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.dailyPoints[2].toString(),
+        NfcId.DAY_3_POINTS
+    )
+
+    val day4Points = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.dailyPoints[3].toString(),
+        NfcId.DAY_4_POINTS
+    )
+
     return NfcWriter.NdefMessageBuilder()
         .addRecord(trainerRecord)
         .addRecord(speciesRecord)
         .addRecord(evolutionChainRecord)
+        .addRecord(gymProgressRecord)
+        .addRecord(day1Points)
+        .addRecord(day2Points)
+        .addRecord(day3Points)
+        .addRecord(day4Points)
         .build()
 }
 

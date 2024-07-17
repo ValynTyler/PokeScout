@@ -17,8 +17,9 @@ import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
 import com.example.nfc.service.NfcReader
 import com.example.nfc.service.NfcWriter
-import com.example.pokemon.domain.toNdefMessage
-import com.example.pokemon.domain.toPokemonNfcData
+import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
+import com.example.pokemon.domain.nfc.toNdefMessage
+import com.example.pokemon.domain.nfc.toPokemonNfcData
 import com.example.result.Result
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +30,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.initNfcHandle(nfcHandle)
+
+        val array = booleanArrayOf(
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+        )
+        array.toSerialString()
+
         setContent {
             MainView(viewModel.state) {
                 viewModel.processInputEvent(it)

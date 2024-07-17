@@ -1,6 +1,6 @@
 package com.example.developer.presentation.input
 
-import com.example.pokemon.domain.PokemonNfcData
+import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.result.Result
 
 data class InputData(

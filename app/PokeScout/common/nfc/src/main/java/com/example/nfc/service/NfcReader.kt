@@ -14,7 +14,11 @@ object NfcReader {
             val ndefMessage = ndef.ndefMessage
             ndef.close()
 
-            Result.Ok(ndefMessage)
+            if (ndefMessage != null) {
+                Result.Ok(ndefMessage)
+            } else {
+                Result.Err(NfcReadError.NullNdefMessageError)
+            }
         } else {
             Result.Err(NfcReadError.NotNdefFormattedError)
         }

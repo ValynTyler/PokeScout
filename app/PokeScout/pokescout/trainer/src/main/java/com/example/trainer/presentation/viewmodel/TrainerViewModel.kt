@@ -1,12 +1,11 @@
 package com.example.trainer.presentation.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokemon.domain.PokemonNfcData
+import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.result.ok
 import com.example.trainer.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

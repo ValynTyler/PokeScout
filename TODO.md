@@ -29,7 +29,6 @@ kanban-plugin: board
 
 ## Doing...
 
-- [ ] #tech Serialize bool array
 - [ ] #tech Fetch chain data from api
 
 
@@ -70,6 +69,7 @@ kanban-plugin: board
 - [x] #tech Read pokemon evolution options
 - [x] #tech Work on pokemon evolution
 - [x] #visual Implement Scaffold for Trainer UI
+- [x] #tech Serialize bool array
 
 %% kanban:settings
 ```
