@@ -64,6 +64,7 @@ kanban-plugin: board
 - [x] #visual Port all UI to master project
 - [x] #tech Port trainer app functionality
 - [x] #visual  Port trainer app UI
+- [x] #tech Read pokemon evolvesFromSpecies
 
 %% kanban:settings
 ```
