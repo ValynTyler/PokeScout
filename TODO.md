@@ -33,12 +33,12 @@ kanban-plugin: board
 - [ ] #tech Work on pokemon evolution
 - [ ] #tech Read pokemon evolution options
 - [ ] #tech Calculate current evolution step
-- [ ] #tech Calculate total evolution steps
 
 
 ## Done!
 
 **Complete**
+- [x] #tech Calculate total evolution steps
 
 
 ***
