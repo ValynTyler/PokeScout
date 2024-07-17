@@ -1,100 +1,116 @@
 package com.example.developer.presentation.components
 
-import android.view.ViewTreeObserver
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.developer.presentation.input.InputEvent
 import com.example.developer.presentation.viewmodel.DeveloperState
+import com.example.themelibrary.PokeScoutTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView(
     state: DeveloperState,
     onInputEvent: (InputEvent) -> Unit = {},
 ) {
-    com.example.themelibrary.PokeScoutTheme {
+    val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
+    KeyboardTracker(focusManager)
+    PokeScoutTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            val focusManager = LocalFocusManager.current
-            val interactionSource = remember { MutableInteractionSource() }
-
-            val view = LocalView.current
-            val viewTreeObserver = view.viewTreeObserver
-            var keyboardUpLf by remember { mutableStateOf(false) }
-            DisposableEffect(viewTreeObserver) {
-                val listener = ViewTreeObserver.OnGlobalLayoutListener {
-                    val keyboardUp = ViewCompat.getRootWindowInsets(view)
-                        ?.isVisible(WindowInsetsCompat.Type.ime()) ?: true
-                    if (keyboardUpLf != keyboardUp) {
-                        if (!keyboardUp) {
-                            focusManager.clearFocus()
+            Scaffold(
+                floatingActionButtonPosition = FabPosition.Center,
+                topBar = {
+                    TopAppBar(
+                        colors = topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                        title = {
+                            Text("Top app bar")
                         }
+                    )
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            text = "Bottom app bar",
+                        )
                     }
-                    keyboardUpLf = keyboardUp
+                },
+                floatingActionButton = {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                        ) {
+                        LockButton(
+                            onClick = { onInputEvent(InputEvent.LockEvent) },
+                        )
+                    }
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize()
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null
+                        ) { focusManager.clearFocus() }
+                ) {
+                    NameInput(state) {}
+                    IdInput(
+                        state,
+                        {},
+                        {}
+                    )
                 }
 
-                viewTreeObserver.addOnGlobalLayoutListener(listener)
-                onDispose {
-                    viewTreeObserver.removeOnGlobalLayoutListener(listener)
+                Box(
+                    contentAlignment = Alignment.BottomCenter,
+                    modifier = Modifier
+                        .padding(end = 0.dp)
+                        .fillMaxSize()
+                ) {
+
                 }
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize()
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null
-                    ) { focusManager.clearFocus() }
-            ) {
-                TextInput(
-                    labelText = "Trainer Name",
-                    value = state.inputData.trainer,
-                    enabled = !state.isWritingNfc,
-                ) { onInputEvent(InputEvent.TextEvent.ChangedName(it)) }
-                NumberInput(
-                    labelText = "ID",
-                    value = state.inputData.species?.toString().orEmpty(),
-                    enabled = !state.isWritingNfc,
-                ) { onInputEvent(InputEvent.TextEvent.ChangedId(it)) }
-                NumberInput(
-                    labelText = "XP",
-                    value = state.inputData.xp?.toString().orEmpty(),
-                    enabled = !state.isWritingNfc,
-                ) { onInputEvent(InputEvent.TextEvent.ChangedXp(it)) }
-            }
-
-            Box(
-                contentAlignment = Alignment.BottomCenter,
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                LockButton(
-                    modifier = Modifier.padding(72.dp),
-                    onClick = { onInputEvent(InputEvent.LockEvent) },
-                )
             }
         }
     }

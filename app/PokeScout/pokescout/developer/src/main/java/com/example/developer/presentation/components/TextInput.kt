@@ -12,7 +12,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TextInput(
     labelText: String,
-    value: String = "",
+    value: String,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onChange: (String) -> Unit = {},
 ) {
@@ -21,9 +22,7 @@ fun TextInput(
         onValueChange = onChange,
         label = { Text(labelText) },
         enabled = enabled,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        modifier = modifier
     )
 }
 

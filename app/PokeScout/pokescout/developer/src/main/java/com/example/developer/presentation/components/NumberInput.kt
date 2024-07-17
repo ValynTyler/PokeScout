@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun NumberInput(
     labelText: String,
-    value: String = "",
+    value: String,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onChange: (String) -> Unit = {},
 ) {
@@ -24,9 +25,7 @@ fun NumberInput(
         label = { Text(labelText) },
         enabled = enabled,
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier = modifier
     )
 }
 
