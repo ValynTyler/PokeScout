@@ -13,7 +13,7 @@ data class PokemonNfcData(
     val speciesId: Int = 0,
     val evolutionChainId: Int = 0,
 
-    val gymProgress: BooleanArray = BooleanArray(12),
+    val gymBadges: BooleanArray = BooleanArray(12),
     val dailyPoints: IntArray = IntArray(4),
 )
 
@@ -32,7 +32,7 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
     )
 
     val gymProgressRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-        this.gymProgress.toSerialString(),
+        this.gymBadges.toSerialString(),
         NfcId.GYM_PROGRESS
     )
 

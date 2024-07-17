@@ -10,7 +10,6 @@ import com.example.developer.presentation.input.InputEvent
 import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.pokemon.domain.repository.PokemonRepository
 import com.example.result.Result
-import com.example.result.ok
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +28,7 @@ class DeveloperViewModel @Inject constructor(
                 trainer = data.trainerName,
                 species = data.speciesId,
                 evolutionChain = data.evolutionChainId,
-                // TODO
+                gymBadges = data.gymBadges,
             )
         )
     }
@@ -38,6 +37,32 @@ class DeveloperViewModel @Inject constructor(
         state = when (event) {
             is InputEvent.LockEvent -> {
                 state.copy(isWritingNfc = !state.isWritingNfc)
+            }
+
+            is InputEvent.ListEvent -> {
+                val newBadges = state.inputData.gymBadges.clone()
+                newBadges[event.index] = event.checked
+                state.copy(
+                    inputData = state.inputData.copy(
+                        gymBadges = newBadges
+                    )
+                )
+            }
+
+            is InputEvent.DayEvent -> {
+                val newValue = event.value.replace("\n", "").toIntOrNull()
+                if (newValue != null) {
+                    if (newValue > 4 || newValue < 0) {
+                        return
+                    }
+                }
+                val newPoints = state.inputData.dailyPoints.clone()
+                newPoints[event.index] = newValue
+                state.copy(
+                    inputData = state.inputData.copy(
+                        dailyPoints = newPoints
+                    )
+                )
             }
 
             is InputEvent.TextEvent.ChangeTrainer -> {

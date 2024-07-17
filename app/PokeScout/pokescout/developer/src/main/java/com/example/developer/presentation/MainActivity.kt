@@ -35,15 +35,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         this.initNfcHandle(nfcHandle)
 
-        val array = booleanArrayOf(
-            false,
-            false,
-            true,
-            true,
-            false,
-            true,
-        )
-        array.toSerialString()
+        Log.d("",
+            viewModel.state.inputData.gymBadges[6].toString())
 
         setContent {
             MainView(viewModel.state) {

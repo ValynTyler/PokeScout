@@ -7,6 +7,8 @@ data class InputData(
     val trainer: String = "",
     val species: Int? = null,
     val evolutionChain: Int? = null,
+    val gymBadges: BooleanArray = BooleanArray(12),
+    val dailyPoints: Array<Int?> = Array(4) { null },
 )
 
 fun InputData.isValidData(): Boolean {
@@ -26,6 +28,8 @@ fun InputData.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
                 trainerName = this.trainer,
                 speciesId = this.species!!,
                 evolutionChainId = this.evolutionChain!!,
+                gymBadges = this.gymBadges,
+                dailyPoints = this.dailyPoints.map { it ?: 0 }.toIntArray(),
             )
         )
     } else {

@@ -11,13 +11,21 @@ import androidx.compose.ui.tooling.preview.Preview
 fun CheckList(
     modifier: Modifier = Modifier,
     color: Color = Color.Transparent,
+    items: BooleanArray = booleanArrayOf(),
+    onChange: (Int, Boolean) -> Unit = { _, _ ->},
 ) {
     LazyColumn(
         modifier = modifier
             .background(color)
     ) {
-        repeat(12) {
-            item { CheckListItem("Hello there") }
+        for (i in items.indices) {
+            item {
+                CheckListItem(
+                    label = "Hello there",
+                    checked = items[i],
+                    onChange = { checked -> onChange(i, checked) }
+                )
+            }
         }
     }
 }

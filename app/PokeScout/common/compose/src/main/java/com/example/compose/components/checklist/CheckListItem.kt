@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 fun CheckListItem(
     label: String,
     modifier: Modifier = Modifier,
+    checked: Boolean = false,
+    onChange: (Boolean) -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -27,8 +29,8 @@ fun CheckListItem(
             modifier = modifier.padding(start = 8.dp)
         )
         Checkbox(
-            checked = false,
-            onCheckedChange = {},
+            checked = checked,
+            onCheckedChange = onChange,
         )
     }
 }
