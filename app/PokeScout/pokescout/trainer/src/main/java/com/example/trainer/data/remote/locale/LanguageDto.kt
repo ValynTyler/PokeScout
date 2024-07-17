@@ -1,4 +1,4 @@
-package com.example.trainer.data.remote
+package com.example.trainer.data.remote.locale
 
 import com.squareup.moshi.Json
 

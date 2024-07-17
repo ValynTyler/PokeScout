@@ -1,16 +1,14 @@
 package com.example.trainer.data.mappers
 
 import android.util.Log
-import com.example.trainer.data.remote.LanguageDto
-import com.example.trainer.data.remote.LocalizationDto
-import com.example.trainer.data.remote.PokemonSpeciesDto
+import com.example.trainer.data.remote.locale.LanguageDto
+import com.example.trainer.data.remote.locale.LocalizationDto
+import com.example.trainer.data.remote.species.PokemonSpeciesDto
 import com.example.trainer.domain.model.Language
 import com.example.trainer.domain.model.Localization
 import com.example.trainer.domain.model.PokemonSpecies
 
 fun PokemonSpeciesDto.toPokemonSpecies(): PokemonSpecies {
-    Log.e("EEE", evolutionChain.url)
-
     return PokemonSpecies(
         id = speciesId,
         alias = speciesAlias,
@@ -22,7 +20,11 @@ fun PokemonSpeciesDto.toPokemonSpecies(): PokemonSpecies {
                 .toIntOrNull()
         } else {
             null
-        }
+        },
+        evolutionChainId = evolutionChain.url
+            .removePrefix("https://pokeapi.co/api/v2/evolution-chain/")
+            .removeSuffix("/")
+            .toInt()
     )
 }
 

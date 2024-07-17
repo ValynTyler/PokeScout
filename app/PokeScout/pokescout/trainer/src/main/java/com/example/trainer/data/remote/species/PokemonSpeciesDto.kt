@@ -1,5 +1,7 @@
-package com.example.trainer.data.remote
+package com.example.trainer.data.remote.species
 
+import com.example.trainer.data.remote.locale.LocalizationDto
+import com.example.trainer.data.remote.evolution.EvolutionChainUrlDto
 import com.squareup.moshi.Json
 
 data class PokemonSpeciesDto(
@@ -7,5 +9,5 @@ data class PokemonSpeciesDto(
     @field:Json(name = "name") val speciesAlias: String,
     @field:Json(name = "names") val speciesLocalNames: List<LocalizationDto>,
     @field:Json(name = "evolves_from_species") val evolvesFromSpeciesUrl: PokemonSpeciesUrlDto?,
-    @field:Json(name = "evolution_chain") val evolutionChain: EvolutionChainDto,
+    @field:Json(name = "evolution_chain") val evolutionChain: EvolutionChainUrlDto,
 )

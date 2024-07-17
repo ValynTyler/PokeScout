@@ -1,5 +1,6 @@
-package com.example.trainer.data.remote
+package com.example.trainer.data.remote.locale
 
+import com.example.trainer.data.remote.locale.LanguageDto
 import com.squareup.moshi.Json
 
 data class LocalizationDto(

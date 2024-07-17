@@ -4,4 +4,6 @@ import com.example.trainer.domain.model.PokemonSpecies
 
 interface PokemonRepository {
     suspend fun getSpeciesById(id: Int): PokemonSpecies?
+
+//    suspend fun getEvolutionChainById(id: Int): PokemonEvolution TODO
 }

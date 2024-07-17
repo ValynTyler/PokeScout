@@ -68,6 +68,7 @@ fun PokemonCard(
                     state.speciesData?.let { species ->
                         StatField("ID", species.id.toString())
                         StatField("Species", species.name())
+                        StatField("Chain ID", species.evolutionChainId.toString())
                         state.ancestorData?.let {
                             Text("Ancestor")
                             PokemonImage(id = it.id)
