@@ -34,10 +34,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.initNfcHandle(nfcHandle)
-
-        Log.d("",
-            viewModel.state.inputData.gymBadges[6].toString())
-
         setContent {
             MainView(viewModel.state) {
                 viewModel.processInputEvent(it)

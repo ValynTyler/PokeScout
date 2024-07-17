@@ -1,4 +1,4 @@
-package com.example.compose.components.checklist
+package com.example.compose.input.checklist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyColumn

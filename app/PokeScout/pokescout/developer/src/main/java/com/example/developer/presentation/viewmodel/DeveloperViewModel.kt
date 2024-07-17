@@ -29,6 +29,7 @@ class DeveloperViewModel @Inject constructor(
                 species = data.speciesId,
                 evolutionChain = data.evolutionChainId,
                 gymBadges = data.gymBadges,
+                dailyPoints = data.dailyPoints.map { it }.toTypedArray()
             )
         )
     }

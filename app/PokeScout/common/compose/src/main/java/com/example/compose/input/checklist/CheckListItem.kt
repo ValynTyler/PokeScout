@@ -1,4 +1,4 @@
-package com.example.compose.components.checklist
+package com.example.compose.input.checklist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

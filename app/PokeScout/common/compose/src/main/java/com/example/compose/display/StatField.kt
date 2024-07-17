@@ -1,4 +1,4 @@
-package com.example.trainer.presentation.components
+package com.example.compose.display
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
