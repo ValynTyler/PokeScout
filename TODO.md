@@ -25,7 +25,6 @@ kanban-plugin: board
 - [ ] #visual Differentiate apps by icon
 - [ ] #visual Pokemon initial animation
 - [ ] #visual Reinstate read/write status toasts
-- [ ] #visual Implement Scaffold for Trainer UI
 
 
 ## Doing...
@@ -35,6 +34,7 @@ kanban-plugin: board
 ## Done!
 
 **Complete**
+- [x] #visual Implement Scaffold for Trainer UI
 
 
 ***
