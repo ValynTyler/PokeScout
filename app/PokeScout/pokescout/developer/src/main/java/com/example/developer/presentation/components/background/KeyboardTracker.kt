@@ -1,4 +1,4 @@
-package com.example.developer.presentation.components
+package com.example.developer.presentation.components.background
 
 import android.view.ViewTreeObserver
 import androidx.compose.runtime.Composable

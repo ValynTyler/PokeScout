@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.example.developer.presentation.components.MainView
 import com.example.developer.presentation.input.toPokemonNfcData
 import com.example.developer.presentation.viewmodel.DeveloperViewModel
 import com.example.nfc.NfcHandle

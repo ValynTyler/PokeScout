@@ -1,4 +1,4 @@
-package com.example.developer.presentation.components
+package com.example.developer.presentation.components.checklist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
