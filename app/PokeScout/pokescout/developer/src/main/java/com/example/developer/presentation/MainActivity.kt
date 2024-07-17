@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    val viewModel: DeveloperViewModel by viewModels()
+    private val viewModel: DeveloperViewModel by viewModels()
     private val nfcHandle = NfcHandle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,10 +62,10 @@ class MainActivity : ComponentActivity() {
             tag?.let {
                 if (viewModel.state.isWritingNfc) {
                     when (val nfcDataResult = viewModel.state.inputData.toPokemonNfcData()) {
-                        is Result.Err -> printError("NFC reader", nfcDataResult.error.message.toString())
+                        is Result.Err -> printError("NFC writer", nfcDataResult.error.message.toString())
                         is Result.Ok -> {
                             NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
-                            printText("NFC reader", "Data written successfully!")
+                            printText("NFC writer", "Data written successfully!")
                         }
                     }
                 } else {

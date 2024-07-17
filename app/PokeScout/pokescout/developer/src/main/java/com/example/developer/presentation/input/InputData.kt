@@ -7,7 +7,7 @@ data class InputData(
     val trainer: String = "",
     val species: Int? = null,
     val evolutionChain: Int? = null,
-    val gymBadges: BooleanArray = BooleanArray(12),
+    val gymBadges: BooleanArray = BooleanArray(32),
     val dailyPoints: Array<Int?> = Array(4) { null },
 )
 

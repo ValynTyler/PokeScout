@@ -16,7 +16,8 @@ fun BadgeList(
     onChange: (Int, Boolean) -> Unit = { _, _ ->},
 ) {
     CheckList(
-        items = state.inputData.gymBadges,
+        enabled = !state.isWritingNfc,
+        items = state.inputData.gymBadges.dropLast(20).toBooleanArray(),
         color = MaterialTheme.colorScheme.primaryContainer,
         onChange = onChange,
         modifier = Modifier

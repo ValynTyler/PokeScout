@@ -4,6 +4,7 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import com.example.nfc.constant.NfcId
 import com.example.nfc.service.NfcWriter
+import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toDeserializedBooleanArray
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
 import java.nio.charset.Charset
 import com.example.result.Result
@@ -73,6 +74,8 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
     var trainer: String? = null
     var species: Int? = null
     var evolutionChain: Int? = null
+    var gymBadges = BooleanArray(12)
+    var dailyPoints: IntArray = IntArray(4)
 
     this.records.forEach { record ->
         if (record.tnf == NdefRecord.TNF_WELL_KNOWN &&
@@ -92,6 +95,8 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
                 NfcId.TRAINER -> trainer = text
                 NfcId.SPECIES -> species = text.toIntOrNull()
                 NfcId.EVOLUTION_CHAIN -> evolutionChain = text.toIntOrNull()
+                NfcId.GYM_PROGRESS -> gymBadges = text.toDeserializedBooleanArray()
+//                NfcId.DAY_1_POINTS =
             }
         }
     }
@@ -102,6 +107,8 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
                 trainer!!,
                 species!!,
                 evolutionChain!!,
+                gymBadges,
+                dailyPoints
             )
         )
     } else {

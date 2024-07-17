@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 fun CheckListItem(
     label: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     checked: Boolean = false,
     onChange: (Boolean) -> Unit = {},
 ) {
@@ -29,6 +30,7 @@ fun CheckListItem(
             modifier = modifier.padding(start = 8.dp)
         )
         Checkbox(
+            enabled = enabled,
             checked = checked,
             onCheckedChange = onChange,
         )

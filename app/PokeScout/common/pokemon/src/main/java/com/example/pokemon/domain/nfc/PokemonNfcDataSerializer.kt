@@ -18,4 +18,14 @@ object PokemonNfcDataSerializer {
 
         return output
     }
+
+    fun String.toDeserializedBooleanArray(): BooleanArray {
+        val output = BooleanArray(32)
+
+        for (i in 0..31) {
+            output[i] = this[i] == '1'
+        }
+
+        return output
+    }
 }

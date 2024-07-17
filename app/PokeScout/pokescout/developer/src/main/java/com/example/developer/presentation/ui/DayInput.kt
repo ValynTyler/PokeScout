@@ -13,8 +13,10 @@ fun DayInput(
     state: DeveloperState,
     onChange: (Int, String) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     NumberInput(
+        enabled = enabled,
         labelText = "D${index + 1}",
         value = state.inputData.dailyPoints[index]?.toString().orEmpty(),
         onChange = { onChange(index, it) },

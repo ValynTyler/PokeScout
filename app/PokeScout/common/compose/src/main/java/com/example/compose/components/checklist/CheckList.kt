@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun CheckList(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     color: Color = Color.Transparent,
     items: BooleanArray = booleanArrayOf(),
     onChange: (Int, Boolean) -> Unit = { _, _ ->},
@@ -21,6 +22,7 @@ fun CheckList(
         for (i in items.indices) {
             item {
                 CheckListItem(
+                    enabled = enabled,
                     label = "Hello there",
                     checked = items[i],
                     onChange = { checked -> onChange(i, checked) }

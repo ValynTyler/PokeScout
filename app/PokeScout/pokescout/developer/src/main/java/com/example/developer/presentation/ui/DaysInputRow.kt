@@ -19,10 +19,11 @@ fun DaysInputRow(
     ) {
         for (i in 0..3) {
             DayInput(
+                enabled = !state.isWritingNfc,
                 state = state,
                 index = i,
                 onChange = onChange,
-                modifier = Modifier.weight(1f)
+                modifier = modifier.weight(1f)
             )
         }
     }
