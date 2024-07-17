@@ -4,8 +4,8 @@ import com.example.result.Result
 import com.example.trainer.data.mappers.toChainLink
 import com.example.trainer.data.mappers.toPokemonSpecies
 import com.example.trainer.data.remote.PokemonApi
-import com.example.trainer.domain.model.EvolutionChain
-import com.example.trainer.domain.model.PokemonSpecies
+import com.example.trainer.domain.model.evolution.EvolutionChain
+import com.example.trainer.domain.model.species.PokemonSpecies
 import com.example.trainer.domain.repository.PokemonRepository
 import javax.inject.Inject
 import kotlin.Exception

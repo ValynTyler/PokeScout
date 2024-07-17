@@ -72,12 +72,13 @@ fun PokemonCard(
                             StatField("ID", it.id.toString())
                             StatField("Species", it.name())
                         }
-                        state.evolutionData?.chainRoot?.evolvesTo?.get(0)?.evolvesTo?.get(0)?.let {
-                            Text("Evolution options")
-                            PokemonImage(id = it.species.id)
-                            StatField("ID", it.species.id.toString())
-                            StatField("Species", it.species.name())
-                        }
+                        StatField("Evolutions", state.evolutionData?.maxLen().toString())
+//                        state.evolutionData?.chainRoot?.evolvesTo?.get(0)?.evolvesTo?.get(0)?.let {
+//                            Text("Evolution options")
+//                            PokemonImage(id = it.species.id)
+//                            StatField("ID", it.species.id.toString())
+//                            StatField("Species", it.species.name())
+//                        }
                     }
                 }
             }

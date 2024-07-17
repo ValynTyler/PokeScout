@@ -1,8 +1,8 @@
 package com.example.trainer.presentation.viewmodel
 
 import com.example.pokemon.domain.PokemonNfcData
-import com.example.trainer.domain.model.EvolutionChain
-import com.example.trainer.domain.model.PokemonSpecies
+import com.example.trainer.domain.model.evolution.EvolutionChain
+import com.example.trainer.domain.model.species.PokemonSpecies
 
 data class TrainerState(
     val nfcData: PokemonNfcData? = null,

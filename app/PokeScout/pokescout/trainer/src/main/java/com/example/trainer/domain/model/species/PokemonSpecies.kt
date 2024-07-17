@@ -1,4 +1,6 @@
-package com.example.trainer.domain.model
+package com.example.trainer.domain.model.species
+
+import com.example.trainer.domain.model.locale.Language
 
 data class PokemonSpecies(
     val id: Int,

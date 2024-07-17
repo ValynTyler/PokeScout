@@ -6,11 +6,11 @@ import com.example.trainer.data.remote.evolution.EvolutionChainDto
 import com.example.trainer.data.remote.locale.LanguageDto
 import com.example.trainer.data.remote.locale.LocalizationDto
 import com.example.trainer.data.remote.species.SpeciesDto
-import com.example.trainer.domain.model.ChainLink
-import com.example.trainer.domain.model.EvolutionChain
-import com.example.trainer.domain.model.Language
-import com.example.trainer.domain.model.Localization
-import com.example.trainer.domain.model.PokemonSpecies
+import com.example.trainer.domain.model.evolution.ChainLink
+import com.example.trainer.domain.model.evolution.EvolutionChain
+import com.example.trainer.domain.model.locale.Language
+import com.example.trainer.domain.model.locale.Localization
+import com.example.trainer.domain.model.species.PokemonSpecies
 
 fun SpeciesDto.toPokemonSpecies(): PokemonSpecies {
     return PokemonSpecies(
