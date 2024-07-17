@@ -58,6 +58,7 @@ fun PokemonCard(
                     state.speciesData?.let { species ->
                         StatField("ID", species.id.toString())
                         StatField("Species", species.name())
+                        StatField("Evolves from", species.evolvesFromId.toString())
                     }
                     StatField("XP", data.pokemonXp.toString())
                     StatField("Trainer", data.trainerName)

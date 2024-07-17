@@ -5,7 +5,8 @@ data class PokemonSpecies(
     val alias: String,
     val localNames: Map<Language, String>,
 
-    val evolvesFrom: PokemonSpecies? = null,
+    val evolvesFromId: Int? = null,
+
     val evolvesTo: List<PokemonSpecies> = emptyList(),
 ) {
     fun name(): String {

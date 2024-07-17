@@ -1,5 +1,6 @@
 package com.example.trainer.data.mappers
 
+import android.util.Log
 import com.example.trainer.data.remote.LanguageDto
 import com.example.trainer.data.remote.LocalizationDto
 import com.example.trainer.data.remote.PokemonSpeciesDto
@@ -11,7 +12,15 @@ fun PokemonSpeciesDto.toPokemonSpecies(): PokemonSpecies {
     return PokemonSpecies(
         id = speciesId,
         alias = speciesAlias,
-        localNames = speciesLocalNames.map { it.toLocalization() }.associateBy({it.language}, {it.localName})
+        localNames = speciesLocalNames.map { it.toLocalization() }.associateBy({ it.language }, { it.localName }),
+        evolvesFromId = if (evolvesFromSpeciesUrl != null) {
+            evolvesFromSpeciesUrl.speciesUrl
+                .removePrefix("https://pokeapi.co/api/v2/pokemon-species/")
+                .removeSuffix("/")
+                .toIntOrNull()
+        } else {
+            null
+        }
     )
 }
 

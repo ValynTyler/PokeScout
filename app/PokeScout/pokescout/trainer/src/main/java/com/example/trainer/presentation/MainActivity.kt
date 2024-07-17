@@ -4,6 +4,7 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -37,6 +38,13 @@ class MainActivity : ComponentActivity() {
             )
         )
 
+        val url = "https://pokeapi.co/api/v2/evolution-chain/349/"
+        Log.d(
+            "", url
+                .removePrefix("https://pokeapi.co/api/v2/evolution-chain/")
+                .removeSuffix("/")
+        )
+
         setContent {
             MainView(viewModel.state)
         }
@@ -57,7 +65,7 @@ class MainActivity : ComponentActivity() {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                NfcReader.readFromTag(it).ok()?.let {value ->
+                NfcReader.readFromTag(it).ok()?.let { value ->
                     value.toPokemonNfcData()?.let { data ->
                         viewModel.readNfcData(data)
                     }
