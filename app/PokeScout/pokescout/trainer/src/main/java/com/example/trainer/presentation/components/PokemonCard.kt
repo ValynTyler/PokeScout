@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +38,7 @@ fun PokemonCard(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .align(Alignment.Center)
             ) {
                 AsyncImage(
@@ -57,9 +57,6 @@ fun PokemonCard(
                 )
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .weight(weight = 1f, fill = false)
                 ) {
 
                     Spacer(modifier = Modifier)
@@ -74,8 +71,12 @@ fun PokemonCard(
                             PokemonImage(id = it.id)
                             StatField("ID", it.id.toString())
                             StatField("Species", it.name())
+                        }
+                        state.evolutionData?.chainRoot?.evolvesTo?.get(0)?.evolvesTo?.get(0)?.let {
                             Text("Evolution options")
-                            // TODO
+                            PokemonImage(id = it.species.id)
+                            StatField("ID", it.species.id.toString())
+                            StatField("Species", it.species.name())
                         }
                     }
                 }

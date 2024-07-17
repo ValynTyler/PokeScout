@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokemon.domain.PokemonNfcData
+import com.example.result.ok
 import com.example.trainer.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -34,14 +35,13 @@ class TrainerViewModel @Inject constructor(
                 isLoading = true,
             )
 
-//            Log.d("", repo state.speciesData.evolutionChainId) // TODO
-
             state.nfcData?.let { data ->
-                repository.getSpeciesById(data.speciesId)?.let { species ->
+                repository.getSpeciesById(data.speciesId).ok()?.let { species ->
                     state = state.copy(
                         isLoading = false,
                         speciesData = species,
-                        ancestorData = species.evolvesFromId?.let { repository.getSpeciesById(it) }
+                        ancestorData = species.evolvesFromId?.let { repository.getSpeciesById(it).ok() },
+                        evolutionData = species.evolutionChainId.let { repository.getEvolutionChainById(it).ok() }
                     )
                 }
             }
