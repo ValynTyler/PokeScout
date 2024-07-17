@@ -30,15 +30,11 @@ kanban-plugin: board
 
 ## Doing...
 
-- [ ] #tech Work on pokemon evolution
-- [ ] #tech Read pokemon evolution options
-- [ ] #tech Calculate current evolution step
 
 
 ## Done!
 
 **Complete**
-- [x] #tech Calculate total evolution steps
 
 
 ***
@@ -68,6 +64,10 @@ kanban-plugin: board
 - [x] #tech Port trainer app functionality
 - [x] #visual  Port trainer app UI
 - [x] #tech Read pokemon evolvesFromSpecies
+- [x] #tech Calculate total evolution steps
+- [x] #tech Calculate current evolution step
+- [x] #tech Read pokemon evolution options
+- [x] #tech Work on pokemon evolution
 
 %% kanban:settings
 ```
