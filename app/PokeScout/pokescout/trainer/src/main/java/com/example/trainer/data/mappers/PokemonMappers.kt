@@ -9,6 +9,8 @@ import com.example.trainer.domain.model.Localization
 import com.example.trainer.domain.model.PokemonSpecies
 
 fun PokemonSpeciesDto.toPokemonSpecies(): PokemonSpecies {
+    Log.e("EEE", evolutionChain.url)
+
     return PokemonSpecies(
         id = speciesId,
         alias = speciesAlias,

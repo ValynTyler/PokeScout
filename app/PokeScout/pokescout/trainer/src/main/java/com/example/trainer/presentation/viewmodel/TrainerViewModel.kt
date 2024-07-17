@@ -36,8 +36,9 @@ class TrainerViewModel @Inject constructor(
             state.nfcData?.let { data ->
                 repository.getSpeciesById(data.speciesId)?.let { species ->
                     state = state.copy(
-                        speciesData = species,
                         isLoading = false,
+                        speciesData = species,
+                        ancestorData = species.evolvesFromId?.let { repository.getSpeciesById(it) }
                     )
                 }
             }

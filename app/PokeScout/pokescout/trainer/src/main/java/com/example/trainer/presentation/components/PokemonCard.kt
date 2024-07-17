@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,16 +56,27 @@ fun PokemonCard(
                         .fillMaxWidth(),
                 )
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .weight(weight = 1f, fill = false)
                 ) {
+
                     Spacer(modifier = Modifier)
+                    StatField("Trainer", data.trainerName)
+                    StatField("XP", data.pokemonXp.toString())
                     state.speciesData?.let { species ->
                         StatField("ID", species.id.toString())
                         StatField("Species", species.name())
-                        StatField("Evolves from", species.evolvesFromId.toString())
+                        state.ancestorData?.let {
+                            Text("Ancestor")
+                            PokemonImage(id = it.id)
+                            StatField("ID", it.id.toString())
+                            StatField("Species", it.name())
+                            Text("Evolution options")
+                            // TODO
+                        }
                     }
-                    StatField("XP", data.pokemonXp.toString())
-                    StatField("Trainer", data.trainerName)
                 }
             }
         }
