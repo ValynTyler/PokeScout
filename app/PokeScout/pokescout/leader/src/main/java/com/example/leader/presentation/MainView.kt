@@ -55,7 +55,7 @@ fun MainView(
                     OptionCard(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(8.dp)
+                            .padding(16.dp)
                     ) {
                         Column {
                             Spacer(modifier = Modifier.height(80.dp))
