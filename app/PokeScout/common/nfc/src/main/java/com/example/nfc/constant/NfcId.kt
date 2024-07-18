@@ -1,6 +1,7 @@
 package com.example.nfc.constant
 
 object NfcId {
+    const val GROUP = "group"
     const val TRAINER = "trainer"
     const val SPECIES = "species"
     const val EVOLUTION_CHAIN = "evolution"

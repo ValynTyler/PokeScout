@@ -10,6 +10,7 @@ import com.example.result.Result
 import java.nio.charset.Charset
 
 data class PokemonNfcData(
+    val trainerGroup: String = "",
     val trainerName: String = "",
     val speciesId: Int = 0,
     val evolutionChainId: Int = 0,
@@ -27,14 +28,21 @@ data class PokemonNfcData(
 }
 
 fun PokemonNfcData.toNdefMessage(): NdefMessage {
+    val groupRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
+        this.trainerGroup,
+        NfcId.GROUP
+    )
+
     val trainerRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
         this.trainerName,
         NfcId.TRAINER
     )
+
     val speciesRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
         this.speciesId.toString(),
         NfcId.SPECIES
     )
+
     val evolutionChainRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
         this.evolutionChainId.toString(),
         NfcId.EVOLUTION_CHAIN
@@ -66,6 +74,7 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
     )
 
     return NfcWriter.NdefMessageBuilder()
+        .addRecord(groupRecord)
         .addRecord(trainerRecord)
         .addRecord(speciesRecord)
         .addRecord(evolutionChainRecord)
@@ -79,6 +88,7 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
 
 fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
 
+    var group: String? = null
     var trainer: String? = null
     var species: Int? = null
     var evolutionChain: Int? = null
@@ -100,6 +110,7 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
             )
 
             when (id) {
+                NfcId.GROUP -> group = text
                 NfcId.TRAINER -> trainer = text
                 NfcId.SPECIES -> species = text.toIntOrNull()
                 NfcId.EVOLUTION_CHAIN -> evolutionChain = text.toIntOrNull()
@@ -115,6 +126,7 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
     return if (trainer != null && species != null && evolutionChain != null) {
         Result.Ok(
             PokemonNfcData(
+                group!!,
                 trainer!!,
                 species!!,
                 evolutionChain!!,

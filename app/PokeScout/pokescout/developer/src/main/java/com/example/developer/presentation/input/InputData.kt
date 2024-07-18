@@ -1,9 +1,11 @@
 package com.example.developer.presentation.input
 
+import com.example.pokemon.domain.model.GroupType
 import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.result.Result
 
 data class InputData(
+    val groupType: GroupType = GroupType.Beginner,
     val trainer: String = "",
     val species: Int? = null,
     val evolutionChain: Int? = null,
@@ -25,6 +27,7 @@ fun InputData.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
     return if (this.isValidData()) {
         Result.Ok(
             PokemonNfcData(
+                trainerGroup = this.groupType.toString(),
                 trainerName = this.trainer,
                 speciesId = this.species!!,
                 evolutionChainId = this.evolutionChain!!,

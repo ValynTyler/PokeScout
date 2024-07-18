@@ -11,14 +11,14 @@ import com.example.developer.presentation.viewmodel.DeveloperState
 @Composable
 fun NameInput(
     state: DeveloperState,
+    modifier: Modifier = Modifier,
     onChange: (String) -> Unit,
 ) {
     TextInput(
         labelText = "Trainer Name",
         value = state.inputData.trainer,
         enabled = !state.isWritingNfc,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .padding(8.dp),
         onChange = onChange,
     )

@@ -1,6 +1,9 @@
 package com.example.developer.presentation.input
 
+import com.example.pokemon.domain.model.GroupType
+
 sealed class InputEvent {
+    data class GroupChanged(val group: GroupType): InputEvent()
     data object LockEvent : InputEvent()
     data class ListEvent(val index: Int, val checked: Boolean) : InputEvent()
     data class DayEvent(val index: Int, val value: String) : InputEvent()

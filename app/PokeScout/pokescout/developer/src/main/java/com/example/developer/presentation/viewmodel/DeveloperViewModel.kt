@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokemon.domain.model.GroupType
 import com.example.developer.presentation.input.InputEvent
 import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.pokemon.domain.repository.PokemonRepository
@@ -25,6 +26,15 @@ class DeveloperViewModel @Inject constructor(
     fun readNfcData(data: PokemonNfcData) {
         state = state.copy(
             inputData = state.inputData.copy(
+                groupType = when (data.trainerGroup) {
+                    GroupType.Beginner.toString() -> GroupType.Beginner
+                    GroupType.Intermediate.toString() -> GroupType.Intermediate
+                    GroupType.Advanced.toString() -> GroupType.Advanced
+                    else -> {
+                        Log.e("Data error", "INVALID GROUP")
+                        GroupType.Beginner
+                    }
+                },
                 trainer = data.trainerName,
                 species = data.speciesId,
                 evolutionChain = data.evolutionChainId,
@@ -36,6 +46,14 @@ class DeveloperViewModel @Inject constructor(
 
     fun processInputEvent(event: InputEvent) {
         state = when (event) {
+            is InputEvent.GroupChanged -> {
+                state.copy(
+                    inputData = state.inputData.copy(
+                        groupType = event.group
+                    )
+                )
+            }
+
             is InputEvent.LockEvent -> {
                 state.copy(isWritingNfc = !state.isWritingNfc)
             }
@@ -90,6 +108,7 @@ class DeveloperViewModel @Inject constructor(
                                 Log.e("PokeAPI Error", speciesResult.error.message.toString())
                                 state
                             }
+
                             is Result.Ok -> {
                                 state.copy(
                                     isLoadingEvolution = false,
@@ -124,11 +143,13 @@ class DeveloperViewModel @Inject constructor(
                         isLoadingSpecies = true,
                     )
                     viewModelScope.launch {
-                        state = when (val evolutionResult = repository.getEvolutionChainById(evolutionChain)) {
+                        state = when (val evolutionResult =
+                            repository.getEvolutionChainById(evolutionChain)) {
                             is Result.Err -> {
                                 Log.e("PokeAPI Error", evolutionResult.error.message.toString())
                                 state
                             }
+
                             is Result.Ok -> {
                                 state.copy(
                                     isLoadingSpecies = false,

@@ -1,12 +1,15 @@
 package com.example.developer.presentation
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose.scaffold.PokeScoutScaffold
 import com.example.developer.presentation.input.InputEvent
 import com.example.developer.presentation.ui.BadgeList
 import com.example.developer.presentation.ui.DaysInputRow
+import com.example.developer.presentation.ui.GroupDropdown
 import com.example.developer.presentation.ui.IdInput
 import com.example.developer.presentation.ui.NameInput
 import com.example.developer.presentation.viewmodel.DeveloperState
@@ -20,7 +23,19 @@ fun MainView(
         onFabPress = { onInput(InputEvent.LockEvent) }
     ) {
         Column {
-            NameInput(state) { onInput(InputEvent.TextEvent.ChangeTrainer(it)) }
+            Row {
+                NameInput(state, Modifier.weight(1f)) {
+                    onInput(
+                        InputEvent.TextEvent.ChangeTrainer(
+                            it
+                        )
+                    )
+                }
+                GroupDropdown(
+                    modifier = Modifier.weight(1f),
+                    type = state.inputData.groupType
+                ) { onInput(InputEvent.GroupChanged(it)) }
+            }
             IdInput(
                 state,
                 { onInput(InputEvent.TextEvent.ChangeSpecies(it)) },
