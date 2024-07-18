@@ -14,9 +14,9 @@ private val DarkColorScheme = darkColorScheme(
     secondary = PokeballRed,
     tertiary = PokeballRed,
     background = PokeballGrey,
+    surface = PokeballGrey,
 
     /* Other default colors to override
-    surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,

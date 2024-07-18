@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.theme.PokeScoutTheme
 import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballWhite
+import com.example.compose.theme.ThemeDarkGrey
 import com.example.trainer.presentation.ui.BadgeDrawer
+import com.example.trainer.presentation.ui.PokeballButton
 import com.example.trainer.presentation.ui.PokeballTop
 import com.example.trainer.presentation.ui.PokemonImagePreview
 import com.example.trainer.presentation.ui.StatBox
@@ -61,37 +64,47 @@ fun MainView(
                                     .fillMaxWidth()
                                     .background(color = MaterialTheme.colorScheme.secondaryContainer)
                             )
-                            StatBox(state)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            StatBox(
+                                state,
+                                modifier = Modifier
+                                    .background(color = ThemeDarkGrey)
+                                    .fillMaxSize()
+                            )
                         }
                     }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(96.dp)
-                            .background(color = PokeballWhite)
-                    )
                 }
+                PokeballButton()
                 Box(
+                    Modifier.fillMaxSize()
+                ) {Box(
                     modifier = Modifier
+                        .align(Alignment.BottomCenter)
                         .fillMaxWidth()
-                        .height(108.dp)
-                ) {
+                        .height(116.dp)
+                        .background(color = PokeballGrey)
+                )
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .offset(y = 60.dp)
-                            .size(110.dp)
-                            .clip(CircleShape)
-                            .background(color = PokeballGrey)
-                    )
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .offset(y = 45.dp)
-                            .size(75.dp)
-                            .clip(CircleShape)
+                            .fillMaxWidth()
+                            .height(100.dp)
                             .background(color = PokeballWhite)
                     )
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .offset(y = (-50).dp)
+                            .size(120.dp)
+                            .clip(CircleShape)
+                            .background(color = PokeballGrey),
+                    ) {
+                        Box(modifier = Modifier
+                            .fillMaxSize()
+                            .padding(15.dp)
+                            .clip(CircleShape)
+                            .background(color = ThemeDarkGrey))
+                    }
                 }
             }
         }
