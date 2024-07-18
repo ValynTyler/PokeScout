@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,14 +49,13 @@ fun MainView(
                 Column(
                     verticalArrangement = Arrangement.Top
                 ) {
-                    Spacer(modifier = Modifier.height(80.dp))
                     OptionCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(400.dp)
+                            .fillMaxSize()
                             .padding(8.dp)
                     ) {
                         Column {
+                            Spacer(modifier = Modifier.height(80.dp))
                             TextField(
                                 modifier = Modifier
                                     .padding(8.dp)
