@@ -8,6 +8,8 @@ import com.example.pokemon.domain.model.species.PokemonSpecies
 import com.example.pokemon.domain.nfc.PokemonNfcData
 
 data class LeaderState(
+    val isWritingNfc: Boolean = false,
+
     val trainerNameField: String = "",
     val pokemonIdField: String = "",
     val groupDropdownSelection: GroupType = GroupType.Beginner,

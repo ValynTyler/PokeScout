@@ -45,7 +45,10 @@ fun MainView(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            PokeballScaffold() {
+            PokeballScaffold(
+                state = state,
+                onClick = { onInputEvent(InputEvent.ToggleNfcWriteMode) }
+            ) {
                 Column(
                     verticalArrangement = Arrangement.Top
                 ) {
@@ -142,5 +145,7 @@ fun MainView(
 @Preview
 @Composable
 fun MainViewPreview() {
-    MainView(LeaderState())
+    MainView(LeaderState(
+        isWritingNfc = true
+    ))
 }

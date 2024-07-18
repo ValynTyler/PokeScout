@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.example.compose.printError
 import com.example.compose.printText
+import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.viewmodel.LeaderViewModel
 import com.example.leader.presentation.viewmodel.toPokemonNfcData
 import com.example.nfc.NfcHandle
@@ -51,12 +52,15 @@ class MainActivity : ComponentActivity() {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                when (val nfcDataResult = viewModel.state.toPokemonNfcData()) {
-                    is Result.Err -> printError("NFC writer", nfcDataResult.error.message.toString())
-                    is Result.Ok -> {
-                        NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
-                        printText("NFC writer", "Data written successfully!")
+                if (viewModel.state.isWritingNfc) {
+                    when (val nfcDataResult = viewModel.state.toPokemonNfcData()) {
+                        is Result.Err -> printError("NFC writer", nfcDataResult.error.message.toString())
+                        is Result.Ok -> {
+                            NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
+                            printText("NFC writer", "Data written successfully!")
+                        }
                     }
+                    viewModel.onInputEvent(InputEvent.ToggleNfcWriteMode)
                 }
             }
         }

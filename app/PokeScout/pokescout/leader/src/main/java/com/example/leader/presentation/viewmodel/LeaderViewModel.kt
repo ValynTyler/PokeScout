@@ -25,6 +25,7 @@ class LeaderViewModel @Inject constructor(
 
     fun onInputEvent(event: InputEvent) {
         state = when (event) {
+            is InputEvent.ToggleNfcWriteMode -> state.copy(isWritingNfc = !state.isWritingNfc)
             is InputEvent.GroupDropdownSelectionChange -> state.copy(groupDropdownSelection = event.newGroup)
             is InputEvent.TrainerNameChange -> state.copy(trainerNameField = event.newName)
             is InputEvent.PokemonIdChange -> {
