@@ -29,12 +29,12 @@ kanban-plugin: board
 ## Doing...
 
 - [ ] #meta Start Leader app
-- [ ] #visual Add pixel font
 
 
 ## Done!
 
 **Complete**
+- [x] #visual Add pixel font
 
 
 ***

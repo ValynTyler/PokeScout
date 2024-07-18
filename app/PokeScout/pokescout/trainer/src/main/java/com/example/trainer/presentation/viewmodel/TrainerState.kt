@@ -3,6 +3,7 @@ package com.example.trainer.presentation.viewmodel
 import com.example.pokemon.domain.model.evolution.EvolutionChain
 import com.example.pokemon.domain.model.species.PokemonSpecies
 import com.example.pokemon.domain.nfc.PokemonNfcData
+import com.example.result.Result
 
 data class TrainerState(
     val nfcData: PokemonNfcData? = null,
@@ -12,8 +13,25 @@ data class TrainerState(
     val evolutionData: EvolutionChain? = null,
 
     val isLoading: Boolean = false,
+) {
+    fun currentEvolutionStage(): Int? {
+        if (evolutionData == null || nfcData == null) {
+            return null
+        }
 
+        return when (val linkResult = evolutionData.findLinkById(nfcData.speciesId)) {
+            is Result.Err -> null
+            is Result.Ok -> {
+                var cnt = 0
+                var link = linkResult.value
 
-    val totalEvolutionStages: Int? = null,
-    val currentEvolutionStage: Int? = null,
-)
+                while (link.evolvesTo.isNotEmpty()) {
+                    cnt++
+                    link = link.evolvesTo[0]
+                }
+
+                evolutionData.maxLength() - cnt
+            }
+        }
+    }
+}

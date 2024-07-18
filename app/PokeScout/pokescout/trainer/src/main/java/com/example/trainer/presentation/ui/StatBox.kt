@@ -27,12 +27,14 @@ fun StatBox(
             StatField(field = "Trainer", entry = state.nfcData?.trainerName.orEmpty())
             StatField(field = "ID", entry = state.nfcData?.speciesId?.toString().orEmpty())
             StatField(field = "XP", entry = state.nfcData?.xp()?.toString().orEmpty())
-            val stage = state.totalEvolutionStages?.let {
-                state.currentEvolutionStage?.let {
-                    "${state.currentEvolutionStage}/${state.totalEvolutionStages}"
+            val totalEvolutionStages = state.evolutionData?.maxLength()
+            val currentEvolutionStage = state.currentEvolutionStage()
+            val stage = totalEvolutionStages?.let {
+                currentEvolutionStage?.let {
+                    "${currentEvolutionStage}/${totalEvolutionStages}"
                 }
             }.orEmpty()
-            StatField(field = "Stage", entry = state.currentEvolutionStage.toString())
+            StatField(field = "Stage", entry = stage)
         }
     }
 }

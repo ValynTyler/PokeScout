@@ -30,28 +30,6 @@ class TrainerViewModel @Inject constructor(
         loadSpecies()
     }
 
-    private fun calculateEvolutionaryStage(): Int? {
-        if (state.evolutionData == null || state.nfcData == null) {
-            Log.e("HEY", "HO")
-            return null
-        }
-
-        return when (val linkResult = state.evolutionData!!.findLinkById(state.nfcData!!.speciesId)) {
-            is Result.Err -> null
-            is Result.Ok -> {
-                var cnt = 0
-                var link = linkResult.value
-
-                while (link.evolvesTo.isNotEmpty()) {
-                    cnt++
-                    link = link.evolvesTo[0]
-                }
-
-                state.evolutionData!!.maxLength() - cnt
-            }
-        }
-    }
-
     private fun loadSpecies() {
         viewModelScope.launch {
             state = state.copy(
@@ -61,22 +39,27 @@ class TrainerViewModel @Inject constructor(
             state.nfcData?.let { data ->
                 repository.getSpeciesById(data.speciesId).ok()?.let { species ->
 
-                    val evolutionChain = when (val result = repository.getEvolutionChainById(species.evolutionChainId)) {
+                    val evolutionChain = when (val result =
+                        repository.getEvolutionChainById(species.evolutionChainId)) {
                         is Result.Err -> throw result.error
                         is Result.Ok -> result.value
+                    }
+
+                    val ancestor = species.evolvesFromId?.let {
+                        when (val result = repository.getSpeciesById(species.evolvesFromId!!)) {
+                            is Result.Err -> throw result.error
+                            is Result.Ok -> result.value
+                        }
                     }
 
                     state = state.copy(
                         isLoading = false,
                         speciesData = species,
-                        ancestorData = when (val result = repository.getSpeciesById(species.evolvesFromId!!)) {
-                            is Result.Err -> throw result.error
-                            is Result.Ok -> result.value
-                        },
+                        ancestorData = ancestor,
                         evolutionData = evolutionChain,
-                        totalEvolutionStages = evolutionChain.maxLength(),
-                        currentEvolutionStage = calculateEvolutionaryStage(),
                     )
+
+                    Log.e("EEEE", evolutionChain.findLinkById(species.id).toString())
                 }
             }
         }

@@ -12,7 +12,10 @@ data class ChainLink(
             return Result.Ok(this)
         } else {
             this.evolvesTo.forEach {
-                return it.findByIdRecursive(id)
+                val result = it.findByIdRecursive(id)
+                if (result is Result.Ok) {
+                    return result
+                }
             }
         }
         return Result.Err(Exception("ERROR: Could not find id $id in evolution chain"))

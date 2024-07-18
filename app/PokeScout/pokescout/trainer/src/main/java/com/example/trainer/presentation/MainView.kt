@@ -31,7 +31,7 @@ import com.example.compose.theme.ThemeDarkGrey
 import com.example.trainer.presentation.ui.BadgeDrawer
 import com.example.trainer.presentation.ui.PokeballButton
 import com.example.trainer.presentation.ui.PokeballTop
-import com.example.trainer.presentation.ui.PokemonImagePreview
+import com.example.trainer.presentation.ui.PokemonImage
 import com.example.trainer.presentation.ui.StatBox
 import com.example.trainer.presentation.viewmodel.TrainerState
 
@@ -60,15 +60,37 @@ fun MainView(
                             verticalArrangement = Arrangement.Top,
                             modifier = Modifier.padding(16.dp)
                         ) {
-                            PokemonImagePreview(
+                            PokemonImage(
+                                state.nfcData?.speciesId ?: 0,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .background(color = MaterialTheme.colorScheme.secondaryContainer)
                             )
                             Spacer(modifier = Modifier.height(16.dp))
+                            val targetXp = when (state.currentEvolutionStage()) {
+                                1 -> {
+                                    if (state.evolutionData != null) {
+                                        when (state.evolutionData.maxLength()) {
+                                            2 -> 600
+                                            3 -> 400
+                                            else -> 0
+                                        }
+                                    } else {
+                                        0
+                                    }
+                                }
+                                2 -> {
+                                    if (state.evolutionData != null && state.evolutionData.maxLength() == 3) {
+                                        600
+                                    } else {
+                                        0
+                                    }
+                                }
+                                else -> 0
+                            }
                             LinearProgressIndicator(
                                 modifier = Modifier.fillMaxWidth().height(8.dp),
-                                progress = state.nfcData?.xp()?.div(1800f) ?: 0f)
+                                progress = state.nfcData?.xp()?.div(targetXp.toFloat()) ?: 0f)
                             Spacer(modifier = Modifier.height(16.dp))
                             StatBox(
                                 state,

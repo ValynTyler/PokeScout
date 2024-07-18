@@ -1,4 +1,4 @@
-package com.example.leader.presentation.components
+package com.example.leader.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
