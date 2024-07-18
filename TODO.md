@@ -14,6 +14,8 @@ kanban-plugin: board
 
 - [ ] #tech Implement local cacheing
 - [ ] #tech Fix intent filter not picking up unformatted NDEF tag
+- [ ] #tech Evolution system
+- [ ] #tech Activity validation system
 
 
 ## Visuals
@@ -25,7 +27,6 @@ kanban-plugin: board
 
 ## Doing...
 
-- [ ] #tech Restructure Trainer composable division
 
 
 ## Done!
@@ -71,6 +72,7 @@ kanban-plugin: board
 - [x] #visual Create remaining data fields for dev app
 - [x] #tech Fix NFC writing
 - [x] #tech Figure out why NFC tags aren't formatted
+- [x] #tech Restructure Trainer composable division
 
 %% kanban:settings
 ```

@@ -10,9 +10,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun StatField(field: String, entry: String) {
+fun StatField(field: String, entry: String, modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text("$field:", color = Color.Gray)
         Text(

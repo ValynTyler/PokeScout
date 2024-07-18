@@ -6,8 +6,8 @@ import com.example.nfc.constant.NfcId
 import com.example.nfc.service.NfcWriter
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toDeserializedBooleanArray
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
-import java.nio.charset.Charset
 import com.example.result.Result
+import java.nio.charset.Charset
 
 data class PokemonNfcData(
     val trainerName: String = "",
@@ -16,7 +16,15 @@ data class PokemonNfcData(
 
     val gymBadges: BooleanArray = BooleanArray(12),
     val dailyPoints: IntArray = IntArray(4),
-)
+) {
+    fun xp(): Int {
+        var xp = 0
+        this.dailyPoints.forEach { xp += 15 * it }
+        this.gymBadges.forEach { if (it) xp += 50 }
+
+        return xp
+    }
+}
 
 fun PokemonNfcData.toNdefMessage(): NdefMessage {
     val trainerRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
