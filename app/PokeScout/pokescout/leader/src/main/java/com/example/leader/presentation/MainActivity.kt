@@ -126,18 +126,22 @@ fun TestView() {
             .height(100.dp)
             .background(Color.Cyan))
     }
-    Box(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier
-            .align(Alignment.TopCenter)
-            .fillMaxWidth()
-            .height(150.dp + if (isToggled) yDelta else 0.dp)
-            .animateContentSize()
-            .border(5.dp, Color.Yellow))
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .animateContentSize()
+        .height(150.dp + if (isToggled) yDelta else 0.dp)
+        .background(Color.Red)
+    ) {
+        Box(modifier = Modifier.size(100.dp).align(Alignment.BottomCenter).border(5.dp, Color.Green))
     }
     Box(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.size(100.dp).align(Alignment.BottomCenter).border(5.dp, Color.Blue).clickable {
-            isToggled = !isToggled
-        })
+        Box(modifier = Modifier
+            .size(100.dp)
+            .align(Alignment.BottomCenter)
+            .border(5.dp, Color.Blue)
+            .clickable {
+                isToggled = !isToggled
+            })
     }
 }
 
