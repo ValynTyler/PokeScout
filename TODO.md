@@ -23,10 +23,13 @@ kanban-plugin: board
 - [ ] #visual Make logo art
 - [ ] #visual Differentiate apps by icon
 - [ ] #visual Pokemon initial animation
+- [ ] #visual Add evolution progress and xp to next level
 
 
 ## Doing...
 
+- [ ] #meta Start Leader app
+- [ ] #visual Add pixel font
 
 
 ## Done!

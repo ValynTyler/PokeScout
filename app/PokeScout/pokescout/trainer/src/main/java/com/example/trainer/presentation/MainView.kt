@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
@@ -64,6 +65,10 @@ fun MainView(
                                     .fillMaxWidth()
                                     .background(color = MaterialTheme.colorScheme.secondaryContainer)
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            LinearProgressIndicator(
+                                modifier = Modifier.fillMaxWidth().height(8.dp),
+                                progress = state.nfcData?.xp()?.div(1800f) ?: 0f)
                             Spacer(modifier = Modifier.height(16.dp))
                             StatBox(
                                 state,

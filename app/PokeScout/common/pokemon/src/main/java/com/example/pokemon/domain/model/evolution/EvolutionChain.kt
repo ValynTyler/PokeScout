@@ -6,11 +6,14 @@ data class EvolutionChain(
     val chainId: Int,
     val chainRoot: ChainLink,
 ) {
-    fun findLinkById(id: Int): Result<ChainLink, Unit> {
-        return chainRoot.findByIdRecursive(id)
+    fun findLinkById(id: Int): Result<ChainLink, Exception> {
+        return when(val result = chainRoot.findByIdRecursive(id)) {
+            is Result.Err -> Result.Err(Exception(result.error.message + " ${this.chainId}"))
+            is Result.Ok -> result
+        }
     }
 
-    fun maxLen(): Int {
+    fun maxLength(): Int {
         var link = this.chainRoot
         var len = 1
 

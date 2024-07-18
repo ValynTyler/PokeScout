@@ -2,6 +2,7 @@ package com.example.trainer.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,9 +20,20 @@ fun StatBox(
         verticalArrangement = Arrangement.Top,
         modifier = modifier.padding(8.dp),
     ) {
-        StatField(field = "Trainer", entry = state.nfcData?.trainerName.orEmpty())
-        StatField(field = "ID", entry = state.nfcData?.speciesId?.toString().orEmpty())
-        StatField(field = "XP", entry = state.nfcData?.xp()?.toString().orEmpty())
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            StatField(field = "Trainer", entry = state.nfcData?.trainerName.orEmpty())
+            StatField(field = "ID", entry = state.nfcData?.speciesId?.toString().orEmpty())
+            StatField(field = "XP", entry = state.nfcData?.xp()?.toString().orEmpty())
+            val stage = state.totalEvolutionStages?.let {
+                state.currentEvolutionStage?.let {
+                    "${state.currentEvolutionStage}/${state.totalEvolutionStages}"
+                }
+            }.orEmpty()
+            StatField(field = "Stage", entry = state.currentEvolutionStage.toString())
+        }
     }
 }
 
