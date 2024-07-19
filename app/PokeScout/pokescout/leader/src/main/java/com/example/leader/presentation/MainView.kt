@@ -10,6 +10,7 @@ import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.screens.InitScreen
+import com.example.leader.presentation.screens.LoadingScreen
 import com.example.leader.presentation.ui.GreatballStripes
 import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.pokemon.presentation.PokeballScaffold
@@ -29,11 +30,15 @@ fun MainView(
             onClicked = { onInputEvent(InputEvent.ToggleNfcWriteMode) },
             pokeballDecoration = { GreatballStripes() }
         ) {
-            if (!state.isWritingNfc) {
-                InitScreen(
-                    state,
-                    onInputEvent,
-                )
+            if (state.isLoading) {
+                LoadingScreen()
+            } else {
+                if (!state.isWritingNfc) {
+                    InitScreen(
+                        state,
+                        onInputEvent,
+                    )
+                }
             }
         }
     }
