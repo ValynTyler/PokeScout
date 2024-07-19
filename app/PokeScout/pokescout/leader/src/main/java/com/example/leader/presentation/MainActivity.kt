@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,9 +33,11 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.compose.printError
 import com.example.compose.printText
 import com.example.leader.presentation.events.InputEvent
+import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.leader.presentation.viewmodel.LeaderViewModel
 import com.example.leader.presentation.viewmodel.toPokemonNfcData
 import com.example.nfc.NfcHandle
@@ -59,7 +62,7 @@ class MainActivity : ComponentActivity() {
         this.initNfcHandle(nfcHandle)
         setContent {
 //            MainView(viewModel.state) { viewModel.onInputEvent(it) }
-            TestView()
+            TestView(viewModel.state) { viewModel.onInputEvent(it) }
         }
     }
 
@@ -97,10 +100,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
 @Composable
-fun TestView() {
-    var isToggled by remember { mutableStateOf(false) }
+fun TestView(
+    state: LeaderState,
+    onInputEvent: (InputEvent) -> Unit,
+) {
     var yDelta by remember { mutableStateOf(0.dp) }
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -109,39 +113,63 @@ fun TestView() {
 
     ) {
         val localDensity = LocalDensity.current
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .background(Color.Red))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+                .background(Color.Cyan)
+        )
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
-            .background(Color.Magenta)
+            .border(5.dp, Color.Magenta)
             .onGloballyPositioned { coordinates ->
                 yDelta = with(localDensity) { coordinates.size.height.toDp() }
             }
         )
-        Box(modifier = Modifier
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .background(Color.Cyan)
+        )
+    }
+    Box(
+        modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
-            .background(Color.Cyan))
-    }
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .animateContentSize()
-        .height(150.dp + if (isToggled) yDelta else 0.dp)
-        .background(Color.Red)
-    ) {
-        Box(modifier = Modifier.size(100.dp).align(Alignment.BottomCenter).border(5.dp, Color.Green))
-    }
+            .animateContentSize()
+            .height(150.dp + if (state.isWritingNfc) yDelta else 0.dp)
+            .background(Color.Red)
+    )
     Box(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier
             .size(100.dp)
             .align(Alignment.BottomCenter)
+            .offset(y = (-50).dp)
             .border(5.dp, Color.Blue)
             .clickable {
-                isToggled = !isToggled
-            })
+                onInputEvent(InputEvent.ToggleNfcWriteMode)
+            }
+        )
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSize()
+            .height(200.dp + if (state.isWritingNfc) yDelta else 0.dp)
+            .border(5.dp, Color.Yellow)
+    ) {
+        Box(modifier = Modifier
+            .size(100.dp)
+            .align(Alignment.BottomCenter)
+            .zIndex(3f)
+            .border(5.dp, Color.Green)
+        )
     }
 }
 
+@Preview
+@Composable
+fun TestViewPreview() {
+    TestView(state = LeaderState(), onInputEvent = {})
+}
