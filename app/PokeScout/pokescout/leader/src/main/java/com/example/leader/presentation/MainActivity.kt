@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -36,6 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.compose.printError
 import com.example.compose.printText
+import com.example.compose.theme.PokeballGrey
+import com.example.compose.theme.PokeballRed
+import com.example.compose.theme.PokeballWhite
+import com.example.compose.theme.ThemeDarkGrey
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.leader.presentation.viewmodel.LeaderViewModel
@@ -62,7 +69,13 @@ class MainActivity : ComponentActivity() {
         this.initNfcHandle(nfcHandle)
         setContent {
 //            MainView(viewModel.state) { viewModel.onInputEvent(it) }
-            TestView(viewModel.state) { viewModel.onInputEvent(it) }
+            TestView(
+                PokeballRed,
+                PokeballWhite,
+                PokeballGrey,
+                ThemeDarkGrey,
+                state = viewModel.state,
+            ) { viewModel.onInputEvent(it) }
         }
     }
 
@@ -102,6 +115,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TestView(
+    tophalfColor: Color,
+    bottomHalfColor: Color,
+    backgroundColor: Color,
+    uiColor: Color,
     state: LeaderState,
     onInputEvent: (InputEvent) -> Unit,
 ) {
@@ -116,13 +133,13 @@ fun TestView(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
-                .background(Color.Cyan)
+                .height(130.dp)
+                .background(bottomHalfColor)
         )
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
-            .border(5.dp, Color.Magenta)
+            .background(backgroundColor)
             .onGloballyPositioned { coordinates ->
                 yDelta = with(localDensity) { coordinates.size.height.toDp() }
             }
@@ -131,45 +148,70 @@ fun TestView(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .background(Color.Cyan)
+                .background(bottomHalfColor)
         )
     }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .animateContentSize()
-            .height(150.dp + if (state.isWritingNfc) yDelta else 0.dp)
-            .background(Color.Red)
+            .height(130.dp + if (state.isWritingNfc) yDelta else 0.dp)
+            .background(tophalfColor)
     )
     Box(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier
-            .size(100.dp)
-            .align(Alignment.BottomCenter)
             .offset(y = (-50).dp)
-            .border(5.dp, Color.Blue)
+            .align(Alignment.BottomCenter)
+            .size(120.dp)
+            .clip(CircleShape)
+            .background(uiColor)
             .clickable {
                 onInputEvent(InputEvent.ToggleNfcWriteMode)
             }
-        )
+        ) {
+            Box(modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize()
+                .padding(16.dp)
+                .clip(CircleShape)
+                .background(backgroundColor)
+            )
+        }
     }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .animateContentSize()
-            .height(200.dp + if (state.isWritingNfc) yDelta else 0.dp)
-            .border(5.dp, Color.Yellow)
+            .height(180.dp + if (state.isWritingNfc) yDelta else 0.dp)
     ) {
-        Box(modifier = Modifier
-            .size(100.dp)
-            .align(Alignment.BottomCenter)
-            .zIndex(3f)
-            .border(5.dp, Color.Green)
-        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .size(120.dp)
+                .clip(CircleShape)
+                .zIndex(3f)
+                .background(backgroundColor)
+        ) {
+            Box(modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize()
+                .padding(16.dp)
+                .clip(CircleShape)
+                .background(bottomHalfColor)
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 fun TestViewPreview() {
-    TestView(state = LeaderState(), onInputEvent = {})
+    TestView(
+        PokeballRed,
+        PokeballWhite,
+        PokeballGrey,
+        ThemeDarkGrey,
+        state = LeaderState(),
+        onInputEvent = {}
+    )
 }
