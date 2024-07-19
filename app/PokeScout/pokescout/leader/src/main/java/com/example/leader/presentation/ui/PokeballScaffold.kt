@@ -92,7 +92,7 @@ fun PokeballScaffold(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(bottomHalfHeight)
-                .background(bottomHalfColor)
+//                .background(bottomHalfColor)
         )
     }
 
@@ -103,6 +103,7 @@ fun PokeballScaffold(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(0.dp)
                 .weight(1f)
                 .background(tophalfColor)
         )
@@ -123,6 +124,20 @@ fun PokeballScaffold(
         )
     }
 
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        PokeballButton(
+            circleColor = uiColor,
+            ringColor = backgroundColor,
+            buttonSize = buttonSize,
+            modifier = Modifier
+                .offset(y = buttonSize / 2 - bottomHalfHeight)
+                .align(Alignment.BottomCenter)
+                .zIndex(1f)
+        ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
+    }
+
     Column {
         Box(
             modifier = Modifier
@@ -132,56 +147,17 @@ fun PokeballScaffold(
                 .height(if (state.isWritingNfc) yDelta else 0.dp)
         )
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
         ) {
             PokeballButton(
                 bottomHalfColor,
                 backgroundColor,
-                120.dp,
-                Modifier.align(Alignment.BottomCenter).offset(y = buttonSize/2)
+                buttonSize,
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .zIndex(2f)
+                    .offset(y = topHalfHeight - buttonSize/2)
             ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
-        }
-    }
-
-
-    return
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .animateContentSize()
-//            .height(topHalfHeight + if (state.isWritingNfc) yDelta else 0.dp)
-//            .background(tophalfColor)
-//    )
-    Box(modifier = Modifier.fillMaxSize()) {
-//        PokeballButton(
-//            circleColor = uiColor,
-//            ringColor = backgroundColor,
-//            buttonSize = buttonSize,
-//            modifier = Modifier
-//                .offset(y = buttonSize / 2 - bottomHalfHeight)
-//                .align(Alignment.BottomCenter)
-//        ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(topHalfHeight + buttonSize / 2 + if (state.isWritingNfc) yDelta else 0.dp)
-            .animateContentSize()
-    ) {
-
-    }
-
-    return
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(if (state.isWritingNfc) yDelta else 0.dp)
-            )
-            GreatballStripes()
         }
     }
 }
