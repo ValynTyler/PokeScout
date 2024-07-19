@@ -57,6 +57,8 @@ object NfcWriter {
                 Result.Ok(Unit)
             } catch (e: Exception) {
                 Result.Err(NfcWriteError.FailedToWriteError(e))
+            } finally {
+                ndef.close()
             }
         } else {
             Result.Err(NfcWriteError.NotNdefCompatibleError)

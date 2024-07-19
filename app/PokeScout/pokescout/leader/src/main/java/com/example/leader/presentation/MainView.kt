@@ -22,7 +22,7 @@ fun MainView(
 ) {
     PokeScoutTheme {
         PokeballScaffold(
-            isClosed = state.isWritingNfc,
+            isClosed = state.isWritingNfc && !state.isLoading,
             tophalfColor = GreatballBlue,
             bottomHalfColor = PokeballWhite,
             PokeballGrey,

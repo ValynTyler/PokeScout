@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                if (viewModel.state.isWritingNfc) {
+                if (viewModel.state.isWritingNfc && !viewModel.state.isLoading) {
                     when (val nfcDataResult = viewModel.state.toPokemonNfcData()) {
                         is Result.Err -> printError(
                             "NFC writer",

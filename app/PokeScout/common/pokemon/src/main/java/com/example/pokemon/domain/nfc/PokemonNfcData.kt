@@ -115,10 +115,10 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
                 NfcId.SPECIES -> species = text.toIntOrNull()
                 NfcId.EVOLUTION_CHAIN -> evolutionChain = text.toIntOrNull()
                 NfcId.GYM_PROGRESS -> gymBadges = text.toDeserializedBooleanArray()
-                NfcId.DAY_1_POINTS -> dailyPoints[0] = text.toInt()
-                NfcId.DAY_2_POINTS -> dailyPoints[1] = text.toInt()
-                NfcId.DAY_3_POINTS -> dailyPoints[2] = text.toInt()
-                NfcId.DAY_4_POINTS -> dailyPoints[3] = text.toInt()
+                NfcId.DAY_1_POINTS -> dailyPoints[0] = text.toInt().or(0)
+                NfcId.DAY_2_POINTS -> dailyPoints[1] = text.toInt().or(0)
+                NfcId.DAY_3_POINTS -> dailyPoints[2] = text.toInt().or(0)
+                NfcId.DAY_4_POINTS -> dailyPoints[3] = text.toInt().or(0)
             }
         }
     }
