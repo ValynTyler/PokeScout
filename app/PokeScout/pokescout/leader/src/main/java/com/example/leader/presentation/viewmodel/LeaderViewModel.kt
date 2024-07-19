@@ -31,7 +31,7 @@ class LeaderViewModel @Inject constructor(
             is InputEvent.PokemonIdChange -> {
                 val id = event.newId.replace("\n", "").toIntOrNull()
                 if (id == null) {
-                    state
+                    state.copy(pokemonIdField = "")
                 } else if (id > 1025 || id <= 0) {
                     state
                 } else {

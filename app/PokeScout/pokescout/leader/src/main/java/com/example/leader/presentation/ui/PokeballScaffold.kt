@@ -118,22 +118,6 @@ fun PokeballScaffold(
             .animateContentSize()
             .height(180.dp + if (state.isWritingNfc) yDelta else 0.dp)
     ) {
-        Box(modifier = Modifier
-            .align(Alignment.TopStart)
-            .offset(y = (-125).dp)
-            .height(200.dp)
-            .width(75.dp)
-            .rotate(-30f)
-            .background(color = PokeballRed)
-        )
-        Box(modifier = Modifier
-            .align(Alignment.TopEnd)
-            .offset(y = (-125).dp)
-            .height(200.dp)
-            .width(75.dp)
-            .rotate(30f)
-            .background(color = PokeballRed)
-        )
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -149,6 +133,38 @@ fun PokeballScaffold(
                 .clip(CircleShape)
                 .background(bottomHalfColor)
             )
+        }
+    }
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(if (state.isWritingNfc) yDelta else 0.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .height(200.dp)
+                    .fillMaxWidth()
+            ) {
+                Box(modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .offset(y = (-125).dp, x = (-25).dp)
+                    .height(400.dp)
+                    .width(75.dp)
+                    .rotate(330f)
+                    .background(color = PokeballRed)
+                )
+                Box(modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .offset(y = (-125).dp, x = 25.dp)
+                    .height(400.dp)
+                    .width(75.dp)
+                    .rotate(-330f)
+                    .background(color = PokeballRed)
+                )
+            }
         }
     }
 }
