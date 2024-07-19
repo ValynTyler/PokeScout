@@ -25,18 +25,11 @@ class LeaderViewModel @Inject constructor(
 
     fun onInputEvent(event: InputEvent) {
         state = when (event) {
-            is InputEvent.ToggleNfcWriteMode -> state.copy(isWritingNfc = !state.isWritingNfc)
-            is InputEvent.GroupDropdownSelectionChange -> state.copy(groupDropdownSelection = event.newGroup)
-            is InputEvent.TrainerNameChange -> state.copy(trainerNameField = event.newName)
-            is InputEvent.PokemonIdChange -> {
-                val id = event.newId.replace("\n", "").toIntOrNull()
-                if (id == null) {
-                    state.copy(pokemonIdField = "")
-                } else if (id > 1025 || id <= 0) {
-                    state
-                } else {
+            is InputEvent.ToggleNfcWriteMode -> {
+                if (!state.isWritingNfc) {
                     state = state.copy(isLoading = true)
                     viewModelScope.launch {
+                        val id = state.pokemonIdField.toInt()
                         val speciesOption = when (val speciesResult = repository.getSpeciesById(id)) {
                             is Result.Err -> {
                                 Log.e("Pokemon API ERROR", speciesResult.error.message.toString())
@@ -58,13 +51,27 @@ class LeaderViewModel @Inject constructor(
                         }
 
                         state = state.copy(
+                            isLoading = false,
                             currentSpecies = speciesOption,
                             currentEvolutionChain = evolutionChainOption,
                         )
                     }
+                    state.copy(isWritingNfc = true)
+                } else {
+                    state.copy(isWritingNfc = false)
+                }
+            }
+            is InputEvent.GroupDropdownSelectionChange -> state.copy(groupDropdownSelection = event.newGroup)
+            is InputEvent.TrainerNameChange -> state.copy(trainerNameField = event.newName)
+            is InputEvent.PokemonIdChange -> {
+                val id = event.newId.replace("\n", "").toIntOrNull()
+                if (id == null) {
+                    state.copy(pokemonIdField = "")
+                } else if (id > 1025 || id <= 0) {
+                    state
+                } else {
                     state.copy(
-                        isLoading = false,
-                        pokemonIdField = event.newId,
+                        pokemonIdField = id.toString(),
                     )
                 }
             }

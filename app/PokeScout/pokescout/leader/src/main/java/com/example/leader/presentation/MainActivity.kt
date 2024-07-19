@@ -17,6 +17,7 @@ import com.example.nfc.initNfcHandle
 import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
 import com.example.nfc.service.NfcWriter
+import com.example.option.Option
 import com.example.pokemon.domain.nfc.toNdefMessage
 import com.example.result.Result
 import dagger.hilt.android.AndroidEntryPoint
