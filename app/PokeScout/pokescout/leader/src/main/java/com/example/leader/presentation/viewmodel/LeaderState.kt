@@ -41,7 +41,7 @@ fun LeaderState.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
 
     return Result.Ok(PokemonNfcData(
         trainerGroup = this.groupDropdownSelection.toString(),
-        trainerName = this.trainerNameField,
+        trainerName = this.trainerNameField.trim(),
         speciesId = speciesId,
         evolutionChainId = chainId,
     ))

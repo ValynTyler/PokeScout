@@ -28,7 +28,28 @@ val Typography = Typography(
         fontSize = 8.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+    labelMedium = TextStyle(
+        fontFamily = pokefontPixel,
+        fontWeight = FontWeight.Normal,
+        fontSize = 8.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = pokefontPixel,
+        fontWeight = FontWeight.Normal,
+        fontSize = 8.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = pokefontPixel,
+        fontWeight = FontWeight.Normal,
+        fontSize = 8.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,

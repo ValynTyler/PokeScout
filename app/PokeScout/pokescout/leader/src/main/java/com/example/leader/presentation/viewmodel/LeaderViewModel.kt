@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.leader.presentation.events.InputEvent
 import com.example.option.Option
-import com.example.pokemon.domain.model.evolution.EvolutionChain
-import com.example.pokemon.domain.model.species.PokemonSpecies
 import com.example.pokemon.domain.repository.PokemonRepository
 import com.example.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,22 +27,27 @@ class LeaderViewModel @Inject constructor(
                 if (!state.isWritingNfc) {
                     state = state.copy(isLoading = true)
                     viewModelScope.launch {
-                        val idNullable = state.pokemonIdField.toIntOrNull()
-                        val id = if (idNullable == null) 0 else idNullable
-                        val speciesOption = when (val speciesResult = repository.getSpeciesById(id)) {
-                            is Result.Err -> {
-                                Log.e("Pokemon API ERROR", speciesResult.error.message.toString())
-                                Option.None(Unit)
+                        val id = state.pokemonIdField.toIntOrNull() ?: 0
+                        val speciesOption =
+                            when (val speciesResult = repository.getSpeciesById(id)) {
+                                is Result.Err -> {
+                                    Log.e(
+                                        "Pokemon API ERROR",
+                                        speciesResult.error.message.toString()
+                                    )
+                                    Option.None(Unit)
+                                }
+
+                                is Result.Ok -> {
+                                    Option.Some(speciesResult.value)
+                                }
                             }
-                            is Result.Ok -> {
-                                Option.Some(speciesResult.value)
-                            }
-                        }
 
                         val evolutionChainOption = when (speciesOption) {
                             is Option.None -> Option.None(Unit)
                             is Option.Some -> {
-                                when (val evolutionChainResult = repository.getEvolutionChainById(speciesOption.value.evolutionChainId)) {
+                                when (val evolutionChainResult =
+                                    repository.getEvolutionChainById(speciesOption.value.evolutionChainId)) {
                                     is Result.Err -> Option.None(Unit)
                                     is Result.Ok -> Option.Some(evolutionChainResult.value)
                                 }
@@ -63,7 +66,7 @@ class LeaderViewModel @Inject constructor(
                 }
             }
             is InputEvent.GroupDropdownSelectionChange -> state.copy(groupDropdownSelection = event.newGroup)
-            is InputEvent.TrainerNameChange -> state.copy(trainerNameField = event.newName)
+            is InputEvent.TrainerNameChange -> state.copy(trainerNameField = event.newName.replace("\n", ""))
             is InputEvent.PokemonIdChange -> {
                 val id = event.newId.replace("\n", "").toIntOrNull()
                 if (id == null) {

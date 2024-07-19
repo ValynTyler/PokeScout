@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.compose.theme.pokefontPixel
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.pokemon.domain.model.GroupType
@@ -72,7 +73,7 @@ fun InitScreen(
                         readOnly = true,
                         value = state.groupDropdownSelection.toString(),
                         onValueChange = {},
-                        label = { Text(text = "Group") },
+                        label = { Text(fontFamily = pokefontPixel, text = "Group") },
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                         },
@@ -86,7 +87,7 @@ fun InitScreen(
                         expanded = expanded,
                         onDismissRequest = { expanded = false }) {
                         DropdownMenuItem(
-                            text = { Text(text = "Beginner") },
+                            text = { Text(fontFamily = pokefontPixel, text = "Beginner") },
                             onClick = {
                                 expanded = false
                                 onInputEvent(
@@ -97,7 +98,7 @@ fun InitScreen(
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text(text = "Intermediate") },
+                            text = { Text(fontFamily = pokefontPixel, text = "Intermediate") },
                             onClick = {
                                 expanded = false
                                 onInputEvent(
@@ -118,7 +119,6 @@ fun InitScreen(
                                 )
                             }
                         )
-                        Spacer(modifier = Modifier.height(80.dp))
                     }
                 }
             }
