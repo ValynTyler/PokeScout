@@ -55,95 +55,7 @@ fun MainView(
             onInputEvent = onInputEvent
         ) {
             if (!state.isWritingNfc) {
-                Column(
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    OptionCard(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp)
-                    ) {
-                        Column {
-                            Spacer(modifier = Modifier.height(80.dp))
-                            TextField(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth(),
-                                value = state.trainerNameField,
-                                label = { Text("Trainer name") },
-                                onValueChange = { onInputEvent(InputEvent.TrainerNameChange(it)) }
-                            )
-                            TextField(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth(),
-                                value = state.pokemonIdField,
-                                label = { Text("Pokemon ID") },
-                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                                onValueChange = { onInputEvent(InputEvent.PokemonIdChange(it)) }
-                            )
-                            var expanded by remember { mutableStateOf(false) }
-                            ExposedDropdownMenuBox(
-                                expanded = expanded,
-                                onExpandedChange = { expanded = !expanded },
-                                modifier = Modifier.padding(8.dp)
-                            ) {
-                                OutlinedTextField(
-                                    readOnly = true,
-                                    value = state.groupDropdownSelection.toString(),
-                                    onValueChange = {},
-                                    label = { Text(text = "Group") },
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                                    },
-                                    colors = OutlinedTextFieldDefaults.colors(),
-                                    modifier = Modifier
-                                        .menuAnchor()
-                                        .fillMaxWidth()
-                                )
 
-                                ExposedDropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }) {
-                                    DropdownMenuItem(
-                                        text = { Text(text = "Beginner") },
-                                        onClick = {
-                                            expanded = false
-                                            onInputEvent(
-                                                InputEvent.GroupDropdownSelectionChange(
-                                                    GroupType.Beginner
-                                                )
-                                            )
-                                        }
-                                    )
-                                    DropdownMenuItem(
-                                        text = { Text(text = "Intermediate") },
-                                        onClick = {
-                                            expanded = false
-                                            onInputEvent(
-                                                InputEvent.GroupDropdownSelectionChange(
-                                                    GroupType.Intermediate
-                                                )
-                                            )
-                                        }
-                                    )
-                                    DropdownMenuItem(
-                                        text = { Text(text = "Advanced") },
-                                        onClick = {
-                                            expanded = false
-                                            onInputEvent(
-                                                InputEvent.GroupDropdownSelectionChange(
-                                                    GroupType.Advanced
-                                                )
-                                            )
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(80.dp))
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -154,7 +66,7 @@ fun MainView(
 fun MainViewPreview() {
     MainView(
         LeaderState(
-            isWritingNfc = true
+            isWritingNfc = false
         )
     )
 }
