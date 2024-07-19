@@ -41,6 +41,7 @@ fun PokeballScaffold(
     topHalfHeight: Dp = 130.dp,
     bottomHalfHeight: Dp = 100.dp,
     onClicked: () -> Unit = {},
+    pokeballDecoration: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
     var yDelta by remember { mutableStateOf(0.dp) }
@@ -157,7 +158,7 @@ fun PokeballScaffold(
                 .animateContentSize()
                 .height(if (isClosed) yDelta else 0.dp)
         )
-//        GreatballStripes()
+        pokeballDecoration()
     }
 }
 

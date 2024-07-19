@@ -9,13 +9,14 @@ import coil.compose.AsyncImage
 
 @Composable
 fun PokemonImage(
-    id: Int
+    id: Int,
+    modifier: Modifier = Modifier,
 ) {
     AsyncImage(
         model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png",
         contentDescription = null,
         contentScale = ContentScale.FillWidth,
         filterQuality = FilterQuality.None,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     )
 }

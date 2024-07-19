@@ -44,7 +44,7 @@ class LeaderViewModel @Inject constructor(
                         val evolutionChainOption = when (speciesOption) {
                             is Option.None -> Option.None(Unit)
                             is Option.Some -> {
-                                when (val evolutionChainResult = repository.getEvolutionChainById(speciesOption.value.id)) {
+                                when (val evolutionChainResult = repository.getEvolutionChainById(speciesOption.value.evolutionChainId)) {
                                     is Result.Err -> Option.None(Unit)
                                     is Result.Ok -> Option.Some(evolutionChainResult.value)
                                 }

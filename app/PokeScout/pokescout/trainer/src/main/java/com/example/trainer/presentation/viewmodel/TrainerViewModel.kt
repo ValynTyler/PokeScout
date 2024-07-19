@@ -23,6 +23,10 @@ class TrainerViewModel @Inject constructor(
     var state by mutableStateOf(TrainerState())
         private set
 
+    fun onClicked() {
+        state = state.copy(isOpen = !state.isOpen)
+    }
+
     fun readNfcData(data: PokemonNfcData) {
         state = state.copy(
             nfcData = data
