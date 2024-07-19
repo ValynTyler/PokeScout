@@ -15,8 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.compose.theme.PokeballGrey
+import com.example.compose.theme.PokeballRed
+import com.example.compose.theme.PokeballWhite
+import com.example.compose.theme.ThemeDarkGrey
+import com.example.leader.presentation.viewmodel.LeaderState
 
 @Composable
 fun PokeballButton(
@@ -48,5 +54,20 @@ fun PokeballButton(
                     .clickable(enabled = clickable) { onClick() }
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun PokeballScaffoldPreview() {
+    PokeballScaffold(
+        PokeballRed,
+        PokeballWhite,
+        PokeballGrey,
+        ThemeDarkGrey,
+        state = LeaderState(),
+        onInputEvent = {},
+    ) {
+
     }
 }

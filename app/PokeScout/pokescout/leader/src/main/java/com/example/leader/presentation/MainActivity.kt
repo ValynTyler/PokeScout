@@ -44,6 +44,8 @@ import com.example.compose.theme.PokeballRed
 import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
 import com.example.leader.presentation.events.InputEvent
+import com.example.leader.presentation.ui.PokeballScaffold
+import com.example.leader.presentation.ui.PokeballScaffoldPreview
 import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.leader.presentation.viewmodel.LeaderViewModel
 import com.example.leader.presentation.viewmodel.toPokemonNfcData
@@ -68,14 +70,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         this.initNfcHandle(nfcHandle)
         setContent {
-//            MainView(viewModel.state) { viewModel.onInputEvent(it) }
-            TestView(
-                PokeballRed,
-                PokeballWhite,
-                PokeballGrey,
-                ThemeDarkGrey,
-                state = viewModel.state,
-            ) { viewModel.onInputEvent(it) }
+            MainView(viewModel.state) { viewModel.onInputEvent(it) }
         }
     }
 
@@ -111,107 +106,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun TestView(
-    tophalfColor: Color,
-    bottomHalfColor: Color,
-    backgroundColor: Color,
-    uiColor: Color,
-    state: LeaderState,
-    onInputEvent: (InputEvent) -> Unit,
-) {
-    var yDelta by remember { mutableStateOf(0.dp) }
-    Column(
-        verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxSize()
-
-    ) {
-        val localDensity = LocalDensity.current
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp)
-                .background(bottomHalfColor)
-        )
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .background(backgroundColor)
-            .onGloballyPositioned { coordinates ->
-                yDelta = with(localDensity) { coordinates.size.height.toDp() }
-            }
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(bottomHalfColor)
-        )
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize()
-            .height(130.dp + if (state.isWritingNfc) yDelta else 0.dp)
-            .background(tophalfColor)
-    )
-    Box(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier
-            .offset(y = (-50).dp)
-            .align(Alignment.BottomCenter)
-            .size(120.dp)
-            .clip(CircleShape)
-            .background(uiColor)
-            .clickable {
-                onInputEvent(InputEvent.ToggleNfcWriteMode)
-            }
-        ) {
-            Box(modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize()
-                .padding(16.dp)
-                .clip(CircleShape)
-                .background(backgroundColor)
-            )
-        }
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize()
-            .height(180.dp + if (state.isWritingNfc) yDelta else 0.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .size(120.dp)
-                .clip(CircleShape)
-                .zIndex(3f)
-                .background(backgroundColor)
-        ) {
-            Box(modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize()
-                .padding(16.dp)
-                .clip(CircleShape)
-                .background(bottomHalfColor)
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun TestViewPreview() {
-    TestView(
-        PokeballRed,
-        PokeballWhite,
-        PokeballGrey,
-        ThemeDarkGrey,
-        state = LeaderState(),
-        onInputEvent = {}
-    )
 }
