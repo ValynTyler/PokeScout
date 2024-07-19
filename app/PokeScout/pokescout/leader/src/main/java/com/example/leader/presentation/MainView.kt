@@ -13,7 +13,6 @@ import com.example.leader.presentation.screens.InitScreen
 import com.example.leader.presentation.ui.PokeballScaffold
 import com.example.leader.presentation.viewmodel.LeaderState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView(
     state: LeaderState,

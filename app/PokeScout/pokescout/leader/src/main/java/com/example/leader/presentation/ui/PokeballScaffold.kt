@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +40,7 @@ import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.viewmodel.LeaderState
+import androidx.compose.ui.platform.LocalDensity
 
 @Composable
 fun PokeballScaffold(
@@ -59,12 +62,14 @@ fun PokeballScaffold(
             .fillMaxSize()
     ) {
         val localDensity = LocalDensity.current
+        // Top pokeball half
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(topHalfHeight)
                 .border(5.dp, uiColor)
         )
+        // Content
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
@@ -82,6 +87,7 @@ fun PokeballScaffold(
                 content()
             }
         }
+        // Bottom pokeball half
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,37 +95,83 @@ fun PokeballScaffold(
                 .background(bottomHalfColor)
         )
     }
-//    return
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize()
-            .height(topHalfHeight + if (state.isWritingNfc) yDelta else 0.dp)
-            .background(tophalfColor)
-    )
-    Box(modifier = Modifier.fillMaxSize()) {
-        PokeballButton(
-            circleColor = uiColor,
-            ringColor = backgroundColor,
-            buttonSize = buttonSize,
-            modifier = Modifier
-                .offset(y = buttonSize / 2 - bottomHalfHeight)
-                .align(Alignment.BottomCenter)
-        ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize()
-            .height(topHalfHeight + buttonSize / 2 + if (state.isWritingNfc) yDelta else 0.dp)
+
+    // Cover
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
-        PokeballButton(
-            bottomHalfColor,
-            backgroundColor,
-            120.dp,
-            Modifier.align(Alignment.BottomCenter)
-        ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .background(tophalfColor)
+        )
+        Box(
+            modifier = Modifier
+                .zIndex(1f)
+                .fillMaxWidth()
+                .animateContentSize()
+                .height(if (!state.isWritingNfc) yDelta else 0.dp)
+//                .background(Color.Yellow)
+        )
+        Box(
+            modifier = Modifier
+                .zIndex(1f)
+                .fillMaxWidth()
+                .height(bottomHalfHeight)
+//                .background(Color.Magenta)
+        )
     }
+
+    Column {
+        Box(
+            modifier = Modifier
+                .zIndex(1f)
+                .fillMaxWidth()
+                .animateContentSize()
+                .height(if (state.isWritingNfc) yDelta else 0.dp)
+        )
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PokeballButton(
+                bottomHalfColor,
+                backgroundColor,
+                120.dp,
+                Modifier.align(Alignment.BottomCenter).offset(y = buttonSize/2)
+            ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
+        }
+    }
+
+
+    return
+//    Box(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .animateContentSize()
+//            .height(topHalfHeight + if (state.isWritingNfc) yDelta else 0.dp)
+//            .background(tophalfColor)
+//    )
+    Box(modifier = Modifier.fillMaxSize()) {
+//        PokeballButton(
+//            circleColor = uiColor,
+//            ringColor = backgroundColor,
+//            buttonSize = buttonSize,
+//            modifier = Modifier
+//                .offset(y = buttonSize / 2 - bottomHalfHeight)
+//                .align(Alignment.BottomCenter)
+//        ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(topHalfHeight + buttonSize / 2 + if (state.isWritingNfc) yDelta else 0.dp)
+            .animateContentSize()
+    ) {
+
+    }
+
+    return
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -129,30 +181,7 @@ fun PokeballScaffold(
                     .fillMaxWidth()
                     .height(if (state.isWritingNfc) yDelta else 0.dp)
             )
-            Box(
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .offset(y = (-125).dp, x = (-25).dp)
-                        .height(400.dp)
-                        .width(75.dp)
-                        .rotate(330f)
-                        .background(color = PokeballRed)
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .offset(y = (-125).dp, x = 25.dp)
-                        .height(400.dp)
-                        .width(75.dp)
-                        .rotate(-330f)
-                        .background(color = PokeballRed)
-                )
-            }
+            GreatballStripes()
         }
     }
 }

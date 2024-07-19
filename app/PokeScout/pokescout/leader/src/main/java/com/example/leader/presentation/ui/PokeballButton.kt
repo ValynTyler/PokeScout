@@ -38,7 +38,6 @@ fun PokeballButton(
         modifier = modifier
             .size(buttonSize)
             .clip(CircleShape)
-            .zIndex(3f)
             .background(ringColor)
     ) {
         Box(
