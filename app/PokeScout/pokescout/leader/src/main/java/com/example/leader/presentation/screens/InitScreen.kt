@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -24,15 +25,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.leader.presentation.events.InputEvent
-import com.example.leader.presentation.ui.OptionCard
+import com.example.leader.presentation.ui.ScreenCard
+import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.pokemon.domain.model.GroupType
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InitScreen() {
+fun InitScreen(
+    state: LeaderState,
+    onInputEvent: (InputEvent) -> Unit = {},
+) {
     Column(
         verticalArrangement = Arrangement.Top
     ) {
-        OptionCard(
+        ScreenCard(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)

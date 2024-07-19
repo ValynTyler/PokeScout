@@ -98,7 +98,7 @@ fun PokeballScaffold(
             .align(Alignment.BottomCenter)
             .size(120.dp)
             .clip(CircleShape)
-            .background(uiColor)
+            .background(backgroundColor)
             .clickable {
                 onInputEvent(InputEvent.ToggleNfcWriteMode)
             }
@@ -108,7 +108,7 @@ fun PokeballScaffold(
                 .fillMaxSize()
                 .padding(16.dp)
                 .clip(CircleShape)
-                .background(backgroundColor)
+                .background(uiColor)
             )
         }
     }

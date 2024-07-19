@@ -29,7 +29,8 @@ class LeaderViewModel @Inject constructor(
                 if (!state.isWritingNfc) {
                     state = state.copy(isLoading = true)
                     viewModelScope.launch {
-                        val id = state.pokemonIdField.toInt()
+                        val idNullable = state.pokemonIdField.toIntOrNull()
+                        val id = if (idNullable == null) 0 else idNullable
                         val speciesOption = when (val speciesResult = repository.getSpeciesById(id)) {
                             is Result.Err -> {
                                 Log.e("Pokemon API ERROR", speciesResult.error.message.toString())

@@ -25,6 +25,10 @@ fun LeaderState.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
         return Result.Err(Exception("Invalid data: No name"))
     }
 
+    if (this.pokemonIdField == "") {
+        return Result.Err(Exception("Invalid data: no ID"))
+    }
+
     val speciesId = when (val speciesOption = this.currentSpecies) {
         is Option.None -> return Result.Err(Exception("Invalid data: No species data"))
         is Option.Some -> speciesOption.value.id
