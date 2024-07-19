@@ -28,6 +28,7 @@ import com.example.compose.theme.PokeScoutTheme
 import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
+import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.trainer.presentation.ui.BadgeDrawer
 import com.example.trainer.presentation.ui.PokeballButton
 import com.example.trainer.presentation.ui.PokeballTop
@@ -46,7 +47,7 @@ fun MainView(
             modifier = Modifier.fillMaxSize(),
         ) {
             ModalNavigationDrawer(
-                drawerContent = { BadgeDrawer() }
+                drawerContent = { BadgeDrawer(state) }
             ) {
                 Column(
                     verticalArrangement = Arrangement.SpaceBetween,
@@ -141,5 +142,7 @@ fun MainView(
 @Preview
 @Composable
 fun MainViewPreview() {
-    MainView(TrainerState())
+    MainView(TrainerState(
+        nfcData = PokemonNfcData(),
+    ))
 }

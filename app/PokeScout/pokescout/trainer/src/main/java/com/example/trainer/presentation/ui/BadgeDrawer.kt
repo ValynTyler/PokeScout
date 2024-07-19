@@ -25,14 +25,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.theme.PokeScoutTheme
 import com.example.trainer.R
+import com.example.trainer.presentation.viewmodel.TrainerState
 
 @Composable
 fun BadgeDrawer(
+    state: TrainerState,
     modifier: Modifier = Modifier,
 ) {
     ModalDrawerSheet {
         Text(
-            text = "Badges",
+            text = state.nfcData?.trainerGroup?.toString().orEmpty() + " group progress",
             modifier = Modifier
                 .padding(16.dp),
         )
@@ -70,6 +72,6 @@ fun BadgeDrawer(
 @Composable
 fun BadgeDrawerPreview() {
     PokeScoutTheme {
-        BadgeDrawer()
+        BadgeDrawer(TrainerState())
     }
 }

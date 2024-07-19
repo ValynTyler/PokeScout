@@ -1,6 +1,7 @@
 package com.example.leader.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.leader.presentation.events.InputEvent
-import com.example.leader.presentation.ui.ScreenCard
 import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.pokemon.domain.model.GroupType
 
@@ -38,7 +38,7 @@ fun InitScreen(
     Column(
         verticalArrangement = Arrangement.Top
     ) {
-        ScreenCard(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
