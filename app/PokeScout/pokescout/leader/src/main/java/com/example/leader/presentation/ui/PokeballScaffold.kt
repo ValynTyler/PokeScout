@@ -105,7 +105,7 @@ fun PokeballScaffold(
             modifier = Modifier
                 .offset(y = buttonSize / 2 - bottomHalfHeight)
                 .align(Alignment.BottomCenter)
-        )
+        ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
     }
     Box(
         modifier = Modifier

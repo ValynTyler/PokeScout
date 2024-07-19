@@ -23,6 +23,7 @@ import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballRed
 import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
+import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.viewmodel.LeaderState
 
 @Composable
@@ -47,6 +48,7 @@ fun PokeballButton(
                 .padding(16.dp)
                 .clip(CircleShape)
                 .background(circleColor)
+                .clickable { onClick() }
         )
     }
 }
