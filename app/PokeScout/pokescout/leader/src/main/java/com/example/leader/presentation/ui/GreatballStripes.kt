@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.theme.PokeballRed
 
+@Preview
 @Composable
 fun GreatballStripes(
     modifier: Modifier = Modifier,
@@ -28,7 +30,7 @@ fun GreatballStripes(
                 .offset(y = (-125).dp, x = (-25).dp)
                 .height(400.dp)
                 .width(75.dp)
-                .rotate(330f)
+                .rotate(-45f)
                 .background(color = PokeballRed)
         )
         Box(
@@ -37,7 +39,7 @@ fun GreatballStripes(
                 .offset(y = (-125).dp, x = 25.dp)
                 .height(400.dp)
                 .width(75.dp)
-                .rotate(-330f)
+                .rotate(45f)
                 .background(color = PokeballRed)
         )
     }

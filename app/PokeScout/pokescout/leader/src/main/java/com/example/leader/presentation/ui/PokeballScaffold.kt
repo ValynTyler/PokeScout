@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -156,9 +157,20 @@ fun PokeballScaffold(
                 Modifier
                     .align(Alignment.TopCenter)
                     .zIndex(2f)
-                    .offset(y = topHalfHeight - buttonSize/2)
+                    .offset(y = topHalfHeight - buttonSize / 2)
             ) { onInputEvent(InputEvent.ToggleNfcWriteMode) }
         }
+    }
+
+    Column {
+        Box(
+            modifier = Modifier
+                .zIndex(1f)
+                .fillMaxWidth()
+                .animateContentSize()
+                .height(if (state.isWritingNfc) yDelta else 0.dp)
+        )
+        GreatballStripes()
     }
 }
 
