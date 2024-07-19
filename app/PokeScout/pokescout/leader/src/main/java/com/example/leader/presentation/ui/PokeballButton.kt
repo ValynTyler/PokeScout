@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballRed
 import com.example.compose.theme.PokeballWhite
@@ -26,34 +27,27 @@ import com.example.leader.presentation.viewmodel.LeaderState
 
 @Composable
 fun PokeballButton(
-    outerRingColor: Color,
-    innerCircleColor: Color,
-    alignment: Alignment,
-    yOffset: Dp,
-    clickable: Boolean = false,
-    onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
+    circleColor: Color,
+    ringColor: Color,
+    buttonSize: Dp,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .size(buttonSize)
+            .clip(CircleShape)
+            .zIndex(3f)
+            .background(ringColor)
+    ) {
         Box(
             modifier = Modifier
-                .align(alignment)
-                .offset(y = yOffset)
-                .size(120.dp)
+                .align(Alignment.Center)
+                .fillMaxSize()
+                .padding(16.dp)
                 .clip(CircleShape)
-                .background(color = outerRingColor)
-                .onGloballyPositioned {  }
-        ) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .clip(CircleShape)
-                    .background(color = innerCircleColor)
-                    .clickable(enabled = clickable) { onClick() }
-            )
-        }
+                .background(circleColor)
+        )
     }
 }
 

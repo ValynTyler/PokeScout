@@ -21,8 +21,8 @@ fun MainView(
 ) {
     PokeScoutTheme {
         PokeballScaffold(
-            GreatballBlue,
-            PokeballWhite,
+            tophalfColor = GreatballBlue,
+            bottomHalfColor = PokeballWhite,
             PokeballGrey,
             ThemeDarkGrey,
             state = state,
