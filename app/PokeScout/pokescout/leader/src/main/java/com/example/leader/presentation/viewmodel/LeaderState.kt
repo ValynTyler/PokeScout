@@ -27,7 +27,6 @@ data class LeaderState(
     )
 
     data class GymScreenState(
-        val groupTypeSelection: GroupType = GroupType.Beginner,
         val gymIndexSelection: Int = 0,
     )
 

@@ -94,7 +94,28 @@ class MainActivity : ComponentActivity() {
                     }
 
                     LeaderScreenType.GymScreen -> {
+                        if (viewModel.state.isClosed) {
+                            val nfcDataResult: Result<PokemonNfcData, Exception> =
+                                if (viewModel.state.currentNfcData != null)
+                                    Result.Ok(viewModel.state.currentNfcData!!)
+                                else Result.Err(
+                                    Exception("ERROR: Null read tag data")
+                                )
+                            when (nfcDataResult) {
+                                is Result.Err -> printError(
+                                    "NFC writer",
+                                    nfcDataResult.error.message.toString()
+                                )
 
+                                is Result.Ok -> {
+                                    NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
+                                    printText("NFC writer", "Data written successfully!")
+                                }
+                            }
+                            viewModel.clearNfcData()
+                            viewModel.onInputEvent(InputEvent.TogglePokeball)
+                            viewModel.onInputEvent(InputEvent.SelectScreen(LeaderScreenType.ScanScreen))
+                        }
                     }
 
                     LeaderScreenType.ValorScreen -> {

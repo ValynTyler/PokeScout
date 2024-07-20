@@ -54,12 +54,6 @@ class LeaderViewModel @Inject constructor(
                 )
             )
 
-            is InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange -> state = state.copy(
-                gymScreenState = state.gymScreenState.copy(
-                    groupTypeSelection = event.newGroup
-                )
-            )
-
             is InputEvent.ScreenEvent.InitScreen.GroupDropdownSelectionChange -> state = state.copy(
                 infoScreenState = state.infoScreenState.copy(
                     groupTypeSelection = event.newGroup
@@ -136,7 +130,16 @@ class LeaderViewModel @Inject constructor(
             }
 
             LeaderScreenType.GymScreen -> {
-
+                if (state.currentNfcData != null) {
+                    val newBadges = state.currentNfcData!!.gymBadges.clone()
+                    newBadges[state.gymScreenState.gymIndexSelection] = true
+                    state = state.copy(
+                        currentNfcData = state.currentNfcData!!.copy(
+                            gymBadges = newBadges
+                        )
+                    )
+                }
+                state = state.copy(isClosed = !state.isClosed)
             }
 
             LeaderScreenType.ValorScreen -> {
@@ -157,11 +160,7 @@ class LeaderViewModel @Inject constructor(
 
             LeaderScreenType.LoadingScreen -> {}
             LeaderScreenType.SelectScreen -> {}
-            LeaderScreenType.ScanScreen -> {
-//                state = state.copy(
-//                    isClosed = !state.isClosed
-//                )
-            }
+            LeaderScreenType.ScanScreen -> {}
         }
     }
 }

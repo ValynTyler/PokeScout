@@ -29,6 +29,7 @@ import com.example.leader.presentation.ui.BackButton
 import com.example.leader.presentation.viewmodel.LeaderScreenType
 import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.pokemon.domain.model.GroupType
+import com.example.pokemon.domain.model.toGroupType
 import com.example.pokemon.gymNames
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,72 +59,7 @@ fun GymScreen(
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = when (state.gymScreenState.groupTypeSelection) {
-                        GroupType.Beginner -> "Lupisor"
-                        GroupType.Intermediate -> "Temerar"
-                        GroupType.Advanced -> "Explorator"
-                    },
-                    onValueChange = {},
-                    label = { Text(fontFamily = pokefontPixel, text = "Grupa de Varsta") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(),
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
-                )
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "Lupisor") },
-                        onClick = {
-                            expanded = false
-                            onInputEvent(
-                                InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange(
-                                    GroupType.Beginner
-                                )
-                            )
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "Temerar") },
-                        onClick = {
-                            expanded = false
-                            onInputEvent(
-                                InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange(
-                                    GroupType.Intermediate
-                                )
-                            )
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "Explorator") },
-                        onClick = {
-                            expanded = false
-                            onInputEvent(
-                                InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange(
-                                    GroupType.Advanced
-                                )
-                            )
-                        }
-                    )
-                }
-            }
-        }
-
-        Box {
-            var expanded by remember { mutableStateOf(false) }
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = !expanded },
-                modifier = Modifier.padding(16.dp)
-            ) {
-                OutlinedTextField(
-                    readOnly = true,
-                    value = gymNames(state.gymScreenState.groupTypeSelection)[state.gymScreenState.gymIndexSelection],
+                    value = gymNames(state.currentNfcData!!.trainerGroup.toGroupType())[state.gymScreenState.gymIndexSelection],
                     onValueChange = {},
                     label = { Text(fontFamily = pokefontPixel, text = "Grupa de Varsta") },
                     trailingIcon = {
@@ -139,7 +75,7 @@ fun GymScreen(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    val gymNames = gymNames(state.gymScreenState.groupTypeSelection)
+                    val gymNames = gymNames(state.currentNfcData.trainerGroup.toGroupType())
                     for (i in 0..<gymNames.size) {
                         DropdownMenuItem(
                             text = { Text(fontFamily = pokefontPixel, text = gymNames[i]) },
