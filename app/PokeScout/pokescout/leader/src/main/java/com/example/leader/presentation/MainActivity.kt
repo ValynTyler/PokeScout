@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import com.example.compose.printError
 import com.example.compose.printText
 import com.example.leader.presentation.events.InputEvent
+import com.example.leader.presentation.viewmodel.LeaderScreenType
 import com.example.leader.presentation.viewmodel.LeaderViewModel
 import com.example.leader.presentation.viewmodel.toPokemonNfcData
 import com.example.nfc.NfcHandle
@@ -17,7 +18,6 @@ import com.example.nfc.initNfcHandle
 import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
 import com.example.nfc.service.NfcWriter
-import com.example.option.Option
 import com.example.pokemon.domain.nfc.toNdefMessage
 import com.example.result.Result
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,19 +51,27 @@ class MainActivity : ComponentActivity() {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                if (viewModel.state.isWritingNfc && !viewModel.state.isLoading) {
-                    when (val nfcDataResult = viewModel.state.toPokemonNfcData()) {
-                        is Result.Err -> printError(
-                            "NFC writer",
-                            nfcDataResult.error.message.toString()
-                        )
+                when (val screen = viewModel.state.activeScreenType) {
+                    is LeaderScreenType.InitScreen -> {
+                        if (viewModel.state.isClosed) {
+                            when (val nfcDataResult = viewModel.state.infoScreenState.toPokemonNfcData()) {
+                                is Result.Err -> printError(
+                                    "NFC writer",
+                                    nfcDataResult.error.message.toString()
+                                )
 
-                        is Result.Ok -> {
-                            NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
-                            printText("NFC writer", "Data written successfully!")
+                                is Result.Ok -> {
+                                    NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
+                                    printText("NFC writer", "Data written successfully!")
+                                }
+                            }
+                            viewModel.onInputEvent(InputEvent.TogglePokeball)
                         }
                     }
-                    viewModel.onInputEvent(InputEvent.ToggleNfcWriteMode)
+                    LeaderScreenType.GymScreen -> TODO()
+                    LeaderScreenType.LoadingScreen -> TODO()
+                    LeaderScreenType.SelectScreen -> TODO()
+                    LeaderScreenType.ValorScreen -> TODO()
                 }
             }
         }

@@ -81,7 +81,7 @@ fun PokeballScaffold(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(bottomHalfHeight)
-//                .background(bottomHalfColor)
+                .background(bottomHalfColor)
         )
     }
 

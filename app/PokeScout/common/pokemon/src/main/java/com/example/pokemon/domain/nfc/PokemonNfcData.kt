@@ -120,10 +120,12 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
                 NfcId.DAY_3_POINTS -> dailyPoints[2] = text.toInt().or(0)
                 NfcId.DAY_4_POINTS -> dailyPoints[3] = text.toInt().or(0)
             }
+        } else {
+            return Result.Err(Exception("ERROR: non NDEF_TEXT data detected"))
         }
     }
 
-    return if (trainer != null && species != null && evolutionChain != null) {
+    return if (group != null && trainer != null && species != null && evolutionChain != null) {
         Result.Ok(
             PokemonNfcData(
                 group!!,
