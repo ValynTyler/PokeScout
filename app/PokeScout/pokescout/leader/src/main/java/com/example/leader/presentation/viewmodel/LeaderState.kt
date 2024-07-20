@@ -12,8 +12,7 @@ data class LeaderState(
     val activeScreenType: LeaderScreenType = LeaderScreenType.SelectScreen,
     val infoScreenState: InfoScreenState = InfoScreenState(),
     val gymScreenState: GymScreenState = GymScreenState(),
-//    val infoScreenState: InfoScreenState = InfoScreenState(),
-//    val infoScreenState: InfoScreenState = InfoScreenState(),
+    val valorScreenState: ValorScreenState = ValorScreenState(),
 ) {
     data class InfoScreenState(
         val trainerNameField: String = "",
@@ -27,6 +26,10 @@ data class LeaderState(
     data class GymScreenState(
         val groupTypeSelection: GroupType = GroupType.Beginner,
         val gymIndexSelection: Int = 0,
+    )
+
+    data class ValorScreenState(
+        val dayIndexSelection: Int = 0,
     )
 }
 

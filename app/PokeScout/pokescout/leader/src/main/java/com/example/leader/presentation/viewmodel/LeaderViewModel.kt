@@ -28,6 +28,12 @@ class LeaderViewModel @Inject constructor(
                 state = state.copy(activeScreenType = event.screen)
             }
 
+            is InputEvent.ScreenEvent.ValorScreen.DayIndexSelectionChange -> state = state.copy(
+                valorScreenState = state.valorScreenState.copy(
+                    dayIndexSelection = event.newIndex
+                )
+            )
+
             is InputEvent.ScreenEvent.GymScreen.GymIndexSelectionChange -> state = state.copy(
                 gymScreenState = state.gymScreenState.copy(
                     gymIndexSelection = event.newIndex

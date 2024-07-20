@@ -63,11 +63,7 @@ fun ValorScreen(
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = when (state.infoScreenState.groupTypeSelection) {
-                        GroupType.Beginner -> "Lupisor"
-                        GroupType.Intermediate -> "Temerar"
-                        GroupType.Advanced -> "Explorator"
-                    },
+                    value = "Ziua ${state.valorScreenState.dayIndexSelection + 1}",
                     onValueChange = {},
                     label = { Text(fontFamily = pokefontPixel, text = "ZI") },
                     trailingIcon = {
@@ -83,17 +79,17 @@ fun ValorScreen(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "Ziua 4") },
-                        onClick = {
-                            expanded = false
-                            onInputEvent(
-                                InputEvent.ScreenEvent.InitScreen.GroupDropdownSelectionChange(
-                                    GroupType.Advanced
+                    for (i in 0..<4) {
+                        DropdownMenuItem(
+                            text = { Text(fontFamily = pokefontPixel, text = "Ziua ${i + 1}") },
+                            onClick = {
+                                expanded = false
+                                onInputEvent(
+                                    InputEvent.ScreenEvent.ValorScreen.DayIndexSelectionChange(i)
                                 )
-                            )
-                        }
-                    )
+                            }
+                        )
+                    }
                 }
             }
         }

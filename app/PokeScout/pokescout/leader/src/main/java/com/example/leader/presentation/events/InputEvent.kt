@@ -17,5 +17,8 @@ sealed class InputEvent {
             data class GymIndexSelectionChange(val newIndex: Int) : InitScreen()
             data class GroupDropdownSelectionChange(val newGroup: GroupType) : InitScreen()
         }
+        sealed class ValorScreen : ScreenEvent() {
+            data class DayIndexSelectionChange(val newIndex: Int) : InitScreen()
+        }
     }
 }
