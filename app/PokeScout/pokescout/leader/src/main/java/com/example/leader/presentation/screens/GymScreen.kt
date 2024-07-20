@@ -1,10 +1,8 @@
 package com.example.leader.presentation.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,9 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,11 +27,14 @@ import com.example.compose.theme.pokefontPixel
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.ui.BackButton
 import com.example.leader.presentation.viewmodel.LeaderScreenType
+import com.example.leader.presentation.viewmodel.LeaderState
 import com.example.pokemon.domain.model.GroupType
+import com.example.pokemon.gymNames
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GymScreen(
+    state: LeaderState,
     onInputEvent: (InputEvent) -> Unit
 ) {
     Column {
@@ -55,13 +54,17 @@ fun GymScreen(
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = "asdf",
+                    value = when (state.gymScreenState.groupTypeSelection) {
+                        GroupType.Beginner -> "Lupisor"
+                        GroupType.Intermediate -> "Temerar"
+                        GroupType.Advanced -> "Explorator"
+                    },
                     onValueChange = {},
-                    label = { Text(fontFamily = pokefontPixel, text = "GRUPA DE VARSTA") },
+                    label = { Text(fontFamily = pokefontPixel, text = "Grupa de Varsta") },
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
@@ -75,34 +78,36 @@ fun GymScreen(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }) {
                     DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "LUPISORI") },
+                        text = { Text(fontFamily = pokefontPixel, text = "Lupisor") },
                         onClick = {
                             expanded = false
-                            // TODO
+                            onInputEvent(
+                                InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange(
+                                    GroupType.Beginner
+                                )
+                            )
                         }
                     )
-                }
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
                     DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "TEMERARI") },
+                        text = { Text(fontFamily = pokefontPixel, text = "Temerar") },
                         onClick = {
                             expanded = false
-                            // TODO
+                            onInputEvent(
+                                InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange(
+                                    GroupType.Intermediate
+                                )
+                            )
                         }
                     )
-                }
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
                     DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "EXPLORATORI") },
+                        text = { Text(fontFamily = pokefontPixel, text = "Explorator") },
                         onClick = {
                             expanded = false
-                            // TODO
+                            onInputEvent(
+                                InputEvent.ScreenEvent.GymScreen.GroupDropdownSelectionChange(
+                                    GroupType.Advanced
+                                )
+                            )
                         }
                     )
                 }
@@ -114,13 +119,13 @@ fun GymScreen(
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = "asdf",
+                    value = gymNames(state.gymScreenState.groupTypeSelection)[state.gymScreenState.gymIndexSelection],
                     onValueChange = {},
-                    label = { Text(fontFamily = pokefontPixel, text = "asdf") },
+                    label = { Text(fontFamily = pokefontPixel, text = "Grupa de Varsta") },
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
@@ -132,14 +137,20 @@ fun GymScreen(
 
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "Beginner") },
-                        onClick = {
-                            expanded = false
-                            // TODO
-                        }
-                    )
+                    onDismissRequest = { expanded = false }
+                ) {
+                    val gymNames = gymNames(state.gymScreenState.groupTypeSelection)
+                    for (i in 0..<gymNames.size) {
+                        DropdownMenuItem(
+                            text = { Text(fontFamily = pokefontPixel, text = gymNames[i]) },
+                            onClick = {
+                                expanded = false
+                                onInputEvent(
+                                    InputEvent.ScreenEvent.GymScreen.GymIndexSelectionChange(i)
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.example.leader.presentation.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,7 +54,7 @@ fun InitScreen(
                     .padding(16.dp)
             )
             Text(
-                text = "Intrare Date:", fontSize = 16.sp, color = PokeballWhite,
+                text = "Intrare Date", fontSize = 16.sp, color = PokeballWhite,
                 modifier = Modifier.padding(16.dp)
             )
             TextField(
@@ -83,6 +80,7 @@ fun InitScreen(
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 onValueChange = { onInputEvent(InputEvent.ScreenEvent.InitScreen.PokemonIdChange(it)) }
             )
+
             var expanded by remember { mutableStateOf(false) }
             ExposedDropdownMenuBox(
                 expanded = expanded,
@@ -91,7 +89,7 @@ fun InitScreen(
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = when (state.infoScreenState.groupDropdownSelection) {
+                    value = when (state.infoScreenState.groupTypeSelection) {
                         GroupType.Beginner -> "Lupisor"
                         GroupType.Intermediate -> "Temerar"
                         GroupType.Advanced -> "Explorator"

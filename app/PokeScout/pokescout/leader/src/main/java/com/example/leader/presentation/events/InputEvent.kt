@@ -13,5 +13,9 @@ sealed class InputEvent {
             data class PokemonIdChange(val newId: String) : InitScreen()
             data class GroupDropdownSelectionChange(val newGroup: GroupType) : InitScreen()
         }
+        sealed class GymScreen : ScreenEvent() {
+            data class GymIndexSelectionChange(val newIndex: Int) : InitScreen()
+            data class GroupDropdownSelectionChange(val newGroup: GroupType) : InitScreen()
+        }
     }
 }

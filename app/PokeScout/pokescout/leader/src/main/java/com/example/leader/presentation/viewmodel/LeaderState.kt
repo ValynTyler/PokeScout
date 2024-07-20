@@ -11,17 +11,22 @@ data class LeaderState(
     val isClosed: Boolean = false,
     val activeScreenType: LeaderScreenType = LeaderScreenType.SelectScreen,
     val infoScreenState: InfoScreenState = InfoScreenState(),
-//    val infoScreenState: InfoScreenState = InfoScreenState(),
+    val gymScreenState: GymScreenState = GymScreenState(),
 //    val infoScreenState: InfoScreenState = InfoScreenState(),
 //    val infoScreenState: InfoScreenState = InfoScreenState(),
 ) {
     data class InfoScreenState(
         val trainerNameField: String = "",
         val pokemonIdField: String = "",
-        val groupDropdownSelection: GroupType = GroupType.Beginner,
+        val groupTypeSelection: GroupType = GroupType.Beginner,
 
         val currentSpecies: Option<PokemonSpecies> = Option.None(Unit),
         val currentEvolutionChain: Option<EvolutionChain> = Option.None(Unit),
+    )
+
+    data class GymScreenState(
+        val groupTypeSelection: GroupType = GroupType.Beginner,
+        val gymIndexSelection: Int = 0,
     )
 }
 
@@ -45,7 +50,7 @@ fun LeaderState.InfoScreenState.toPokemonNfcData(): Result<PokemonNfcData, Excep
 
     return Result.Ok(
         PokemonNfcData(
-            trainerGroup = this.groupDropdownSelection.toString(),
+            trainerGroup = this.groupTypeSelection.toString(),
             trainerName = this.trainerNameField.trim(),
             speciesId = speciesId,
             evolutionChainId = chainId,

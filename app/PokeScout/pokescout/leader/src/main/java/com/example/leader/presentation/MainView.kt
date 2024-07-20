@@ -47,8 +47,8 @@ fun MainView(
                     )
                 }
                 LeaderScreenType.InitScreen -> InitScreen(state, onInputEvent)
-                LeaderScreenType.GymScreen -> GymScreen(onInputEvent)
-                LeaderScreenType.ValorScreen -> ValorScreen(onInputEvent)
+                LeaderScreenType.GymScreen -> GymScreen(state, onInputEvent)
+                LeaderScreenType.ValorScreen -> ValorScreen(state, onInputEvent)
                 LeaderScreenType.LoadingScreen -> LoadingScreen()
             }
         }

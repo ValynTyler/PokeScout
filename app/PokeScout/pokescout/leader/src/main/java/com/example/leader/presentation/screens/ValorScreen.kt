@@ -1,7 +1,5 @@
 package com.example.leader.presentation.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,10 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,11 +29,14 @@ import com.example.compose.theme.pokefontPixel
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.ui.BackButton
 import com.example.leader.presentation.viewmodel.LeaderScreenType
+import com.example.leader.presentation.viewmodel.LeaderState
+import com.example.pokemon.domain.model.GroupType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun ValorScreen(
+    state: LeaderState = LeaderState(),
     onInputEvent: (InputEvent) -> Unit = {}
 ) {
     Column(
@@ -52,7 +50,7 @@ fun ValorScreen(
         )
 
         Text(
-            text = "Valorificare:", fontSize = 16.sp, color = PokeballWhite,
+            text = "Valorificare", fontSize = 16.sp, color = PokeballWhite,
             modifier = Modifier.padding(16.dp)
         )
 
@@ -61,13 +59,17 @@ fun ValorScreen(
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = "asdf",
+                    value = when (state.infoScreenState.groupTypeSelection) {
+                        GroupType.Beginner -> "Lupisor"
+                        GroupType.Intermediate -> "Temerar"
+                        GroupType.Advanced -> "Explorator"
+                    },
                     onValueChange = {},
-                    label = { Text(fontFamily = pokefontPixel, text = "GRUPA DE VARSTA") },
+                    label = { Text(fontFamily = pokefontPixel, text = "ZI") },
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
@@ -79,36 +81,17 @@ fun ValorScreen(
 
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
+                    onDismissRequest = { expanded = false }
+                ) {
                     DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "LUPISORI") },
+                        text = { Text(fontFamily = pokefontPixel, text = "Ziua 4") },
                         onClick = {
                             expanded = false
-                            // TODO
-                        }
-                    )
-                }
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "TEMERARI") },
-                        onClick = {
-                            expanded = false
-                            // TODO
-                        }
-                    )
-                }
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }) {
-                    DropdownMenuItem(
-                        text = { Text(fontFamily = pokefontPixel, text = "EXPLORATORI") },
-                        onClick = {
-                            expanded = false
-                            // TODO
+                            onInputEvent(
+                                InputEvent.ScreenEvent.InitScreen.GroupDropdownSelectionChange(
+                                    GroupType.Advanced
+                                )
+                            )
                         }
                     )
                 }
