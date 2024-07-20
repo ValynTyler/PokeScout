@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.leader.presentation.events.InputEvent
 import com.example.option.Option
+import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.pokemon.domain.repository.PokemonRepository
 import com.example.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,19 @@ class LeaderViewModel @Inject constructor(
 ) : ViewModel() {
     var state by mutableStateOf(LeaderState())
         private set
+
+    fun updateNfcData(data: PokemonNfcData) {
+        state = state.copy(
+            currentNfcData = data
+        )
+        onInputEvent(InputEvent.SelectScreen(LeaderScreenType.SelectScreen))
+    }
+
+    fun clearNfcData() {
+        state = state.copy(
+            currentNfcData = null
+        )
+    }
 
     fun onInputEvent(event: InputEvent) {
         when (event) {
@@ -126,11 +140,28 @@ class LeaderViewModel @Inject constructor(
             }
 
             LeaderScreenType.ValorScreen -> {
-
+                if (state.currentNfcData != null) {
+                    val newDailyPoints = state.currentNfcData!!.dailyPoints.clone()
+                    val idx = state.valorScreenState.dayIndexSelection
+                    if (newDailyPoints[idx] < 4) {
+                        newDailyPoints[idx]++
+                    }
+                    state = state.copy(
+                        currentNfcData = state.currentNfcData!!.copy(
+                            dailyPoints = newDailyPoints
+                        )
+                    )
+                }
+                state = state.copy(isClosed = !state.isClosed)
             }
 
             LeaderScreenType.LoadingScreen -> {}
             LeaderScreenType.SelectScreen -> {}
+            LeaderScreenType.ScanScreen -> {
+//                state = state.copy(
+//                    isClosed = !state.isClosed
+//                )
+            }
         }
     }
 }

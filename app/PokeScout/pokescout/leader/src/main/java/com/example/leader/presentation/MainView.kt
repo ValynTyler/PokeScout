@@ -18,6 +18,7 @@ import com.example.leader.presentation.screens.GymScreen
 import com.example.leader.presentation.screens.InitScreen
 import com.example.leader.presentation.viewmodel.LeaderScreenType
 import com.example.leader.presentation.screens.LoadingScreen
+import com.example.leader.presentation.screens.ScanScreen
 import com.example.leader.presentation.screens.SelectScreen
 import com.example.leader.presentation.screens.ValorScreen
 import com.example.leader.presentation.ui.GreatballStripes
@@ -51,6 +52,7 @@ fun MainView(
                     LeaderScreenType.GymScreen -> GymScreen(state, onInputEvent)
                     LeaderScreenType.ValorScreen -> ValorScreen(state, onInputEvent)
                     LeaderScreenType.LoadingScreen -> LoadingScreen()
+                    LeaderScreenType.ScanScreen -> ScanScreen()
                 }
             }
         }

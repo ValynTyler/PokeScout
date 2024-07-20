@@ -17,8 +17,11 @@ import com.example.nfc.NfcHandle
 import com.example.nfc.initNfcHandle
 import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
+import com.example.nfc.service.NfcReader
 import com.example.nfc.service.NfcWriter
+import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.pokemon.domain.nfc.toNdefMessage
+import com.example.pokemon.domain.nfc.toPokemonNfcData
 import com.example.result.Result
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,9 +55,30 @@ class MainActivity : ComponentActivity() {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
                 when (val screen = viewModel.state.activeScreenType) {
-                    is LeaderScreenType.InitScreen -> {
+
+                    LeaderScreenType.ScanScreen -> {
+                        when (val result = NfcReader.readFromTag(it)) {
+                            is Result.Err -> printError("NFC reader", result.error.toString())
+                            is Result.Ok -> {
+                                when (val dataResult = result.value.toPokemonNfcData()) {
+                                    is Result.Err -> printError(
+                                        "NFC reader",
+                                        dataResult.error.message.toString()
+                                    )
+
+                                    is Result.Ok -> {
+                                        viewModel.updateNfcData(dataResult.value)
+                                        printText("NFC reader", "Data read successfully!")
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    LeaderScreenType.InitScreen -> {
                         if (viewModel.state.isClosed) {
-                            when (val nfcDataResult = viewModel.state.infoScreenState.toPokemonNfcData()) {
+                            when (val nfcDataResult =
+                                viewModel.state.infoScreenState.toPokemonNfcData()) {
                                 is Result.Err -> printError(
                                     "NFC writer",
                                     nfcDataResult.error.message.toString()
@@ -68,10 +92,38 @@ class MainActivity : ComponentActivity() {
                             viewModel.onInputEvent(InputEvent.TogglePokeball)
                         }
                     }
-                    LeaderScreenType.GymScreen -> TODO()
-                    LeaderScreenType.LoadingScreen -> TODO()
-                    LeaderScreenType.SelectScreen -> TODO()
-                    LeaderScreenType.ValorScreen -> TODO()
+
+                    LeaderScreenType.GymScreen -> {
+
+                    }
+
+                    LeaderScreenType.ValorScreen -> {
+                        if (viewModel.state.isClosed) {
+                            val nfcDataResult: Result<PokemonNfcData, Exception> =
+                                if (viewModel.state.currentNfcData != null)
+                                    Result.Ok(viewModel.state.currentNfcData!!)
+                                else Result.Err(
+                                    Exception("ERROR: Null read tag data")
+                                )
+                            when (nfcDataResult) {
+                                is Result.Err -> printError(
+                                    "NFC writer",
+                                    nfcDataResult.error.message.toString()
+                                )
+
+                                is Result.Ok -> {
+                                    NfcWriter.writeToTag(tag, nfcDataResult.value.toNdefMessage())
+                                    printText("NFC writer", "Data written successfully!")
+                                }
+                            }
+                            viewModel.clearNfcData()
+                            viewModel.onInputEvent(InputEvent.TogglePokeball)
+                            viewModel.onInputEvent(InputEvent.SelectScreen(LeaderScreenType.ScanScreen))
+                        }
+                    }
+
+                    LeaderScreenType.LoadingScreen -> {}
+                    LeaderScreenType.SelectScreen -> {}
                 }
             }
         }

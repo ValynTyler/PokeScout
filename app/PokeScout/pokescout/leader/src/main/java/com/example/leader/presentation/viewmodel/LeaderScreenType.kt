@@ -5,9 +5,10 @@ import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.result.Result
 
 sealed class LeaderScreenType {
-    data object InitScreen : LeaderScreenType()
+    data object ScanScreen : LeaderScreenType()
     data object SelectScreen : LeaderScreenType()
-    data object LoadingScreen : LeaderScreenType()
     data object GymScreen : LeaderScreenType()
     data object ValorScreen : LeaderScreenType()
+    data object InitScreen : LeaderScreenType()
+    data object LoadingScreen : LeaderScreenType()
 }

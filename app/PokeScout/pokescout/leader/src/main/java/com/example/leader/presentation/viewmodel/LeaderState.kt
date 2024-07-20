@@ -9,7 +9,10 @@ import com.example.result.Result
 
 data class LeaderState(
     val isClosed: Boolean = false,
-    val activeScreenType: LeaderScreenType = LeaderScreenType.SelectScreen,
+    val activeScreenType: LeaderScreenType = LeaderScreenType.ScanScreen,
+
+    val currentNfcData: PokemonNfcData? = null,
+
     val infoScreenState: InfoScreenState = InfoScreenState(),
     val gymScreenState: GymScreenState = GymScreenState(),
     val valorScreenState: ValorScreenState = ValorScreenState(),
