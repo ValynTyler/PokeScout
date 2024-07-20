@@ -43,11 +43,7 @@ fun MainView(
         ) {
             if (!state.isClosed) {
                 when (state.activeScreenType) {
-                    LeaderScreenType.SelectScreen -> SelectScreen() {
-                        onInputEvent(
-                            InputEvent.SelectScreen(it)
-                        )
-                    }
+                    LeaderScreenType.SelectScreen -> SelectScreen(onInputEvent)
                     LeaderScreenType.InitScreen -> InitScreen(state, onInputEvent)
                     LeaderScreenType.GymScreen -> GymScreen(state, onInputEvent)
                     LeaderScreenType.ValorScreen -> ValorScreen(state, onInputEvent)

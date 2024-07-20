@@ -19,12 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballWhite
+import com.example.leader.presentation.events.InputEvent
+import com.example.leader.presentation.ui.BackButton
 import com.example.leader.presentation.viewmodel.LeaderScreenType
+import com.example.leader.presentation.viewmodel.LeaderState
 
 @Preview
 @Composable
 fun SelectScreen(
-    onSelect: (LeaderScreenType) -> Unit = {},
+    onInputEvent: (InputEvent) -> Unit = {}
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -47,10 +50,13 @@ fun SelectScreen(
                     .height(120.dp)
                     .padding(16.dp)
                     .background(PokeballGrey)
-                    .clickable { onSelect(item.second) }
+                    .clickable { onInputEvent(InputEvent.SelectScreen(item.second)) }
             ) {
                 Text(text = item.first, color = PokeballWhite, modifier = Modifier.padding(16.dp))
             }
         }
+    }
+    BackButton() {
+        onInputEvent(InputEvent.SelectScreen(LeaderScreenType.ScanScreen))
     }
 }
