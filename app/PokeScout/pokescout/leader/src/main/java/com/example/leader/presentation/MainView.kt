@@ -40,16 +40,18 @@ fun MainView(
             onClicked = { onInputEvent(InputEvent.TogglePokeball) },
             pokeballDecoration = { GreatballStripes() }
         ) {
-            when (state.activeScreenType) {
-                LeaderScreenType.SelectScreen -> SelectScreen() {
-                    onInputEvent(
-                        InputEvent.SelectScreen(it)
-                    )
+            if (!state.isClosed) {
+                when (state.activeScreenType) {
+                    LeaderScreenType.SelectScreen -> SelectScreen() {
+                        onInputEvent(
+                            InputEvent.SelectScreen(it)
+                        )
+                    }
+                    LeaderScreenType.InitScreen -> InitScreen(state, onInputEvent)
+                    LeaderScreenType.GymScreen -> GymScreen(state, onInputEvent)
+                    LeaderScreenType.ValorScreen -> ValorScreen(state, onInputEvent)
+                    LeaderScreenType.LoadingScreen -> LoadingScreen()
                 }
-                LeaderScreenType.InitScreen -> InitScreen(state, onInputEvent)
-                LeaderScreenType.GymScreen -> GymScreen(state, onInputEvent)
-                LeaderScreenType.ValorScreen -> ValorScreen(state, onInputEvent)
-                LeaderScreenType.LoadingScreen -> LoadingScreen()
             }
         }
     }

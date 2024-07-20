@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballWhite
 import com.example.leader.presentation.viewmodel.LeaderScreenType
 
@@ -34,29 +35,22 @@ fun SelectScreen(
                 .height(60.dp)
                 .padding(16.dp)
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp)
-                .padding(16.dp)
-                .background(Color.Green)
-                .clickable { onSelect(LeaderScreenType.GymScreen) }
+        val cardNames = listOf(
+            Pair("Completare GYM", LeaderScreenType.GymScreen),
+            Pair("Valorificare Trainer", LeaderScreenType.ValorScreen),
+            Pair("Resetare date\n(PERMANENT)", LeaderScreenType.InitScreen)
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp)
-                .padding(16.dp)
-                .background(Color.Green)
-                .clickable { onSelect(LeaderScreenType.ValorScreen) }
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp)
-                .padding(16.dp)
-                .background(Color.Green)
-                .clickable { onSelect(LeaderScreenType.InitScreen) }
-        )
+        for (item in cardNames) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .padding(16.dp)
+                    .background(PokeballGrey)
+                    .clickable { onSelect(item.second) }
+            ) {
+                Text(text = item.first, color = PokeballWhite, modifier = Modifier.padding(16.dp))
+            }
+        }
     }
 }

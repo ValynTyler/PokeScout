@@ -76,9 +76,6 @@ class LeaderViewModel @Inject constructor(
     }
 
     private fun handleButtonPress() {
-        state = state.copy(
-            isClosed = !state.isClosed
-        )
         when (state.activeScreenType) {
             is LeaderScreenType.InitScreen -> {
                 state = state.copy(
@@ -113,6 +110,7 @@ class LeaderViewModel @Inject constructor(
                     }
 
                     state = state.copy(
+                        isClosed = !state.isClosed,
                         activeScreenType = LeaderScreenType.InitScreen,
                         infoScreenState = state.infoScreenState.copy(
                             currentSpecies = speciesOption,
