@@ -12,6 +12,8 @@ data class LeaderState(
     val activeScreenType: LeaderScreenType = LeaderScreenType.ScanScreen,
 
     val currentNfcData: PokemonNfcData? = null,
+    val currentSpecies: PokemonSpecies? = null,
+    val currentEvolutionChain: EvolutionChain? = null,
 
     val infoScreenState: InfoScreenState = InfoScreenState(),
     val gymScreenState: GymScreenState = GymScreenState(),

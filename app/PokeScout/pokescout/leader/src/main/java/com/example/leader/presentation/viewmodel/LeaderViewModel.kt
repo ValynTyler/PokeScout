@@ -24,15 +24,93 @@ class LeaderViewModel @Inject constructor(
 
     fun updateNfcData(data: PokemonNfcData) {
         state = state.copy(
-            currentNfcData = data
+            currentNfcData = data,
+            activeScreenType = LeaderScreenType.LoadingScreen
         )
-        onInputEvent(InputEvent.SelectScreen(LeaderScreenType.SelectScreen))
+
+        viewModelScope.launch {
+            viewModelScope.launch {
+                val species = when (val result = repository.getSpeciesById(state.currentNfcData!!.speciesId)) {
+                    is Result.Err -> throw Exception("API error")
+                    is Result.Ok -> result.value
+                }
+
+                val chain = when (val result = repository.getEvolutionChainById(species.evolutionChainId)) {
+                    is Result.Err -> throw Exception("API error")
+                    is Result.Ok -> result.value
+                }
+                state = state.copy(
+                    currentSpecies = species,
+                    currentEvolutionChain = chain,
+                    activeScreenType = LeaderScreenType.SelectScreen
+                )
+            }
+        }
     }
 
     fun clearNfcData() {
         state = state.copy(
-            currentNfcData = null
+            currentNfcData = null,
+            currentSpecies = null,
+            currentEvolutionChain = null,
         )
+    }
+
+    fun getCurrentStage(): Int? {
+        if (state.currentEvolutionChain == null) {
+            return null
+        }
+
+        var cnt = 0
+        var link = state.currentEvolutionChain!!.chainRoot
+
+        while (link.evolvesTo.isNotEmpty()) {
+            cnt++
+            link = link.evolvesTo[0]
+        }
+
+        return state.currentEvolutionChain!!.maxLength() - cnt
+    }
+
+    fun isShouldEvolve(): Boolean {
+        if (state.currentNfcData == null || state.currentEvolutionChain == null) {
+            return false
+        }
+
+        val currentStage = getCurrentStage()
+        return when (state.currentEvolutionChain!!.maxLength()) {
+            1 -> {
+                false
+            }
+            2 -> {
+                when (currentStage) {
+                    1 -> state.currentNfcData!!.xp() >= 600
+                    2 -> false
+                    else -> false
+                }
+            }
+            3 -> {
+                when (currentStage) {
+                    1 -> state.currentNfcData!!.xp() >= 400
+                    2 -> state.currentNfcData!!.xp() >= 600
+                    3 -> false
+                    else -> false
+                }
+            }
+            else -> false
+        }
+    }
+
+    fun checkXpThreshold() {
+        if (isShouldEvolve()) {
+            val nextId = when (val result = state.currentEvolutionChain!!.findLinkById(state.currentSpecies!!.id)) {
+                is Result.Err -> throw Exception()
+                is Result.Ok -> result.value.evolvesTo[0].species.id
+            }
+            state = state.copy(currentNfcData = state.currentNfcData!!.copy(
+                speciesId = nextId
+            ))
+        }
     }
 
     fun onInputEvent(event: InputEvent) {
@@ -140,6 +218,7 @@ class LeaderViewModel @Inject constructor(
                     )
                 }
                 state = state.copy(isClosed = !state.isClosed)
+                checkXpThreshold()
             }
 
             LeaderScreenType.ValorScreen -> {
@@ -156,6 +235,7 @@ class LeaderViewModel @Inject constructor(
                     )
                 }
                 state = state.copy(isClosed = !state.isClosed)
+                checkXpThreshold()
             }
 
             LeaderScreenType.LoadingScreen -> {}
