@@ -1,23 +1,22 @@
 package com.example.pokemon.domain.model.evolution
 
 import com.example.pokemon.domain.model.species.PokemonSpecies
-import com.example.result.Result
 
 data class ChainLink(
     val species: PokemonSpecies,
     val evolvesTo: List<ChainLink> = emptyList(),
 ) {
-    fun findByIdRecursive(id: Int): Result<ChainLink, Exception> {
+    fun findByIdRecursive(id: Int): Result<ChainLink> {
         if (this.species.id == id) {
-            return Result.Ok(this)
+            return Result.success(this)
         } else {
             this.evolvesTo.forEach {
                 val result = it.findByIdRecursive(id)
-                if (result is Result.Ok) {
+                if (result.isSuccess) {
                     return result
                 }
             }
         }
-        return Result.Err(Exception("ERROR: Could not find id $id in evolution chain"))
+        return Result.failure(Exception("ID $id not in evolution chain"))
     }
 }

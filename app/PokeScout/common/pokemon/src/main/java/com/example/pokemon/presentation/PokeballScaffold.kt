@@ -21,14 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.example.compose.theme.GreatballBlue
-import com.example.compose.theme.PokeballGrey
-import com.example.compose.theme.PokeballWhite
-import com.example.compose.theme.ThemeDarkGrey
 
 @Composable
 fun PokeballScaffold(
@@ -159,19 +154,5 @@ fun PokeballScaffold(
                 .height(if (isClosed) yDelta else 0.dp)
         )
         pokeballDecoration()
-    }
-}
-
-@Preview
-@Composable
-fun PokeScaffoldPreview() {
-    PokeballScaffold(
-        isClosed = false,
-        tophalfColor = GreatballBlue,
-        bottomHalfColor = PokeballWhite,
-        backgroundColor = PokeballGrey,
-        uiColor = ThemeDarkGrey,
-    ) {
-
     }
 }

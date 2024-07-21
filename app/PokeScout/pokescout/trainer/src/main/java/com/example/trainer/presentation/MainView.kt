@@ -1,6 +1,5 @@
 package com.example.trainer.presentation
 
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose.theme.PokeScoutTheme
@@ -8,32 +7,32 @@ import com.example.compose.theme.PokeballGrey
 import com.example.compose.theme.PokeballRed
 import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
-import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.pokemon.presentation.PokeballScaffold
-import com.example.trainer.presentation.screens.InfoScreen
-import com.example.trainer.presentation.ui.BadgeDrawer
-import com.example.trainer.presentation.viewmodel.TrainerState
+import com.example.trainer.presentation.state.Trainer
 
 @Composable
 fun MainView(
-    state: TrainerState,
-    onClicked: () -> Unit = {},
+    state: Trainer.State,
+    onClicked: () -> Unit,
 ) {
     PokeScoutTheme {
-        ModalNavigationDrawer(
-            drawerContent = { BadgeDrawer(state) }
-        ) {
-            PokeballScaffold(
-                isClosed = state.isOpen,
+        PokeballScaffold(
+                isClosed = state is Trainer.State.Closed,
                 tophalfColor = PokeballRed,
                 bottomHalfColor = PokeballWhite,
-                PokeballGrey,
-                ThemeDarkGrey,
+                backgroundColor = PokeballGrey,
+                uiColor = ThemeDarkGrey,
                 onClicked = onClicked,
             ) {
-                InfoScreen(state)
+                when (state) {
+                    Trainer.State.Closed -> {}
+                    is Trainer.State.Open -> when (state.apiData) {
+                        Trainer.ApiData.Error -> {}
+                        Trainer.ApiData.Loading -> {}
+                        is Trainer.ApiData.Success -> {}
+                    }
+                }
             }
-        }
     }
 }
 
@@ -41,9 +40,7 @@ fun MainView(
 @Composable
 fun MainViewPreview() {
     MainView(
-        TrainerState(
-            nfcData = PokemonNfcData(),
-        )
-    )
+        Trainer.State.Closed
+    ) {}
 }
 

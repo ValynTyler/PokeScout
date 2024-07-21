@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/common/option" />
             <option value="$PROJECT_DIR$/common/pokemon" />
             <option value="$PROJECT_DIR$/common/result" />
+            <option value="$PROJECT_DIR$/common/ui" />
             <option value="$PROJECT_DIR$/pokescout" />
             <option value="$PROJECT_DIR$/pokescout/developer" />
             <option value="$PROJECT_DIR$/pokescout/leader" />

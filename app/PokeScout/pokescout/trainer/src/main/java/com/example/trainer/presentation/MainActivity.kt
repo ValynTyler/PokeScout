@@ -6,7 +6,6 @@ import android.nfc.Tag
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import com.example.compose.printError
 import com.example.compose.printText
 import com.example.nfc.NfcHandle
@@ -16,20 +15,19 @@ import com.example.nfc.resumeNfc
 import com.example.nfc.service.NfcReader
 import com.example.pokemon.domain.nfc.toPokemonNfcData
 import com.example.result.Result
-import com.example.trainer.presentation.viewmodel.TrainerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: TrainerViewModel by viewModels()
+//    private val viewModel: TrainerViewModel by viewModels()
     private val nfcHandle: NfcHandle = NfcHandle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNfcHandle(nfcHandle)
         setContent {
-            MainView(viewModel.state) { viewModel.onClicked() }
+//            MainView(viewModel.state) { viewModel.onClicked() }
         }
     }
 
@@ -58,7 +56,7 @@ class MainActivity : ComponentActivity() {
                             )
 
                             is Result.Ok -> {
-                                viewModel.readNfcData(dataResult.value)
+//                                viewModel.readNfcData(dataResult.value)
                                 printText("NFC reader", "Data read successfully!")
                             }
                         }

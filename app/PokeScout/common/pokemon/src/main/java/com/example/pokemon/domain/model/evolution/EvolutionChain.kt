@@ -1,20 +1,33 @@
 package com.example.pokemon.domain.model.evolution
 
-import com.example.result.Result
-
 data class EvolutionChain(
     val id: Int,
-    val chainRoot: ChainLink,
+    val rootLink: ChainLink,
 ) {
-    fun findLinkById(id: Int): Result<ChainLink, Exception> {
-        return when(val result = chainRoot.findByIdRecursive(id)) {
-            is Result.Err -> Result.Err(Exception(result.error.message + " ${this.id}"))
-            is Result.Ok -> result
-        }
+    fun findLinkById(id: Int): Result<ChainLink> {
+        return rootLink.findByIdRecursive(id).fold(
+            onSuccess = { Result.success(it) },
+            onFailure = { Result.failure(it) },
+        )
     }
 
-    fun maxLength(): Int {
-        var link = this.chainRoot
+    fun stage(id: Int): Result<Int> {
+        return findLinkById(id).fold(
+            onSuccess = {
+                var link = this.rootLink
+                var remaining = 0
+                while (link.evolvesTo.isNotEmpty()) {
+                    link = link.evolvesTo[0]
+                    remaining++
+                }
+                Result.success(this.length() - remaining)
+            },
+            onFailure = {Result.failure(it)},
+        )
+    }
+
+    fun length(): Int {
+        var link = this.rootLink
         var len = 1
 
         while (link.evolvesTo.isNotEmpty()) {
