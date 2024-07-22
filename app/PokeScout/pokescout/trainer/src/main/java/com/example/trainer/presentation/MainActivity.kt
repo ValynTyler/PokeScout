@@ -6,6 +6,7 @@ import android.nfc.Tag
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import com.example.compose.printError
 import com.example.compose.printText
 import com.example.nfc.NfcHandle
@@ -14,20 +15,20 @@ import com.example.nfc.pauseNfc
 import com.example.nfc.resumeNfc
 import com.example.nfc.service.NfcReader
 import com.example.pokemon.domain.nfc.toPokemonNfcData
-import com.example.result.Result
+import com.example.trainer.presentation.state.Trainer
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-//    private val viewModel: TrainerViewModel by viewModels()
+    private val viewModel: Trainer.ViewModel by viewModels()
     private val nfcHandle: NfcHandle = NfcHandle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNfcHandle(nfcHandle)
         setContent {
-//            MainView(viewModel.state) { viewModel.onClicked() }
+            MainView(viewModel.state) { viewModel.onClicked() }
         }
     }
 
@@ -46,22 +47,20 @@ class MainActivity : ComponentActivity() {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             tag?.let {
-                when (val result = NfcReader.readFromTag(it)) {
-                    is Result.Err -> printError("NFC reader", result.error.toString())
-                    is Result.Ok -> {
-                        when (val dataResult = result.value.toPokemonNfcData()) {
-                            is Result.Err -> printError(
-                                "NFC reader",
-                                dataResult.error.message.toString()
-                            )
-
-                            is Result.Ok -> {
-//                                viewModel.readNfcData(dataResult.value)
+                val message = NfcReader.readFromTag(it)
+                message.fold(
+                    onFailure = { e -> printError("NFC reader", e.message.toString()) },
+                    onSuccess = { msg ->
+                        val data = msg.toPokemonNfcData()
+                        data.fold(
+                            onFailure = { e -> printError("NFC reader", e.message.toString()) },
+                            onSuccess = { nfcData ->
                                 printText("NFC reader", "Data read successfully!")
-                            }
-                        }
-                    }
-                }
+                                viewModel.populate(nfcData = nfcData)
+                            },
+                        )
+                    },
+                )
             }
         }
     }

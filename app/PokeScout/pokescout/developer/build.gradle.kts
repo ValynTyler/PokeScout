@@ -69,8 +69,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    implementation(project(":common:result"))
-    implementation(project(":common:compose"))
     implementation(project(":common:pokemon"))
     implementation(project(":common:nfc"))
 

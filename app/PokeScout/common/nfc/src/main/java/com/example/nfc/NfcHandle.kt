@@ -6,8 +6,10 @@ import android.content.IntentFilter
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresApi
 
 class NfcHandle {
     var nfcAdapter: NfcAdapter? = null
@@ -16,6 +18,7 @@ class NfcHandle {
     lateinit var techListsArray: Array<Array<String>>
 }
 
+@RequiresApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 fun ComponentActivity.initNfcHandle(handle: NfcHandle) {
     handle.nfcAdapter = NfcAdapter.getDefaultAdapter(this)
     if (handle.nfcAdapter == null) {
@@ -43,10 +46,12 @@ fun ComponentActivity.initNfcHandle(handle: NfcHandle) {
     handle.techListsArray = arrayOf(arrayOf(Ndef::class.java.name))
 }
 
+@RequiresApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 fun ComponentActivity.pauseNfc(handle: NfcHandle) {
     handle.nfcAdapter?.disableForegroundDispatch(this)
 }
 
+@RequiresApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 fun ComponentActivity.resumeNfc(handle: NfcHandle) {
     handle.nfcAdapter?.enableForegroundDispatch(
         this,

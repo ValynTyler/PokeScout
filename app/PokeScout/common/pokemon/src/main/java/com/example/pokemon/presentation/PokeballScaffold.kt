@@ -65,7 +65,7 @@ fun PokeballScaffold(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(vertical = 8.dp, horizontal = 12.dp)
                     .background(uiColor)
             ) {
                 content()
@@ -77,7 +77,15 @@ fun PokeballScaffold(
                 .fillMaxWidth()
                 .height(bottomHalfHeight)
                 .background(bottomHalfColor)
-        )
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .background(backgroundColor)
+            )
+        }
     }
 
     // Cover
@@ -90,21 +98,27 @@ fun PokeballScaffold(
                 .height(0.dp)
                 .weight(1f)
                 .background(tophalfColor)
-        )
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .background(backgroundColor)
+            )
+        }
         Box(
             modifier = Modifier
                 .zIndex(1f)
                 .fillMaxWidth()
                 .animateContentSize()
                 .height(if (!isClosed) yDelta else 0.dp)
-//                .background(Color.Yellow)
         )
         Box(
             modifier = Modifier
                 .zIndex(1f)
                 .fillMaxWidth()
                 .height(bottomHalfHeight)
-//                .background(Color.Magenta)
         )
     }
 

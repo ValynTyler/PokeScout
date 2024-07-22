@@ -3,11 +3,13 @@ package com.example.nfc.service
 import android.nfc.NdefMessage
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import com.example.nfc.error.NfcReadError
-import com.example.result.Result
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.example.nfc.error.NfcReadException
 
 object NfcReader {
-    fun readFromTag(tag: Tag): Result<NdefMessage, NfcReadError> {
+    @RequiresApi(Build.VERSION_CODES.GINGERBREAD_MR1)
+    fun readFromTag(tag: Tag): Result<NdefMessage> {
         val ndef = Ndef.get(tag)
         return if (ndef != null) {
             ndef.connect()
@@ -15,12 +17,12 @@ object NfcReader {
             ndef.close()
 
             if (ndefMessage != null) {
-                Result.Ok(ndefMessage)
+                Result.success(ndefMessage)
             } else {
-                Result.Err(NfcReadError.NullNdefMessageError)
+                Result.failure(NfcReadException.NullNdefMessageException)
             }
         } else {
-            Result.Err(NfcReadError.NotNdefFormattedError)
+            Result.failure(NfcReadException.NotNdefFormattedException)
         }
     }
 }

@@ -4,14 +4,16 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import com.example.nfc.error.NfcWriteError
-import com.example.result.Result
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.example.nfc.error.NfcWriteException
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 
 object NfcWriter {
 
     object NdefRecordBuilder {
+        @RequiresApi(Build.VERSION_CODES.KITKAT)
         fun createTextRecord(text: String, id: String): NdefRecord {
 
             val textBytes: ByteArray = text.toByteArray(StandardCharsets.UTF_8)
@@ -40,12 +42,14 @@ object NfcWriter {
             return this
         }
 
+        @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
         fun build(): NdefMessage {
             return NdefMessage(records)
         }
     }
 
-    fun writeToTag(tag: Tag, message: NdefMessage): Result<Unit, NfcWriteError> {
+    @RequiresApi(Build.VERSION_CODES.GINGERBREAD_MR1)
+    fun writeToTag(tag: Tag, message: NdefMessage): Result<Unit> {
 
         val ndef = Ndef.get(tag)
         return if (ndef != null) {
@@ -54,14 +58,14 @@ object NfcWriter {
                 ndef.writeNdefMessage(message)
                 ndef.close()
 
-                Result.Ok(Unit)
+                Result.success(Unit)
             } catch (e: Exception) {
-                Result.Err(NfcWriteError.FailedToWriteError(e))
+                Result.failure(e)
             } finally {
                 ndef.close()
             }
         } else {
-            Result.Err(NfcWriteError.NotNdefCompatibleError)
+            Result.failure(NfcWriteException.NotNdefFormattedException)
         }
     }
 }

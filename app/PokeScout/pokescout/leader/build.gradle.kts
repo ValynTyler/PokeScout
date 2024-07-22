@@ -75,9 +75,6 @@ dependencies {
     implementation(project(":common:compose"))
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
-    implementation(project(":common:result"))
-    implementation(project(":common:option"))
-
     // Kotlin coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")

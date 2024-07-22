@@ -4,14 +4,16 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import com.example.nfc.constant.NfcId
 import com.example.nfc.service.NfcWriter
+import com.example.pokemon.domain.model.GroupType
+import com.example.pokemon.domain.model.toGroupType
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toDeserializedBooleanArray
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
-import com.example.result.Result
 import java.nio.charset.Charset
 
 data class PokemonNfcData(
-    val trainerGroup: String = "",
+    val trainerGroup: GroupType,
     val trainerName: String = "",
+
     val speciesId: Int = 0,
     val evolutionChainId: Int = 0,
 
@@ -29,7 +31,7 @@ data class PokemonNfcData(
 
 fun PokemonNfcData.toNdefMessage(): NdefMessage {
     val groupRecord = NfcWriter.NdefRecordBuilder.createTextRecord(
-        this.trainerGroup,
+        this.trainerGroup.toString(),
         NfcId.GROUP
     )
 
@@ -86,14 +88,14 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
         .build()
 }
 
-fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
+fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData> {
 
-    var group: String? = null
+    var group: GroupType = GroupType.Beginner
     var trainer: String? = null
     var species: Int? = null
     var evolutionChain: Int? = null
     var gymBadges = BooleanArray(12)
-    var dailyPoints: IntArray = IntArray(4)
+    val dailyPoints = IntArray(4)
 
     this.records.forEach { record ->
         if (record.tnf == NdefRecord.TNF_WELL_KNOWN &&
@@ -110,7 +112,7 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
             )
 
             when (id) {
-                NfcId.GROUP -> group = text
+                NfcId.GROUP -> group = text.toGroupType()
                 NfcId.TRAINER -> trainer = text
                 NfcId.SPECIES -> species = text.toIntOrNull()
                 NfcId.EVOLUTION_CHAIN -> evolutionChain = text.toIntOrNull()
@@ -121,14 +123,14 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
                 NfcId.DAY_4_POINTS -> dailyPoints[3] = text.toInt().or(0)
             }
         } else {
-            return Result.Err(Exception("ERROR: non NDEF_TEXT data detected"))
+            return Result.failure(Exception("non NDEF_TEXT data detected"))
         }
     }
 
-    return if (group != null && trainer != null && species != null && evolutionChain != null) {
-        Result.Ok(
+    return if (trainer != null && species != null && evolutionChain != null) {
+        Result.success(
             PokemonNfcData(
-                group!!,
+                group,
                 trainer!!,
                 species!!,
                 evolutionChain!!,
@@ -137,8 +139,8 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData, Exception> {
             )
         )
     } else {
-        Result.Err(
-            Exception("ERROR: Incomplete NDEF message")
+        Result.failure(
+            Exception("Incomplete NDEF message")
         )
     }
 }

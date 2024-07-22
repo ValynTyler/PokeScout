@@ -8,6 +8,8 @@ import com.example.compose.theme.PokeballRed
 import com.example.compose.theme.PokeballWhite
 import com.example.compose.theme.ThemeDarkGrey
 import com.example.pokemon.presentation.PokeballScaffold
+import com.example.trainer.presentation.screens.DisplayScreen
+import com.example.trainer.presentation.screens.LoadingScreen
 import com.example.trainer.presentation.state.Trainer
 
 @Composable
@@ -28,8 +30,8 @@ fun MainView(
                     Trainer.State.Closed -> {}
                     is Trainer.State.Open -> when (state.apiData) {
                         Trainer.ApiData.Error -> {}
-                        Trainer.ApiData.Loading -> {}
-                        is Trainer.ApiData.Success -> {}
+                        Trainer.ApiData.Loading -> { LoadingScreen() }
+                        is Trainer.ApiData.Success -> { DisplayScreen(state.apiData) }
                     }
                 }
             }
