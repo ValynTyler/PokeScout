@@ -1,16 +1,16 @@
 package com.example.trainer.presentation.screens
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-
-@Composable
-fun InfoScreen(
+//
+//import androidx.compose.foundation.layout.Column
+//import androidx.compose.material3.Surface
+//import androidx.compose.runtime.Composable
+//import androidx.compose.ui.tooling.preview.Preview
+//
+//@Composable
+//fun InfoScreen(
 //    state: TrainerState,
-) {
-    Surface {
-        Column {
+//) {
+//    Surface {
+//        Column {
 //            PokemonImage(
 //                state.nfcData?.speciesId ?: 0,
 //                modifier = Modifier
@@ -54,12 +54,6 @@ fun InfoScreen(
 //                    .background(color = ThemeDarkGrey)
 //                    .fillMaxSize()
 //            )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun InfoScreenPreview() {
-//    InfoScreen(state = TrainerState())
-}
+//        }
+//    }
+//}

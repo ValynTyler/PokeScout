@@ -11,9 +11,9 @@ import javax.inject.Inject
 class PokemonRepositoryImpl @Inject constructor(
     private val api: PokemonApi,
 ) : PokemonRepository {
-    override suspend fun getSpeciesById(id: Int): Result<PokemonSpecies> {
+    override suspend fun getSpeciesById(speciesId: Int): Result<PokemonSpecies> {
         return try {
-            val speciesDto = api.getSpeciesById(id)
+            val speciesDto = api.getSpeciesById(speciesId)
             Result.success(speciesDto.toPokemonSpecies())
 
         } catch (e: Exception) {
@@ -21,9 +21,9 @@ class PokemonRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getEvolutionChainById(id: Int): Result<EvolutionChain> {
+    override suspend fun getEvolutionChainById(chainId: Int): Result<EvolutionChain> {
         return try {
-            val chainDto = api.getEvolutionChain(id)
+            val chainDto = api.getEvolutionChain(chainId)
             Result.success(chainDto.toChainLink(api))
 
         } catch (e: Exception) {

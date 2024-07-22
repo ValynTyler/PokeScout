@@ -4,15 +4,15 @@ data class EvolutionChain(
     val id: Int,
     val rootLink: ChainLink,
 ) {
-    fun findLinkById(id: Int): Result<ChainLink> {
-        return rootLink.findByIdRecursive(id).fold(
+    fun findLinkById(speciesId: Int): Result<ChainLink> {
+        return rootLink.findByIdRecursive(speciesId).fold(
             onSuccess = { Result.success(it) },
             onFailure = { Result.failure(it) },
         )
     }
 
-    fun stage(id: Int): Result<Int> {
-        return findLinkById(id).fold(
+    fun stage(speciesId: Int): Result<Int> {
+        return findLinkById(speciesId).fold(
             onSuccess = {
                 var link = this.rootLink
                 var remaining = 0
@@ -22,7 +22,8 @@ data class EvolutionChain(
                 }
                 Result.success(this.length() - remaining)
             },
-            onFailure = {Result.failure(it)},
+//            onFailure = { Result.failure(it) },
+            onFailure = { throw(it) },
         )
     }
 

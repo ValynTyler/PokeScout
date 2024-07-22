@@ -31,7 +31,7 @@ fun MainView(
                     is Trainer.State.Open -> when (state.apiData) {
                         Trainer.ApiData.Error -> {}
                         Trainer.ApiData.Loading -> { LoadingScreen() }
-                        is Trainer.ApiData.Success -> { DisplayScreen(state.apiData) }
+                        is Trainer.ApiData.Success -> { DisplayScreen(state.nfcData, state.apiData) }
                     }
                 }
             }

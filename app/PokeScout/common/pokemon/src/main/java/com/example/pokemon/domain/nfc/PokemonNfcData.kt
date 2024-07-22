@@ -27,6 +27,54 @@ data class PokemonNfcData(
 
         return xp
     }
+
+    fun xpPercent(stage: Int, totalStages: Int): Float {
+        return (xp() - lastXpThreshold(stage, totalStages)) / (nextXpThreshold(stage, totalStages) - lastXpThreshold(stage, totalStages)).toFloat()
+    }
+
+    private fun nextXpThreshold(stage: Int, totalStages: Int): Int {
+        return when (totalStages) {
+            1 -> 0
+            2 -> {
+                when (stage) {
+                    1 -> 600
+                    2 -> 0
+                    else -> 0
+                }
+            }
+            3 -> {
+                when (stage) {
+                    1 -> 400
+                    2 -> 600
+                    3 -> 0
+                    else -> 0
+                }
+            }
+            else -> 0
+        }
+    }
+
+    private fun lastXpThreshold(stage: Int, totalStages: Int): Int {
+        return when (totalStages) {
+            1 -> 0
+            2 -> {
+                when (stage) {
+                    1 -> 0
+                    2 -> 600
+                    else -> 0
+                }
+            }
+            3 -> {
+                when (stage) {
+                    1 -> 0
+                    2 -> 400
+                    3 -> 600
+                    else -> 0
+                }
+            }
+            else -> 0
+        }
+    }
 }
 
 fun PokemonNfcData.toNdefMessage(): NdefMessage {

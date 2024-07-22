@@ -65,7 +65,7 @@ fun PokeballScaffold(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(vertical = 8.dp, horizontal = 12.dp)
+                    .padding(vertical = 8.dp, horizontal = 0.dp)
                     .background(uiColor)
             ) {
                 content()

@@ -76,6 +76,7 @@ dependencies {
 
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.2.0")
+    implementation("io.coil-kt:coil-gif:2.7.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

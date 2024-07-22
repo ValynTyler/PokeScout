@@ -57,7 +57,7 @@ object Trainer {
                 onSuccess = { it }
             )
 
-            val evolution = repository.getEvolutionChainById(species.id).fold(
+            val evolution = repository.getEvolutionChainById(species.evolutionChainId).fold(
                 onFailure = { return ApiData.Error },
                 onSuccess = { it }
             )
