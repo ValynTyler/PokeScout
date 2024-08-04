@@ -23,12 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.theme.PokeballWhite
-import com.example.compose.theme.pokefontPixel
+import com.example.pokemon.presentation.theme.pokefontPixel
 import com.example.leader.presentation.events.InputEvent
 import com.example.leader.presentation.ui.BackButton
 import com.example.leader.presentation.viewmodel.LeaderScreenType
 import com.example.leader.presentation.viewmodel.LeaderState
-import com.example.pokemon.domain.model.GroupType
 import com.example.pokemon.domain.model.toGroupType
 import com.example.pokemon.gymNames
 

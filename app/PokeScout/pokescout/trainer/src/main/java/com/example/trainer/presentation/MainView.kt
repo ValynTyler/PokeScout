@@ -2,12 +2,9 @@ package com.example.trainer.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.compose.theme.PokeScoutTheme
-import com.example.compose.theme.PokeballGrey
-import com.example.compose.theme.PokeballRed
-import com.example.compose.theme.PokeballWhite
-import com.example.compose.theme.ThemeDarkGrey
-import com.example.pokemon.presentation.PokeballScaffold
+import com.example.pokemon.presentation.theme.PokeScoutTheme
+import com.example.pokemon.presentation.theme.pokeBallColors
+import com.example.pokemon.presentation.ui.PokeballScaffold
 import com.example.trainer.presentation.screens.DisplayScreen
 import com.example.trainer.presentation.screens.LoadingScreen
 import com.example.trainer.presentation.state.Trainer
@@ -20,10 +17,7 @@ fun MainView(
     PokeScoutTheme {
         PokeballScaffold(
                 isClosed = state is Trainer.State.Closed,
-                tophalfColor = PokeballRed,
-                bottomHalfColor = PokeballWhite,
-                backgroundColor = PokeballGrey,
-                uiColor = ThemeDarkGrey,
+                pokeBallColors = pokeBallColors,
                 onClicked = onClicked,
             ) {
                 when (state) {

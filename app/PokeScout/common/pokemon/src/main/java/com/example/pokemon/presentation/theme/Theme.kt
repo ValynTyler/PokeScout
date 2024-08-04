@@ -1,4 +1,4 @@
-package com.example.compose.theme
+package com.example.pokemon.presentation.theme
 
 import android.app.Activity
 import androidx.compose.material3.ColorScheme
@@ -8,23 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.core.graphics.alpha
 import androidx.core.view.WindowCompat
 
-private val TrainerColorScheme = darkColorScheme(
-    primary = PokeballRed,
-    secondary = GreatballBlue,
-    tertiary = PokeballRed,
-    background = PokeballGrey,
-    surface = PokeballGrey,
 
-    /* Other default colors to override
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val TrainerColorScheme = darkColorScheme(
+    primary = PokeBallRed,
+    secondary = GreatBallBlue,
+    background = PokeBallGrey,
+    surface = PokeBallDarkGrey,
 )
 
 @Composable

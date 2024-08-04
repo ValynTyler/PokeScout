@@ -11,7 +11,7 @@ import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
 import java.nio.charset.Charset
 
 data class PokemonNfcData(
-    val trainerGroup: GroupType,
+    val trainerGroup: GroupType = GroupType.Beginner,
     val trainerName: String = "",
 
     val speciesId: Int = 0,

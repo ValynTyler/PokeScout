@@ -1,8 +1,7 @@
-package com.example.pokemon.presentation
+package com.example.pokemon.presentation.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,20 +16,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.example.pokemon.presentation.theme.PokeBallColors
 
 @Composable
 fun PokeballScaffold(
     isClosed: Boolean,
-    tophalfColor: Color,
-    bottomHalfColor: Color,
-    backgroundColor: Color,
-    uiColor: Color,
+    pokeBallColors: PokeBallColors,
     buttonSize: Dp = 120.dp,
     topHalfHeight: Dp = 130.dp,
     bottomHalfHeight: Dp = 100.dp,
@@ -51,23 +46,17 @@ fun PokeballScaffold(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(topHalfHeight)
-                .border(5.dp, uiColor)
         )
         // Content
         Box(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
-            .background(backgroundColor)
+            .background(pokeBallColors.dividerColor)
             .onGloballyPositioned { coordinates ->
                 yDelta = with(localDensity) { coordinates.size.height.toDp() }
             }
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 8.dp, horizontal = 0.dp)
-                    .background(uiColor)
-            ) {
+            Box {
                 content()
             }
         }
@@ -76,14 +65,14 @@ fun PokeballScaffold(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(bottomHalfHeight)
-                .background(bottomHalfColor)
+                .background(pokeBallColors.bottomHalfColor)
         ) {
             Box(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
                     .height(8.dp)
-                    .background(backgroundColor)
+                    .background(pokeBallColors.dividerColor)
             )
         }
     }
@@ -97,14 +86,14 @@ fun PokeballScaffold(
                 .fillMaxWidth()
                 .height(0.dp)
                 .weight(1f)
-                .background(tophalfColor)
+                .background(pokeBallColors.topHalfColor)
         ) {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .height(8.dp)
-                    .background(backgroundColor)
+                    .background(pokeBallColors.dividerColor)
             )
         }
         Box(
@@ -126,8 +115,8 @@ fun PokeballScaffold(
         modifier = Modifier.fillMaxSize()
     ) {
         PokeballButton(
-            circleColor = uiColor,
-            ringColor = backgroundColor,
+            circleColor = pokeBallColors.emptyColor,
+            ringColor = pokeBallColors.dividerColor,
             buttonSize = buttonSize,
             modifier = Modifier
                 .offset(y = buttonSize / 2 - bottomHalfHeight)
@@ -148,8 +137,8 @@ fun PokeballScaffold(
             modifier = Modifier.fillMaxSize()
         ) {
             PokeballButton(
-                bottomHalfColor,
-                backgroundColor,
+                pokeBallColors.bottomHalfColor,
+                pokeBallColors.dividerColor,
                 buttonSize,
                 Modifier
                     .align(Alignment.TopCenter)
