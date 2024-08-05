@@ -4,14 +4,13 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import com.example.nfc.constant.NfcId
 import com.example.nfc.service.NfcWriter
-import com.example.pokemon.domain.model.GroupType
-import com.example.pokemon.domain.model.toGroupType
+import com.example.pokemon.domain.model.group.TrainerGroup
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toDeserializedBooleanArray
 import com.example.pokemon.domain.nfc.PokemonNfcDataSerializer.toSerialString
 import java.nio.charset.Charset
 
 data class PokemonNfcData(
-    val trainerGroup: GroupType = GroupType.Beginner,
+    val trainerGroup: TrainerGroup.Type = TrainerGroup.Type.Beginner,
     val trainerName: String = "",
 
     val speciesId: Int = 0,
@@ -138,7 +137,7 @@ fun PokemonNfcData.toNdefMessage(): NdefMessage {
 
 fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData> {
 
-    var group: GroupType = GroupType.Beginner
+    var group: TrainerGroup.Type = TrainerGroup.Type.Beginner
     var trainer: String? = null
     var species: Int? = null
     var evolutionChain: Int? = null
@@ -160,7 +159,10 @@ fun NdefMessage.toPokemonNfcData(): Result<PokemonNfcData> {
             )
 
             when (id) {
-                NfcId.GROUP -> group = text.toGroupType()
+                NfcId.GROUP -> group = TrainerGroup.parseString(text).fold(
+                    onSuccess = { it },
+                    onFailure = { throw Exception() }
+                )
                 NfcId.TRAINER -> trainer = text
                 NfcId.SPECIES -> species = text.toIntOrNull()
                 NfcId.EVOLUTION_CHAIN -> evolutionChain = text.toIntOrNull()
