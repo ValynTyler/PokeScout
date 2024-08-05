@@ -1,5 +1,7 @@
 package com.example.pokemon.domain.model.evolution
 
+import android.util.Log
+
 data class EvolutionChain(
     val id: Int,
     val rootLink: ChainLink,
@@ -14,12 +16,13 @@ data class EvolutionChain(
     fun stage(speciesId: Int): Result<Int> {
         return findLinkById(speciesId).fold(
             onSuccess = {
-                var link = this.rootLink
+                var link = it
                 var remaining = 0
                 while (link.evolvesTo.isNotEmpty()) {
                     link = link.evolvesTo[0]
                     remaining++
                 }
+                Log.d(remaining.toString(), speciesId.toString())
                 Result.success(this.length() - remaining)
             },
 //            onFailure = { Result.failure(it) },

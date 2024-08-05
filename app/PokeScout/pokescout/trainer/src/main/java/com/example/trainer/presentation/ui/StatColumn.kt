@@ -28,7 +28,7 @@ fun StatColumn(
             Pair("trainer:", nfc.trainerName),
             Pair("pokemon:", api.species.name()),
             Pair("xp:", nfc.xp().toString()),
-            Pair("stage:", api.evolution.stage(api.species.id).fold(
+            Pair("stage:", api.evolution.stage(nfc.speciesId).fold(
                 onSuccess = { it.toString() },
                 onFailure = { "" }
             ) + "/" + api.evolution.length()),

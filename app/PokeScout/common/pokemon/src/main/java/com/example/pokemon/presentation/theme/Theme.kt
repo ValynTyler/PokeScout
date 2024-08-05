@@ -27,7 +27,7 @@ fun PokeScoutTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            val statusBarColor = colorScheme.secondary.copy(alpha = 0.8f)
+            val statusBarColor = colorScheme.primary.copy(alpha = 1.0f)
             window.statusBarColor = statusBarColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
         }

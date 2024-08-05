@@ -16,19 +16,25 @@ fun MainView(
 ) {
     PokeScoutTheme {
         PokeballScaffold(
-                isClosed = state is Trainer.State.Closed,
-                pokeBallColors = pokeBallColors,
-                onClicked = onClicked,
-            ) {
-                when (state) {
-                    Trainer.State.Closed -> {}
-                    is Trainer.State.Open -> when (state.apiData) {
-                        Trainer.ApiData.Error -> {}
-                        Trainer.ApiData.Loading -> { LoadingScreen() }
-                        is Trainer.ApiData.Success -> { DisplayScreen(state.nfcData, state.apiData) }
+            isClosed = state is Trainer.State.Closed,
+            pokeBallColors = pokeBallColors,
+            onClicked = onClicked,
+        ) {
+            when (state) {
+                Trainer.State.Closed -> {}
+                is Trainer.State.Open -> when (state.apiData) {
+                    Trainer.ApiData.Loading -> {
+                        LoadingScreen()
                     }
+
+                    is Trainer.ApiData.Success -> {
+                        DisplayScreen(state.nfcData, state.apiData)
+                    }
+
+                    Trainer.ApiData.Error -> {}
                 }
             }
+        }
     }
 }
 
