@@ -1,7 +1,6 @@
 package com.example.pokemon.presentation.ui
 
 import android.os.Build.VERSION.SDK_INT
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
@@ -35,7 +34,7 @@ fun PokemonImage(id: Int, modifier: Modifier = Modifier) {
         imageLoader = imageLoader,
         contentDescription = null,
         filterQuality = FilterQuality.None,
-        contentScale = ContentScale.FillWidth,
-        modifier = modifier.fillMaxWidth()
+        contentScale = ContentScale.FillHeight,
+        modifier = modifier
     )
 }

@@ -31,23 +31,29 @@ fun DisplayScreen(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     ModalNavigationDrawer(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(horizontal = 0.dp, vertical = 8.dp),
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(
-                drawerContainerColor = PokeBallDarkGrey,
-            ) {
-                Column {
+            ModalDrawerSheet {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = PokeBallDarkGrey)
+                ) {
                     Text(text = "HI THERE BOB", modifier = Modifier.fillMaxWidth())
                 }
             }
         },
     ) {
-        Column {
+        Column(
+            modifier = Modifier.padding(horizontal = 8.dp)
+        ) {
             PokemonImage(
                 id = api.species.id,
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
             )
             Spacer(modifier = Modifier.height(8.dp))
             LinearProgressIndicator(
@@ -65,7 +71,6 @@ fun DisplayScreen(
             StatColumn(
                 nfc, api,
                 Modifier
-                    .fillMaxSize()
                     .background(pokeBallColors.emptyColor)
             )
         }
