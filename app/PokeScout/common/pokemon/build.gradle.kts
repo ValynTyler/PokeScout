@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.pokemonlibrary"
+    namespace = "com.example.pokemon"
     compileSdk = 34
 
     defaultConfig {
