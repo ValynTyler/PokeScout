@@ -18,8 +18,8 @@ fun GymBadgeList(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.verticalScroll(r`ememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
         for ((index, item) in TrainerGroup.Type.Intermediate.filterGyms().withIndex()) {
             GymBadgeListItem(gym = item, nfc.gymBadges[index])

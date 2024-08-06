@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pokemon.domain.model.gym.PokemonGym
@@ -26,14 +28,16 @@ fun GymBadgeListItem(gym: PokemonGym, isBeaten: Boolean) {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth(),
     ) {
+        val imageBitmap = ImageBitmap.imageResource(getGymBadgePainterInt(gym))
         Image(
             modifier = Modifier.size(48.dp),
-            painter = painterResource(id = getGymBadgePainterInt(gym)),
+            bitmap = imageBitmap,
+            filterQuality = FilterQuality.None,
             contentDescription = null,
             contentScale = ContentScale.FillWidth,
             colorFilter = if (isBeaten) null else ColorFilter.tint(Color.Black, BlendMode.SrcIn)
         )
-        Text(text = if (isBeaten) gym.toString() else "???")
+        Text(text = if (isBeaten) "$gym GYM" else "???")
     }
 }
 
