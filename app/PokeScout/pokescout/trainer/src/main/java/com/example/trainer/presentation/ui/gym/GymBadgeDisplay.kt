@@ -19,50 +19,14 @@ import com.example.trainer.presentation.ui.gym.list.GymBadgeList
 
 @Composable
 fun GymBadgeDisplay(
+    modifier: Modifier = Modifier,
     nfc: PokemonNfcData,
     viewMode: Trainer.BadgeViewMode,
-    onPressed: (Trainer.Event.Menu) -> Unit,
 ) {
-    // Content
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 60.dp, horizontal = 24.dp)
-            .padding(start = 24.dp)
-    ) {
+    Box(modifier = modifier) {
         when (viewMode) {
             Trainer.BadgeViewMode.GridView -> GymBadgeGrid(nfc = nfc)
             Trainer.BadgeViewMode.ListView -> GymBadgeList(nfc = nfc)
-        }
-    }
-
-    // View Menu
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 16.dp, horizontal = 24.dp)
-            .padding(start = 24.dp)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.align(Alignment.BottomStart)
-        ) {
-            MenuButton(
-                modifier = Modifier.size(32.dp),
-                resourceId =  R.drawable.grid,
-                isSelected = when (viewMode) {
-                    Trainer.BadgeViewMode.GridView -> true
-                    Trainer.BadgeViewMode.ListView -> false
-                }
-            ) { onPressed(Trainer.Event.Menu.View.GridPressed) }
-            MenuButton(
-                modifier = Modifier.size(32.dp),
-                resourceId =  R.drawable.list,
-                isSelected = when (viewMode) {
-                    Trainer.BadgeViewMode.GridView -> false
-                    Trainer.BadgeViewMode.ListView -> true
-                }
-            ) { onPressed(Trainer.Event.Menu.View.ListPressed) }
         }
     }
 }

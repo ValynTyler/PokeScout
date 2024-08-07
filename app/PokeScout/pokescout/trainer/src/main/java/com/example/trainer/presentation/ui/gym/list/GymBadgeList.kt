@@ -2,6 +2,8 @@ package com.example.trainer.presentation.ui.gym.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ fun GymBadgeList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
+        Spacer(modifier = Modifier.height(36.dp))
         for ((index, item) in TrainerGroup.Type.Intermediate.filterGyms().withIndex()) {
             GymBadgeListItem(gym = item, nfc.gymBadges[index])
         }

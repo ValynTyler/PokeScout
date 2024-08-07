@@ -30,7 +30,7 @@ fun GymBadgeListItem(gym: PokemonGym, isBeaten: Boolean) {
     ) {
         val imageBitmap = ImageBitmap.imageResource(getGymBadgePainterInt(gym))
         Image(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(56.dp),
             bitmap = imageBitmap,
             filterQuality = FilterQuality.None,
             contentDescription = null,

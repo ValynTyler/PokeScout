@@ -6,20 +6,7 @@
         <State />
       </entry>
       <entry key="pokescout.leader">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="RZCWC0MD1GH" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-07-18T13:48:43.486757Z" />
-        </State>
+        <State />
       </entry>
       <entry key="pokescout.trainer">
         <State />

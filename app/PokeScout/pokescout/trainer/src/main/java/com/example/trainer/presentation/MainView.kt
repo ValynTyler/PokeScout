@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.pokemon.presentation.theme.PokeScoutTheme
 import com.example.pokemon.presentation.theme.pokeBallColors
 import com.example.pokemon.presentation.ui.PokeballScaffold
-import com.example.trainer.presentation.screens.DisplayScreen
+import com.example.trainer.presentation.screens.display.DisplayScreen
 import com.example.trainer.presentation.screens.ErrorScreen
 import com.example.trainer.presentation.screens.LoadingScreen
 import com.example.trainer.presentation.state.Trainer

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,11 +20,10 @@ import com.example.pokemon.domain.nfc.PokemonNfcData
 @Composable
 fun GymBadgeGrid(nfc: PokemonNfcData, modifier: Modifier = Modifier) {
     Column(
-        modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        modifier.verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        Spacer(modifier = Modifier.height(36.dp))
         val badgeSize = 80.dp
         val gyms = nfc.trainerGroup.filterGyms()
         var index = 0
