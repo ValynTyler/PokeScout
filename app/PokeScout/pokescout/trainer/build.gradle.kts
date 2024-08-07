@@ -53,6 +53,8 @@ android {
 
 dependencies {
 
+    implementation("com.google.accompanist:accompanist-drawablepainter:0.35.0-alpha")
+
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
     implementation("androidx.activity:activity-compose:1.9.0")
