@@ -13,6 +13,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 object Trainer {
+    sealed class BadgeViewMode {
+        data object ListView: BadgeViewMode()
+        data object GridView: BadgeViewMode()
+    }
+
+    sealed class DrawerState {
+        data object Closed: DrawerState()
+        sealed class Open: DrawerState() {
+            data class BadgeView(var viewMode: BadgeViewMode): DrawerState()
+            data object DailyView: DrawerState()
+        }
+    }
+
     sealed class ApiData {
         data object Loading : ApiData()
         data object Error : ApiData()
@@ -26,7 +39,8 @@ object Trainer {
         data object Closed : State()
         data class Open(
             val nfcData: PokemonNfcData,
-            val apiData: ApiData
+            val apiData: ApiData,
+            val drawerState: DrawerState,
         ) : State()
     }
 
@@ -45,9 +59,16 @@ object Trainer {
         }
 
         fun populate(nfcData: PokemonNfcData) {
-            enterState(State.Open(nfcData = nfcData, ApiData.Loading))
+            enterState(State.Open(nfcData = nfcData, apiData = ApiData.Loading, drawerState = DrawerState.Closed))
             viewModelScope.launch {
-                enterState(State.Open(nfcData = nfcData, fetchApiData(nfcData)))
+                enterState(State.Open(nfcData = nfcData, apiData = fetchApiData(nfcData), drawerState = DrawerState.Closed))
+            }
+        }
+
+        private fun enterState(newState: State) {
+            state = when (newState) {
+                State.Closed -> newState
+                is State.Open -> newState
             }
         }
 
@@ -66,13 +87,6 @@ object Trainer {
                 species,
                 evolution
             )
-        }
-
-        private fun enterState(newState: State) {
-            state = when (newState) {
-                State.Closed -> newState
-                is State.Open -> newState
-            }
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.example.trainer.presentation.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,10 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pokemon.domain.model.evolution.ChainLink
@@ -40,6 +34,7 @@ import com.example.pokemon.presentation.theme.pokeBallColors
 import com.example.pokemon.presentation.ui.PokemonImage
 import com.example.trainer.R
 import com.example.trainer.presentation.state.Trainer
+import com.example.trainer.presentation.ui.MenuButton
 import com.example.trainer.presentation.ui.StatColumn
 import com.example.trainer.presentation.ui.gym.GymBadgeDisplay
 
@@ -50,7 +45,9 @@ fun DisplayScreen(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     ModalNavigationDrawer(
-        modifier = Modifier.fillMaxSize().padding(vertical = 8.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 8.dp),
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
@@ -65,26 +62,18 @@ fun DisplayScreen(
                         .background(PokeBallDarkGrey)
                 ) {
                     var isBadges by remember { mutableStateOf(true) }
-                    val iconSize = 32.dp
-                    val interactionSource = remember { MutableInteractionSource() }
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(vertical = 16.dp, horizontal = 24.dp)
                             .padding(start = 24.dp)
                     ) {
-                        Image(
-                            bitmap = ImageBitmap.imageResource(if (isBadges) R.drawable.badge else R.drawable.clock),
-                            contentDescription = null,
-                            filterQuality = FilterQuality.None,
+                        MenuButton(
+                            imageResourceId = if (isBadges) R.drawable.badge else R.drawable.clock,
                             modifier = Modifier
-                                .size(iconSize)
-                                .align(Alignment.BottomEnd)
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null
-                                ) { isBadges = !isBadges },
-                        )
+                                .size(32.dp)
+                                .align(Alignment.BottomEnd),
+                        ) { isBadges = !isBadges }
                     }
                     if (isBadges) {
                         GymBadgeDisplay(nfc = nfc)
