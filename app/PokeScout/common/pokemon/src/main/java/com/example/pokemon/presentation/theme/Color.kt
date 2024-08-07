@@ -9,7 +9,7 @@ val PokeBallRed = Color(0xffee1515)
 val PokeBallWhite = Color(0xfff0f0f0)
 val PokeBallGrey = Color(0xff222224)
 
-val PokeBallDarkGrey = Color(0xff181818)
+val PokeBallDarkGrey = Color(0xFF181818)
 val PokeBallLightGrey = Color(0xffd3d3d3)
 
 data class PokeBallColors(

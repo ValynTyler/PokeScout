@@ -13,17 +13,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 object Trainer {
+    sealed class Event {
+        sealed class Menu : Event() {
+            data object Toggle : Menu()
+            sealed class View : Menu() {
+                data object GridPressed : Menu()
+                data object ListPressed : Menu()
+            }
+        }
+
+        sealed class Button : Event() {
+            data object LatchPressed : Button()
+        }
+    }
+
     sealed class BadgeViewMode {
-        data object ListView: BadgeViewMode()
-        data object GridView: BadgeViewMode()
+        data object ListView : BadgeViewMode()
+        data object GridView : BadgeViewMode()
     }
 
     sealed class DrawerState {
-        data object Closed: DrawerState()
-        sealed class Open: DrawerState() {
-            data class BadgeView(var viewMode: BadgeViewMode): DrawerState()
-            data object DailyView: DrawerState()
-        }
+        data object BadgeView : DrawerState()
+        data object DailyView : DrawerState()
     }
 
     sealed class ApiData {
@@ -41,6 +52,7 @@ object Trainer {
             val nfcData: PokemonNfcData,
             val apiData: ApiData,
             val drawerState: DrawerState,
+            val badgeViewMode: BadgeViewMode,
         ) : State()
     }
 
@@ -51,23 +63,72 @@ object Trainer {
         var state: State by mutableStateOf(State.Closed)
             private set
 
-        fun onClicked() {
+        fun onEvent(event: Event) {
             when (state) {
-                State.Closed -> {}
-                is State.Open -> { enterState(State.Closed) }
+                is State.Closed -> {}
+                is State.Open -> {
+                    when (event) {
+                        Event.Button.LatchPressed -> {
+                            enterState(State.Closed)
+                        }
+
+                        Event.Menu.Toggle -> {
+                            when ((state as State.Open).drawerState) {
+                                is DrawerState.BadgeView -> enterDrawerState(DrawerState.DailyView)
+                                is DrawerState.DailyView -> enterDrawerState(DrawerState.BadgeView)
+                            }
+                        }
+
+                        Event.Menu.View.GridPressed -> {
+                            enterViewMode(BadgeViewMode.GridView)
+                        }
+
+                        Event.Menu.View.ListPressed -> {
+                            enterViewMode(BadgeViewMode.ListView)
+                        }
+                    }
+                }
             }
         }
 
         fun populate(nfcData: PokemonNfcData) {
-            enterState(State.Open(nfcData = nfcData, apiData = ApiData.Loading, drawerState = DrawerState.Closed))
+            enterState(
+                State.Open(
+                    nfcData = nfcData,
+                    apiData = ApiData.Loading,
+                    drawerState = DrawerState.BadgeView,
+                    badgeViewMode = BadgeViewMode.GridView,
+                )
+            )
             viewModelScope.launch {
-                enterState(State.Open(nfcData = nfcData, apiData = fetchApiData(nfcData), drawerState = DrawerState.Closed))
+                enterState(
+                    State.Open(
+                        nfcData = nfcData,
+                        apiData = fetchApiData(nfcData),
+                        drawerState = DrawerState.BadgeView,
+                        badgeViewMode = BadgeViewMode.GridView,
+                    )
+                )
+            }
+        }
+
+        private fun enterViewMode(mode: BadgeViewMode) {
+            state = when (mode) {
+                BadgeViewMode.GridView -> (state as State.Open).copy(badgeViewMode = BadgeViewMode.GridView)
+                BadgeViewMode.ListView -> (state as State.Open).copy(badgeViewMode = BadgeViewMode.ListView)
+            }
+        }
+
+        private fun enterDrawerState(newState: DrawerState) {
+            state = when (newState) {
+                is DrawerState.BadgeView -> (state as State.Open).copy(drawerState = DrawerState.BadgeView)
+                is DrawerState.DailyView -> (state as State.Open).copy(drawerState = DrawerState.DailyView)
             }
         }
 
         private fun enterState(newState: State) {
             state = when (newState) {
-                State.Closed -> newState
+                is State.Closed -> newState
                 is State.Open -> newState
             }
         }

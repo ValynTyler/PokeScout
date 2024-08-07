@@ -17,13 +17,13 @@ import com.example.trainer.R
 @Composable
 fun MenuButton(
     modifier: Modifier = Modifier,
-    imageResourceId: Int = R.drawable.badge,
+    resourceId: Int = R.drawable.badge,
     isSelected: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Image(
-        bitmap = ImageBitmap.imageResource(imageResourceId),
+        bitmap = ImageBitmap.imageResource(resourceId),
         contentDescription = null,
         filterQuality = FilterQuality.None,
         colorFilter = if (!isSelected) ColorFilter.tint(PokeBallGrey, BlendMode.SrcIn) else null,

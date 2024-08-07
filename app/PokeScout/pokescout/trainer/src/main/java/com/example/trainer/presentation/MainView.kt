@@ -13,13 +13,13 @@ import com.example.trainer.presentation.state.Trainer
 @Composable
 fun MainView(
     state: Trainer.State,
-    onClicked: () -> Unit,
+    onEvent: (Trainer.Event) -> Unit,
 ) {
     PokeScoutTheme {
         PokeballScaffold(
             isClosed = state is Trainer.State.Closed,
             pokeBallColors = pokeBallColors,
-            onClicked = onClicked,
+            onClicked = { onEvent(Trainer.Event.Button.LatchPressed) },
         ) {
             when (state) {
                 Trainer.State.Closed -> {}
@@ -29,7 +29,12 @@ fun MainView(
                     }
 
                     is Trainer.ApiData.Success -> {
-                        DisplayScreen(state.nfcData, state.apiData)
+                        DisplayScreen(
+                            state.nfcData,
+                            state.apiData,
+                            state.drawerState,
+                            state.badgeViewMode,
+                        ) { onEvent(it) }
                     }
 
                     Trainer.ApiData.Error -> {

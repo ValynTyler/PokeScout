@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         initNfcHandle(nfcHandle)
         setContent {
-            MainView(viewModel.state) { viewModel.onClicked() }
+            MainView(viewModel.state) { viewModel.onEvent(it) }
         }
     }
 
