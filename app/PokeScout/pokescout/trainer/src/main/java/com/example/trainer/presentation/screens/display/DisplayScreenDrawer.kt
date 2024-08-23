@@ -23,7 +23,6 @@ import com.example.pokemon.presentation.theme.PokeBallDarkGrey
 import com.example.pokemon.presentation.theme.PokeBallGrey
 import com.example.pokemon.presentation.theme.PokeBallWhite
 import com.example.trainer.R
-import com.example.trainer.presentation.state.Trainer
 import com.example.trainer.presentation.ui.MenuButton
 import com.example.trainer.presentation.ui.gym.GymBadgeDisplay
 

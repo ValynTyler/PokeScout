@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.pokemon.presentation.theme.PokeBallLightGrey
 import com.example.pokemon.presentation.theme.PokeBallWhite
-import com.example.trainer.presentation.state.Trainer
 
 @Composable
 fun StatColumn(

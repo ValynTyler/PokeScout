@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.pokemon.domain.nfc.PokemonNfcData
 import com.example.trainer.R
-import com.example.trainer.presentation.state.Trainer
 import com.example.trainer.presentation.ui.MenuButton
 import com.example.trainer.presentation.ui.gym.grid.GymBadgeGrid
 import com.example.trainer.presentation.ui.gym.list.GymBadgeList
