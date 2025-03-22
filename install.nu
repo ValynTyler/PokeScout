@@ -17,7 +17,7 @@ for type in $types {
   let api = (api $type)
   let dir = $"($target)($type)/"
 
-  for id in 1..151 {
+  1..151 | par-each {|id|
     let path = $"($dir)($id).($type)"
     print $"Copying into ($path)..."
     http get $"($api)/($id).($type)" | save -f $path
