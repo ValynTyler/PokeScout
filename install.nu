@@ -11,7 +11,7 @@ let target = "target/"
 let types = [ "png" "gif" ]
 
 mkdir $target
-for type in $types {
+$types | par-each {|type|
   mkdir ($target + $type)
 
   let api = (api $type)
