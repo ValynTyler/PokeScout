@@ -8,17 +8,16 @@ def api [type: string] {
 }
 
 def main [
-  target?: string = target/original
+  target?: string = target
   types?: list<string> = [ png gif ]
 ] {
   let root = $"($env.FILE_PWD)/../($target)"
 
-  mkdir $"($root)/gif"
-  mkdir $"($root)/png"
-
   $types | par-each {|type|
     let api = (api $type)
-    let dir = $"($root)/($type)"
+    let dir = $"($root)/($type)/original"
+
+    mkdir $dir
 
     1..1025 | par-each {|id|
       let name = $"($id).($type)"
