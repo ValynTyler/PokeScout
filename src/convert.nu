@@ -12,3 +12,5 @@ let type = "gif"
   print $"Resizing ($path)..."
   resize $path $path
 }
+
+print "Conversion successfull!"
