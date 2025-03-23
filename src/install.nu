@@ -2,26 +2,40 @@
 
 def api [type: string] {
   match $type {
-    "png" => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
-    "gif" => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/"
+    "png" => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
+    "gif" => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated"
   }
 }
 
-let target = $"($env.FILE_PWD)/../target/"
-let types = [ "png" "gif" ]
+def main [
+  target?: string = target/original
+  types?: list<string> = [ png gif ]
+] {
+  let root = $"($env.FILE_PWD)/../($target)"
 
-mkdir $target
-$types | par-each {|type|
-  mkdir ($target + $type)
+  mkdir $"($root)/gif"
+  mkdir $"($root)/png"
 
-  let api = (api $type)
-  let dir = $"($target)($type)/"
+  $types | par-each {|type|
+    let api = (api $type)
+    let dir = $"($root)/($type)"
 
-  1..1025 | par-each {|id|
-    let path = $"($dir)($id).($type)"
-    print $"Copying into ($path)..."
-    http get $"($api)/($id).($type)" | save -f $path
+    1..1025 | par-each {|id|
+      let name = $"($id).($type)"
+      let path = $"($dir)/($name)"
+
+      let res = http get -e -f $"($api)/($name)"
+      match $res.status {
+        200 => {
+          print $"Copying into ($path)..."
+          $res.body | save -f $path
+        }
+        _ => {
+          print $"Could not find ($name). Skipping..."
+        }
+      }
+    }
   }
-}
 
-print "Installation successfull!"
+  print "Installation successfull!"
+}
