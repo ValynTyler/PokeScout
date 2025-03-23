@@ -23,3 +23,5 @@ $types | par-each {|type|
     http get $"($api)/($id).($type)" | save -f $path
   }
 }
+
+print "Installation successfull!"
