@@ -23,3 +23,4 @@ rootProject.name = "PokeScout"
 include(":pokescout:trainer")
 include(":pokescout:leader")
 include(":pokescout:developer")
+include(":common")
