@@ -7,7 +7,7 @@ def api [type: string] {
   }
 }
 
-let target = "target/"
+let target = $"($env.FILE_PWD)/../target/"
 let types = [ "png" "gif" ]
 
 mkdir $target
