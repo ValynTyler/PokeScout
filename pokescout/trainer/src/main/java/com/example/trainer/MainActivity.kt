@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.common.ui.Greeting
+import com.example.common.ui.PokemonImage
 import com.example.trainer.ui.theme.PokeScoutTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
                         name = "PokeScout Trainer",
                         modifier = Modifier.padding(innerPadding)
                     )
+                    PokemonImage(id = 1, modifier = Modifier.fillMaxSize())
                 }
             }
         }
