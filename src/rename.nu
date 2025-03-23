@@ -1,20 +1,28 @@
 #!/usr/bin/env nu
 
-let target = $"($env.FILE_PWD)/../target/"
-let types = [ "png" "gif" ]
-let prefix = "pokemon_"
+def main [
+  source?: string = "target/gif/96x96"
+  target?: string = "target/gif/96x96_renamed"
+  type?: string = "gif"
+  prefix?: string = "#"
+  suffix?: string = ""
+] {
+  mkdir $target
 
-$types | par-each {|type|
-  let dir = $"($target)($type)/"
   1..1025 | par-each {|id|
-    let prev = $"($dir)($id).($type)"
-    let file = if $type == "gif" {
-      $"($dir)($prefix)($id)_anim.($type)"
-    } else {
-      $"($dir)($prefix)($id).($type)"
-    }
-    mv $prev $file
-  }
-}
+    let old_name = $"($id).($type)"
+    let new_name = $"($prefix)($id)($suffix).($type)"
 
-print "Rename successfull!"
+    let source_path = $"($source)/($old_name)"
+    let target_path = $"($target)/($new_name)"
+
+    if ($source_path | path exists) {
+      print $"Copying ($source_path) to ($target_path)..."
+      cp $source_path $target_path
+    } else {
+      print $"Could not find ($source_path). Skipping..."
+    }
+  }
+
+  print "Rename operation successful"
+}
