@@ -44,6 +44,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    
+    // Coil
+    implementation("io.coil-kt:coil:2.0.0-rc02")
+    implementation("io.coil-kt:coil-gif:2.0.0-rc02")
+    implementation("io.coil-kt:coil-compose:2.0.0-rc02")
 
     // Jetpack Compose
     val composeBom = platform("androidx.compose:compose-bom:2025.02.00")
