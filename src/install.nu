@@ -36,5 +36,5 @@ def main [
     }
   }
 
-  print "Installation successfull!"
+  print "Installation successful!"
 }
