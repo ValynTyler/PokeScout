@@ -15,7 +15,12 @@ import coil.decode.ImageDecoderDecoder
 import com.example.common.R
 
 @Composable
-fun PokemonImage(id: Int, modifier: Modifier = Modifier) {
+fun PokemonImage(
+    id: Int,
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.None,
+    preferGif: Boolean = true,
+) {
     val imageLoader = ImageLoader
         .Builder(LocalContext.current)
         .components {
@@ -30,7 +35,7 @@ fun PokemonImage(id: Int, modifier: Modifier = Modifier) {
     Image(
         painter = rememberImagePainter(data = R.drawable.pikachu_anim, imageLoader = imageLoader),
         contentDescription = "pikachu",
-        contentScale = ContentScale.Fit,
+        contentScale = contentScale,
         modifier = modifier,
     )
 }
