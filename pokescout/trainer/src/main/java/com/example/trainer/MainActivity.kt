@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import com.example.common.ui.Greeting
 import com.example.common.ui.image.PokemonImage
@@ -38,6 +40,7 @@ class MainActivity : ComponentActivity() {
                         PokemonImage(
                             id = 25,
                             contentScale = ContentScale.FillWidth,
+                            colorFilter = ColorFilter.tint(Color.Black, BlendMode.SrcIn),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(color = Color.DarkGray)
