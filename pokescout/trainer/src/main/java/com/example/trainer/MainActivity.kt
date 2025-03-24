@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import com.example.common.ui.Greeting
-import com.example.common.ui.PokemonImage
+import com.example.common.ui.image.PokemonImage
 import com.example.common.ui.theme.PokeScoutTheme
 
 class MainActivity : ComponentActivity() {

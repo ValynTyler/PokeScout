@@ -1,4 +1,4 @@
-package com.example.common.ui
+package com.example.common.ui.image
 
 import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.Image

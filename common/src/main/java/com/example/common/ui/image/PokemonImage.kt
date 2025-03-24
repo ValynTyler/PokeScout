@@ -1,4 +1,4 @@
-package com.example.common.ui
+package com.example.common.ui.image
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
