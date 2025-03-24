@@ -33,7 +33,7 @@ fun PokemonImage(
         .build()
 
     val context = LocalContext.current
-    val imageId = context.resources.getIdentifier("pikachu_anim", "drawable", context.packageName)
+    val imageId = context.resources.getIdentifier("number_25_anim", "drawable", context.packageName)
 
     Image(
         painter = rememberImagePainter(data = imageId, imageLoader = imageLoader),
