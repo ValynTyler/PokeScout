@@ -32,8 +32,11 @@ fun PokemonImage(
         }
         .build()
 
+    val context = LocalContext.current
+    val imageId = context.resources.getIdentifier("pikachu_anim", "drawable", context.packageName)
+
     Image(
-        painter = rememberImagePainter(data = R.drawable.pikachu_anim, imageLoader = imageLoader),
+        painter = rememberImagePainter(data = imageId, imageLoader = imageLoader),
         contentDescription = "pikachu",
         contentScale = contentScale,
         modifier = modifier,
