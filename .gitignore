@@ -1,6 +1,7 @@
 .direnv/
 target/
 
+.idea/
 .gradle/
 .kotlin/
 build/
