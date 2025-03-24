@@ -15,7 +15,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 
 @Composable
-fun PokemonAnim(
+fun PokemonImageAnim(
     id: Int,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.None,
@@ -45,7 +45,7 @@ fun PokemonAnim(
 @Preview
 @Composable
 private fun PokemonAnimPreview() {
-    PokemonAnim(
+    PokemonImageAnim(
         id = 130,
         contentScale = ContentScale.FillWidth,
         modifier = Modifier

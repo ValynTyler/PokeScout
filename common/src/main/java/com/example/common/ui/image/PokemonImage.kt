@@ -13,9 +13,9 @@ fun PokemonImage(
     contentScale: ContentScale = ContentScale.None,
 ) {
     if (id < 650) {
-        PokemonAnim(id, modifier, contentScale)
+        PokemonImageAnim(id, modifier, contentScale)
     } else {
-        PokemonStill(id, modifier, contentScale)
+        PokemonImageStill(id, modifier, contentScale)
     }
 }
 

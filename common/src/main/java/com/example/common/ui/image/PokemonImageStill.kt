@@ -12,7 +12,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun PokemonStill (
+fun PokemonImageStill (
     id: Int,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.None,
@@ -32,7 +32,7 @@ fun PokemonStill (
 @Preview
 @Composable
 private fun PokemonStillPreview() {
-    PokemonStill(
+    PokemonImageStill(
         id = 130,
         contentScale = ContentScale.FillWidth,
         modifier = Modifier
