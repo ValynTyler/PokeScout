@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import com.example.common.ui.Greeting
 import com.example.common.ui.PokemonImage
-import com.example.trainer.ui.theme.PokeScoutTheme
+import com.example.common.ui.theme.PokeScoutTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
