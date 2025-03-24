@@ -5,14 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import coil.ImageLoader
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
-import com.example.common.R
 
 @Composable
 fun PokemonImage(
@@ -36,7 +36,7 @@ fun PokemonImage(
     val imageId = context.resources.getIdentifier("number_25_anim", "drawable", context.packageName)
 
     Image(
-        painter = rememberImagePainter(data = imageId, imageLoader = imageLoader),
+        painter = rememberAsyncImagePainter(model = imageId, imageLoader = imageLoader, filterQuality = FilterQuality.None),
         contentDescription = "pikachu",
         contentScale = contentScale,
         modifier = modifier,
