@@ -36,7 +36,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         PokemonImage(
-                            id = 1,
+                            id = 25,
+                            preferGif = true,
                             contentScale = ContentScale.FillWidth,
                             modifier = Modifier
                                 .fillMaxWidth()

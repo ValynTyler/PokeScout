@@ -3,6 +3,7 @@ package com.example.common.ui
 import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
@@ -21,8 +22,9 @@ fun PokemonImage(
     contentScale: ContentScale = ContentScale.None,
     preferGif: Boolean = true,
 ) {
+    val context = LocalContext.current
     val imageLoader = ImageLoader
-        .Builder(LocalContext.current)
+        .Builder(context)
         .components {
             if (SDK_INT >= 28) {
                 add(ImageDecoderDecoder.Factory())
@@ -32,8 +34,16 @@ fun PokemonImage(
         }
         .build()
 
-    val context = LocalContext.current
-    val imageId = context.resources.getIdentifier("number_${id}_anim", "drawable", context.packageName)
+    val imageId = if (preferGif) {
+        val gifId = context.resources.getIdentifier("number_${id}_anim", "drawable", context.packageName)
+        if (gifId == 0) {
+            context.resources.getIdentifier("number_${id}", "drawable", context.packageName)
+        } else {
+            gifId
+        }
+    } else {
+        context.resources.getIdentifier("number_${id}", "drawable", context.packageName)
+    }
 
     Image(
         painter = rememberAsyncImagePainter(model = imageId, imageLoader = imageLoader, filterQuality = FilterQuality.None),
