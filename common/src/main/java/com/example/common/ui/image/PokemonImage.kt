@@ -3,6 +3,7 @@ package com.example.common.ui.image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -10,12 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 fun PokemonImage(
     id: Int,
     modifier: Modifier = Modifier,
+    colorFilter: ColorFilter? = null,
     contentScale: ContentScale = ContentScale.None,
 ) {
     if (id < 650) {
-        PokemonImageAnim(id, modifier, contentScale)
+        PokemonImageAnim(id, modifier, colorFilter, contentScale)
     } else {
-        PokemonImageStill(id, modifier, contentScale)
+        PokemonImageStill(id, modifier, colorFilter, contentScale)
     }
 }
 
