@@ -1,6 +1,6 @@
 package com.example.common.model
 
-enum class Gym {
+enum class GymType {
     Endurance,
     Domestic,
     Acquaintance,

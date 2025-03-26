@@ -11,31 +11,31 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.common.R
-import com.example.common.model.Gym
+import com.example.common.model.GymType
 
 @Composable
 fun GymBadgeImage (
-    gym: Gym,
+    gymType: GymType,
     modifier: Modifier = Modifier,
     colorFilter: ColorFilter? = null,
     contentScale: ContentScale = ContentScale.None,
 ) {
-    val imageBitmap  = ImageBitmap.imageResource(when (gym) {
-        Gym.Endurance       -> R.drawable.badge_boulder
-        Gym.Domestic        -> R.drawable.badge_hive
-        Gym.Acquaintance    -> R.drawable.badge_soul
-        Gym.Parkour         -> R.drawable.badge_earth
-        Gym.Movie           -> R.drawable.badge_fog
-        Gym.Fleecy          -> R.drawable.badge_cascade
-        Gym.Flora           -> R.drawable.badge_rainbow
-        Gym.Safe            -> R.drawable.badge_rising
-        Gym.NoPoison        -> R.drawable.badge_mineral
-        Gym.NonViolent      -> R.drawable.badge_storm
-        Gym.BuildIt         -> R.drawable.badge_plain
-        Gym.PokeCulinaria   -> R.drawable.badge_volcano
-        Gym.Stargazer       -> R.drawable.badge_thunder
-        Gym.Quest           -> R.drawable.badge_marsh
-        Gym.PokeChef        -> R.drawable.badge_zephyr
+    val imageBitmap  = ImageBitmap.imageResource(when (gymType) {
+        GymType.Endurance       -> R.drawable.badge_boulder
+        GymType.Domestic        -> R.drawable.badge_hive
+        GymType.Acquaintance    -> R.drawable.badge_soul
+        GymType.Parkour         -> R.drawable.badge_earth
+        GymType.Movie           -> R.drawable.badge_fog
+        GymType.Fleecy          -> R.drawable.badge_cascade
+        GymType.Flora           -> R.drawable.badge_rainbow
+        GymType.Safe            -> R.drawable.badge_rising
+        GymType.NoPoison        -> R.drawable.badge_mineral
+        GymType.NonViolent      -> R.drawable.badge_storm
+        GymType.BuildIt         -> R.drawable.badge_plain
+        GymType.PokeCulinaria   -> R.drawable.badge_volcano
+        GymType.Stargazer       -> R.drawable.badge_thunder
+        GymType.Quest           -> R.drawable.badge_marsh
+        GymType.PokeChef        -> R.drawable.badge_zephyr
     })
 
     Image(
@@ -52,7 +52,7 @@ fun GymBadgeImage (
 @Composable
 private fun GymBadgeImagePreview() {
     GymBadgeImage(
-        Gym.Stargazer,
+        GymType.Stargazer,
         contentScale = ContentScale.FillWidth,
         modifier = Modifier
             .fillMaxSize()
