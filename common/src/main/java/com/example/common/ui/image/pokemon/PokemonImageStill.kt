@@ -1,43 +1,31 @@
-package com.example.common.ui.image
+package com.example.common.ui.image.pokemon
 
-import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.ImageLoader
-import coil.compose.rememberAsyncImagePainter
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
 
 @Composable
-fun PokemonImageAnim(
+fun PokemonImageStill (
     id: Int,
     modifier: Modifier = Modifier,
     colorFilter: ColorFilter? = null,
     contentScale: ContentScale = ContentScale.None,
 ) {
     val context = LocalContext.current
-    val imageLoader = ImageLoader
-        .Builder(context)
-        .components {
-            if (SDK_INT >= 28) {
-                add(ImageDecoderDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
-            }
-        }
-        .build()
-
-    val imageId = context.resources.getIdentifier("number_${id}_anim", "drawable", context.packageName)
+    val imageId = context.resources.getIdentifier("number_${id}", "drawable", context.packageName)
+    val imageBitmap = ImageBitmap.imageResource(imageId)
 
     Image(
-        painter = rememberAsyncImagePainter(model = imageId, imageLoader = imageLoader, filterQuality = FilterQuality.None),
+        bitmap = imageBitmap,
+        filterQuality = FilterQuality.None,
         contentDescription = "pikachu",
         contentScale = contentScale,
         colorFilter = colorFilter,
@@ -47,8 +35,8 @@ fun PokemonImageAnim(
 
 @Preview
 @Composable
-private fun PokemonAnimPreview() {
-    PokemonImageAnim(
+private fun PokemonStillPreview() {
+    PokemonImageStill(
         id = 130,
         contentScale = ContentScale.FillWidth,
         modifier = Modifier

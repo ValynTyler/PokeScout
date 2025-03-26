@@ -4,40 +4,32 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.common.R
 
 @Composable
-fun PokemonImageStill (
-    id: Int,
+fun PlaceholderImage (
     modifier: Modifier = Modifier,
-    colorFilter: ColorFilter? = null,
     contentScale: ContentScale = ContentScale.None,
 ) {
-    val context = LocalContext.current
-    val imageId = context.resources.getIdentifier("number_${id}", "drawable", context.packageName)
-    val imageBitmap = ImageBitmap.imageResource(imageId)
-
+    val imageBitmap = ImageBitmap.imageResource(R.drawable.placeholder)
     Image(
         bitmap = imageBitmap,
         filterQuality = FilterQuality.None,
-        contentDescription = "pikachu",
+        contentDescription = "placeholder",
         contentScale = contentScale,
-        colorFilter = colorFilter,
         modifier = modifier,
     )
 }
 
 @Preview
 @Composable
-private fun PokemonStillPreview() {
-    PokemonImageStill(
-        id = 130,
+private fun PokemonPlaceholderPreview  () {
+    PlaceholderImage(
         contentScale = ContentScale.FillWidth,
         modifier = Modifier
             .fillMaxSize()
