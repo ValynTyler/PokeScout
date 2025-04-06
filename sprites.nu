@@ -81,8 +81,8 @@ def rename-all [
   types | each {|type|
     1..(count $type) | par-each {|id|
       let prefix = match $type {
-        gif => a
-        png => s
+        gif => 'a'
+        png => 's'
       }
 
       let old_name = $"($id).($type)"
