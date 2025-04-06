@@ -1,16 +1,17 @@
 #!/usr/bin/env nu
 
 let target = $env.FILE_PWD + "/target"
-let types = [ gif png ]
 
-def api [type: string] {
+def types [] { [ gif png ] }
+
+def api [type: string@types] {
   match $type {
     gif => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated"
     png => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
   }
 }
 
-def count [type: string] {
+def count [type: string@types] {
   match $type {
     gif => 649
     png => 1025
@@ -19,7 +20,7 @@ def count [type: string] {
 
 def fetch [
   id: int
-  type: string
+  type: string@types
   path: string
 ] {
   let name = $"($id).($type)"
@@ -39,7 +40,7 @@ def fetch-all [
   target: string,
 ] {
   print "Fetching images..."
-  $types | each {|type|
+  types | each {|type|
     1..(count $type) | par-each {|id|
       let name = $"($id).($type)"
       let stem = [ $target $type ] | path join
@@ -57,7 +58,7 @@ def resize-all [
   target: string,
 ] {
   print "Resizing images..."
-  $types | each {|type|
+  types | each {|type|
     1..(count $type) | par-each {|id|
       let name = $"($id).($type)"
       let source_stem = [ $source $type ] | path join
@@ -77,7 +78,7 @@ def rename-all [
   target: string,
 ] {
   print "Renaming images..."
-  $types | each {|type|
+  types | each {|type|
     1..(count $type) | par-each {|id|
       let prefix = match $type {
         gif => a
