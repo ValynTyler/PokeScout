@@ -105,9 +105,18 @@ def main [] {
   let resize_stem = ($target | path join "resize")
   let rename_stem = ($target | path join "rename")
 
-  # fetch-all $origin_stem
-  # resize-all $origin_stem $resize_stem
+  fetch-all $origin_stem
+  resize-all $origin_stem $resize_stem
   rename-all $resize_stem $rename_stem
+
+  types | each {|type|
+    ls ([ $rename_stem $type ] | path join)
+    | select name
+    | par-each {|file|
+      let name = $file | get name
+      cp $name $target
+    }
+  }
 
   print "Sprites installed successfully!"
 }
