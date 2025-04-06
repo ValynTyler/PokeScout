@@ -43,7 +43,7 @@ def format [id: int, type: string] {
 }
 
 def main [] {
-  mkdir target
+  mkdir $target
 
   1..1025 | par-each {|id|
     $types | par-each {|type|
