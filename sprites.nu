@@ -10,7 +10,14 @@ def api [type: string] {
   }
 }
 
-def image [
+def count [type: string] {
+  match $type {
+    gif => 649
+    png => 1025
+  }
+}
+
+def fetch [
   id: int
   type: string
   path: string
@@ -18,7 +25,7 @@ def image [
   let name = $"($id).($type)"
   let api = api $type
 
-  http get $"($api)/($name)" | save -f $"($path)/($name)"
+  http get $"($api)/($name)" | save -f $path
 }
 
 def resize [
@@ -28,39 +35,78 @@ def resize [
   magick $input -coalesce -background transparent -gravity center -extent 96x96 $output
 }
 
-def suffix [type: string] {
-  match $type {
-    gif => "_anim"
-    png => ""
+def fetch-all [
+  target: string,
+] {
+  print "Fetching images..."
+  $types | each {|type|
+    1..(count $type) | par-each {|id|
+      let name = $"($id).($type)"
+      let stem = [ $target $type ] | path join
+      let path = [ $stem $name ] | path join
+
+      print $"Fetching ($name)"
+      mkdir $stem
+      fetch $id $type $path
+    }
   }
 }
 
-def format [id: int, type: string] {
-  let prefix = "number_"
-  let suffix = suffix $type
+def resize-all [
+  source: string,
+  target: string,
+] {
+  print "Resizing images..."
+  $types | each {|type|
+    1..(count $type) | par-each {|id|
+      let name = $"($id).($type)"
+      let source_stem = [ $source $type ] | path join
+      let target_stem = [ $target $type ] | path join
+      let source_path = [ $source_stem $name ] | path join
+      let target_path = [ $target_stem $name ] | path join
 
-  $"($prefix)($id)($suffix).($type)"
+      print $"Resizing ($name)"
+      mkdir $target_stem
+      resize $source_path $target_path
+    }
+  }
+}
+
+def rename-all [
+  source: string,
+  target: string,
+] {
+  print "Renaming images..."
+  $types | each {|type|
+    1..(count $type) | par-each {|id|
+      let prefix = match $type {
+        gif => a
+        png => s
+      }
+
+      let old_name = $"($id).($type)"
+      let new_name = $"($prefix)($id).($type)"
+
+      let source_stem = [ $source $type ] | path join
+      let target_stem = [ $target $type ] | path join
+      let source_path = [ $source_stem $old_name ] | path join
+      let target_path = [ $target_stem $new_name ] | path join
+
+      print $"Renaming ($old_name)"
+      mkdir $target_stem
+      cp $source_path $target_path
+    }
+  }
 }
 
 def main [] {
-  mkdir $target
+  let origin_stem = ($target | path join "origin")
+  let resize_stem = ($target | path join "resize")
+  let rename_stem = ($target | path join "rename")
 
-  1..1025 | par-each {|id|
-    $types | par-each {|type|
-      let name = $"($id).($type)"
-      let path = $"($target)/($name)"
-      let format_path = $"($target)/(format $id $type)"
-
-      print $"Copying ($name)..."
-      image $id $type $target
-
-      print $"Resizing ($name)..."
-      resize $path $path
-
-      print $"Writing to ($format_path)"
-      mv $path $format_path
-    }
-  }
+  # fetch-all $origin_stem
+  # resize-all $origin_stem $resize_stem
+  rename-all $resize_stem $rename_stem
 
   print "Sprites installed successfully!"
 }
